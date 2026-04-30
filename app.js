@@ -83,7 +83,10 @@ function renderSummary() {
   const { summary, cpgf, watchedGovernment, secret } = totals();
   const dbgg = govPayload?.debt?.dbgg_pct_pib || {};
   animateNumber(document.getElementById('governmentGrandTotal'), watchedGovernment, { compact: true, duration: 1300 });
-  setText('governmentGrandNote', `Bases públicas sob ataque visual: viagens federais (${shortMoney(totals().federalTravelTotal)}), CPGF da Presidência (${shortMoney(cpgf.total)}) e estrutura ligada à primeira-dama (${shortMoney(totals().structure)}). Não é gasto pessoal da Janja; é a máquina do poder exposta.`);
+  setText('governmentGrandNote', `Viagens federais + CPGF da Presidência + estrutura/equipe citada em fonte pública. É cobrança sobre dinheiro público — não acusação de gasto pessoal.`);
+  setText('heroTravelTotal', shortMoney(totals().federalTravelTotal));
+  setText('heroCpgfTotal', shortMoney(cpgf.total));
+  setText('heroStructureTotal', shortMoney(totals().structure));
   setText('janjaDirectTotal', shortMoney(summary.direct_total));
   setText('truthDirect', shortMoney(summary.direct_total));
   setText('truthContext', shortMoney(Number(summary.support_and_mentions_total || 0) + Number(summary.structure_context?.total_structure_cost_2023_2024 || 0)));

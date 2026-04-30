@@ -1,6 +1,6 @@
 {
   "project": "Fiscalizando a Janja",
-  "generated_at": "2026-04-30T22:01:46.360813+00:00",
+  "generated_at": "2026-04-30T22:43:23.092080+00:00",
   "schema_version": "1.1.0",
   "update_rule": "Gerado por scripts/build_dossier_db.py após scanners oficiais. Mantém camadas separadas para evitar atribuição falsa.",
   "headline": {
@@ -14,7 +14,7 @@
   "cache_status": {
     "mode": "batch_cached_downloads",
     "rule": "Arquivos oficiais baixados ficam em data/raw e são reutilizados; novas varreduras só baixam o que ainda não está no cache local.",
-    "generated_at": "2026-04-30T21:55:39.938576+00:00",
+    "generated_at": "2026-04-30T22:43:22.960715+00:00",
     "travel_zips": {
       "count": 4,
       "bytes": 471707908,

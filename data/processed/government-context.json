@@ -1,6 +1,6 @@
 {
   "project": "Fiscalizando a Janja — contexto governo",
-  "generated_at": "2026-04-30T21:54:59.395305+00:00",
+  "generated_at": "2026-04-30T22:42:41.377452+00:00",
   "editorial_rule": "Camada de governo é contexto de orçamento federal e dívida. Não deve ser somada ao total Janja nem chamada de gasto pessoal/partidário.",
   "debt": {
     "dbgg_pct_pib": {
@@ -1794,7 +1794,7 @@
   "cache_status": {
     "mode": "batch_cached_downloads",
     "rule": "Arquivos oficiais baixados ficam em data/raw e são reutilizados; novas varreduras só baixam o que ainda não está no cache local.",
-    "generated_at": "2026-04-30T21:55:39.938576+00:00",
+    "generated_at": "2026-04-30T22:43:22.960715+00:00",
     "travel_zips": {
       "count": 4,
       "bytes": 471707908,
