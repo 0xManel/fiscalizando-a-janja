@@ -1,0 +1,5 @@
+data/raw/
+node_modules/
+.env
+.env.*
+.git/

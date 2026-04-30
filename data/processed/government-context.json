@@ -1,0 +1,1814 @@
+{
+  "project": "Fiscalizando a Janja — contexto governo",
+  "generated_at": "2026-04-30T21:54:59.395305+00:00",
+  "editorial_rule": "Camada de governo é contexto de orçamento federal e dívida. Não deve ser somada ao total Janja nem chamada de gasto pessoal/partidário.",
+  "debt": {
+    "dbgg_pct_pib": {
+      "code": "13762",
+      "label": "Dívida Bruta do Governo Geral (DBGG)",
+      "unit": "% do PIB",
+      "why_it_matters": "Mostra o tamanho da dívida bruta pública em relação à economia. Quanto maior, mais pressão sobre juros e orçamento.",
+      "source": "Banco Central do Brasil — SGS",
+      "source_url": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.13762/dados?formato=json&dataInicial=01/12/2022&dataFinal=31/12/2026",
+      "baseline_date": "01/12/2022",
+      "baseline_value": 71.68,
+      "latest_date": "01/03/2026",
+      "latest_value": 80.07,
+      "change_points": 8.39,
+      "note": "Comparação em pontos percentuais do PIB desde dez/2022 até o dado mais recente disponível no SGS."
+    },
+    "dlsp_pct_pib": {
+      "code": "4513",
+      "label": "Dívida Líquida do Setor Público (DLSP)",
+      "unit": "% do PIB",
+      "why_it_matters": "Desconta ativos financeiros do setor público. É outra lente oficial para medir endividamento.",
+      "source": "Banco Central do Brasil — SGS",
+      "source_url": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.4513/dados?formato=json&dataInicial=01/12/2022&dataFinal=31/12/2026",
+      "baseline_date": "01/12/2022",
+      "baseline_value": 56.13,
+      "latest_date": "01/03/2026",
+      "latest_value": 66.83,
+      "change_points": 10.7,
+      "note": "Comparação em pontos percentuais do PIB desde dez/2022 até o dado mais recente disponível no SGS."
+    }
+  },
+  "budget": {
+    "years": [
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "by_year": {
+      "2023": {
+        "source": "Portal da Transparência — Orçamento da Despesa",
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/orcamento-despesa/2023",
+        "total": {
+          "initial": 5111878277779.34,
+          "updated": 5259472925590.34,
+          "committed": 4363225153514.19,
+          "realized": 4140658700296.67
+        },
+        "watched_functions": {
+          "saude": {
+            "label": "Saúde",
+            "initial": 172672676071.0,
+            "updated": 185463246584.0,
+            "committed": 184933251937.48,
+            "realized": 161223980563.79
+          },
+          "educacao": {
+            "label": "Educação",
+            "initial": 142741676578.0,
+            "updated": 152096984678.0,
+            "committed": 151115481720.17,
+            "realized": 129461776029.28
+          },
+          "saneamento": {
+            "label": "Saneamento",
+            "initial": 1143708269.0,
+            "updated": 760024170.0,
+            "committed": 743109579.57,
+            "realized": 149964399.97
+          },
+          "administracao": {
+            "label": "Administração",
+            "initial": 28384648427.0,
+            "updated": 30581752380.0,
+            "committed": 29884002988.59,
+            "realized": 25301471781.21
+          },
+          "encargos_especiais": {
+            "label": "Encargos especiais",
+            "initial": 3167692451164.0,
+            "updated": 3305211447733.0,
+            "committed": 2457408103996.99,
+            "realized": 2408939765916.17
+          },
+          "assistencia_social": {
+            "label": "Assistência social",
+            "initial": 272505672270.0,
+            "updated": 268493561673.0,
+            "committed": 268334452326.44,
+            "realized": 261279613885.1
+          },
+          "defesa_nacional": {
+            "label": "Defesa nacional",
+            "initial": 89501789736.87,
+            "updated": 90335890500.87,
+            "committed": 89925912135.03,
+            "realized": 78988573540.14
+          },
+          "seguranca_publica": {
+            "label": "Segurança pública",
+            "initial": 14923352854.0,
+            "updated": 17006643527.0,
+            "committed": 16486179035.73,
+            "realized": 13209417058.71
+          }
+        },
+        "top_functions_by_realized": [
+          {
+            "label": "Encargos especiais",
+            "initial": 3167692451164.0,
+            "updated": 3305211447733.0,
+            "committed": 2457408103996.99,
+            "realized": 2408939765916.17
+          },
+          {
+            "label": "Previdência social",
+            "initial": 945323857676.0,
+            "updated": 959643787360.0,
+            "committed": 959118795797.02,
+            "realized": 896602883758.22
+          },
+          {
+            "label": "Assistência social",
+            "initial": 272505672270.0,
+            "updated": 268493561673.0,
+            "committed": 268334452326.44,
+            "realized": 261279613885.1
+          },
+          {
+            "label": "Saúde",
+            "initial": 172672676071.0,
+            "updated": 185463246584.0,
+            "committed": 184933251937.48,
+            "realized": 161223980563.79
+          },
+          {
+            "label": "Educação",
+            "initial": 142741676578.0,
+            "updated": 152096984678.0,
+            "committed": 151115481720.17,
+            "realized": 129461776029.28
+          },
+          {
+            "label": "Trabalho",
+            "initial": 96096751931.0,
+            "updated": 98495389143.0,
+            "committed": 98431154138.59,
+            "realized": 95510948441.48
+          },
+          {
+            "label": "Defesa nacional",
+            "initial": 89501789736.87,
+            "updated": 90335890500.87,
+            "committed": 89925912135.03,
+            "realized": 78988573540.14
+          },
+          {
+            "label": "Administração",
+            "initial": 28384648427.0,
+            "updated": 30581752380.0,
+            "committed": 29884002988.59,
+            "realized": 25301471781.21
+          },
+          {
+            "label": "Agricultura",
+            "initial": 36905184984.83,
+            "updated": 34941901288.83,
+            "committed": 34605661324.68,
+            "realized": 21525161142.99
+          },
+          {
+            "label": "Segurança pública",
+            "initial": 14923352854.0,
+            "updated": 17006643527.0,
+            "committed": 16486179035.73,
+            "realized": 13209417058.71
+          }
+        ]
+      },
+      "2024": {
+        "source": "Portal da Transparência — Orçamento da Despesa",
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/orcamento-despesa/2024",
+        "total": {
+          "initial": 5323812219865.62,
+          "updated": 5427570542041.62,
+          "committed": 4736144995397.17,
+          "realized": 4491387089116.35
+        },
+        "watched_functions": {
+          "saude": {
+            "label": "Saúde",
+            "initial": 219826754561.0,
+            "updated": 221400662734.0,
+            "committed": 220265572805.86,
+            "realized": 193468711269.59
+          },
+          "educacao": {
+            "label": "Educação",
+            "initial": 162614024147.0,
+            "updated": 165044903242.0,
+            "committed": 163350783209.42,
+            "realized": 136998025393.61
+          },
+          "saneamento": {
+            "label": "Saneamento",
+            "initial": 2937234594.0,
+            "updated": 1699019527.0,
+            "committed": 1697019008.38,
+            "realized": 241649960.89
+          },
+          "administracao": {
+            "label": "Administração",
+            "initial": 32101791909.98,
+            "updated": 29502069535.98,
+            "committed": 28840195335.89,
+            "realized": 24919126405.35
+          },
+          "encargos_especiais": {
+            "label": "Encargos especiais",
+            "initial": 3188051922040.0,
+            "updated": 3248292222569.0,
+            "committed": 2654502084929.39,
+            "realized": 2597616816253.08
+          },
+          "assistencia_social": {
+            "label": "Assistência social",
+            "initial": 278581466818.0,
+            "updated": 284742849318.0,
+            "committed": 284513025777.77,
+            "realized": 278169600281.03
+          },
+          "defesa_nacional": {
+            "label": "Defesa nacional",
+            "initial": 92730663086.87,
+            "updated": 94064726927.87,
+            "committed": 94739816975.29,
+            "realized": 83673205722.78
+          },
+          "seguranca_publica": {
+            "label": "Segurança pública",
+            "initial": 16664295775.0,
+            "updated": 21767940016.0,
+            "committed": 21085705370.09,
+            "realized": 16680308254.09
+          }
+        },
+        "top_functions_by_realized": [
+          {
+            "label": "Encargos especiais",
+            "initial": 3188051922040.0,
+            "updated": 3248292222569.0,
+            "committed": 2654502084929.39,
+            "realized": 2597616816253.08
+          },
+          {
+            "label": "Previdência social",
+            "initial": 1002681586328.0,
+            "updated": 1031983515986.0,
+            "committed": 1031383313935.84,
+            "realized": 965300313097.45
+          },
+          {
+            "label": "Assistência social",
+            "initial": 278581466818.0,
+            "updated": 284742849318.0,
+            "committed": 284513025777.77,
+            "realized": 278169600281.03
+          },
+          {
+            "label": "Saúde",
+            "initial": 219826754561.0,
+            "updated": 221400662734.0,
+            "committed": 220265572805.86,
+            "realized": 193468711269.59
+          },
+          {
+            "label": "Educação",
+            "initial": 162614024147.0,
+            "updated": 165044903242.0,
+            "committed": 163350783209.42,
+            "realized": 136998025393.61
+          },
+          {
+            "label": "Trabalho",
+            "initial": 107634125176.0,
+            "updated": 113382201822.0,
+            "committed": 112457954137.94,
+            "realized": 108895784179.62
+          },
+          {
+            "label": "Defesa nacional",
+            "initial": 92730663086.87,
+            "updated": 94064726927.87,
+            "committed": 94739816975.29,
+            "realized": 83673205722.78
+          },
+          {
+            "label": "Administração",
+            "initial": 32101791909.98,
+            "updated": 29502069535.98,
+            "committed": 28840195335.89,
+            "realized": 24919126405.35
+          },
+          {
+            "label": "Agricultura",
+            "initial": 29160377270.82,
+            "updated": 33631014065.82,
+            "committed": 31459773290.13,
+            "realized": 20415415921.54
+          },
+          {
+            "label": "Segurança pública",
+            "initial": 16664295775.0,
+            "updated": 21767940016.0,
+            "committed": 21085705370.09,
+            "realized": 16680308254.09
+          }
+        ]
+      },
+      "2025": {
+        "source": "Portal da Transparência — Orçamento da Despesa",
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/orcamento-despesa/2025",
+        "total": {
+          "initial": 5623160071718.67,
+          "updated": 5738018219449.67,
+          "committed": 5187741994285.5,
+          "realized": 4851750326325.19
+        },
+        "watched_functions": {
+          "saude": {
+            "label": "Saúde",
+            "initial": 234345753097.0,
+            "updated": 241165286354.0,
+            "committed": 240173283388.4,
+            "realized": 215954624753.89
+          },
+          "educacao": {
+            "label": "Educação",
+            "initial": 175414160670.0,
+            "updated": 190551427266.0,
+            "committed": 189471215833.83,
+            "realized": 160788850760.4
+          },
+          "saneamento": {
+            "label": "Saneamento",
+            "initial": 1736101598.0,
+            "updated": 981269100.0,
+            "committed": 787270030.86,
+            "realized": 236117295.14
+          },
+          "administracao": {
+            "label": "Administração",
+            "initial": 33854441403.99,
+            "updated": 35108738759.99,
+            "committed": 34319602165.08,
+            "realized": 29325130691.91
+          },
+          "encargos_especiais": {
+            "label": "Encargos especiais",
+            "initial": 3353623016901.0,
+            "updated": 3440916131899.0,
+            "committed": 2935134650825.03,
+            "realized": 2811664425592.11
+          },
+          "assistencia_social": {
+            "label": "Assistência social",
+            "initial": 282895888016.0,
+            "updated": 291129344958.0,
+            "committed": 290731105497.62,
+            "realized": 283847747495.49
+          },
+          "defesa_nacional": {
+            "label": "Defesa nacional",
+            "initial": 95890826981.77,
+            "updated": 99785725952.77,
+            "committed": 99353492296.6,
+            "realized": 88007836477.38
+          },
+          "seguranca_publica": {
+            "label": "Segurança pública",
+            "initial": 17280654043.0,
+            "updated": 18502316494.0,
+            "committed": 18094518505.74,
+            "realized": 14411629060.98
+          }
+        },
+        "top_functions_by_realized": [
+          {
+            "label": "Encargos especiais",
+            "initial": 3353623016901.0,
+            "updated": 3440916131899.0,
+            "committed": 2935134650825.03,
+            "realized": 2811664425592.11
+          },
+          {
+            "label": "Previdência social",
+            "initial": 1068114104168.0,
+            "updated": 1085115588473.0,
+            "committed": 1084567076800.32,
+            "realized": 1015715515388.26
+          },
+          {
+            "label": "Assistência social",
+            "initial": 282895888016.0,
+            "updated": 291129344958.0,
+            "committed": 290731105497.62,
+            "realized": 283847747495.49
+          },
+          {
+            "label": "Saúde",
+            "initial": 234345753097.0,
+            "updated": 241165286354.0,
+            "committed": 240173283388.4,
+            "realized": 215954624753.89
+          },
+          {
+            "label": "Educação",
+            "initial": 175414160670.0,
+            "updated": 190551427266.0,
+            "committed": 189471215833.83,
+            "realized": 160788850760.4
+          },
+          {
+            "label": "Trabalho",
+            "initial": 121919186623.0,
+            "updated": 123798752604.0,
+            "committed": 121465812761.57,
+            "realized": 115775520593.76
+          },
+          {
+            "label": "Defesa nacional",
+            "initial": 95890826981.77,
+            "updated": 99785725952.77,
+            "committed": 99353492296.6,
+            "realized": 88007836477.38
+          },
+          {
+            "label": "Agricultura",
+            "initial": 34476198556.8,
+            "updated": 48485904398.8,
+            "committed": 47866749377.96,
+            "realized": 40456188978.97
+          },
+          {
+            "label": "Administração",
+            "initial": 33854441403.99,
+            "updated": 35108738759.99,
+            "committed": 34319602165.08,
+            "realized": 29325130691.91
+          },
+          {
+            "label": "Gestão ambiental",
+            "initial": 29131364730.0,
+            "updated": 32557683030.0,
+            "committed": 32387993182.35,
+            "realized": 20102270522.52
+          }
+        ]
+      },
+      "2026": {
+        "source": "Portal da Transparência — Orçamento da Despesa",
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/orcamento-despesa/2026",
+        "total": {
+          "initial": 6238295721286.0,
+          "updated": 6250911848541.0,
+          "committed": 3045377148645.39,
+          "realized": 1784886460346.47
+        },
+        "watched_functions": {
+          "saude": {
+            "label": "Saúde",
+            "initial": 251843504995.0,
+            "updated": 251386428062.0,
+            "committed": 95606004389.15,
+            "realized": 58373367248.25
+          },
+          "educacao": {
+            "label": "Educação",
+            "initial": 212394584519.0,
+            "updated": 214896574561.0,
+            "committed": 162094203488.97,
+            "realized": 47866757606.21
+          },
+          "saneamento": {
+            "label": "Saneamento",
+            "initial": 1311665630.0,
+            "updated": 1401535558.0,
+            "committed": 564597442.78,
+            "realized": 59700186.83
+          },
+          "administracao": {
+            "label": "Administração",
+            "initial": 38447583459.0,
+            "updated": 39154528582.0,
+            "committed": 22840545911.63,
+            "realized": 6728707427.31
+          },
+          "encargos_especiais": {
+            "label": "Encargos especiais",
+            "initial": 3791044255552.0,
+            "updated": 3803451669523.0,
+            "committed": 1736045098033.21,
+            "realized": 1238144417023.5
+          },
+          "assistencia_social": {
+            "label": "Assistência social",
+            "initial": 294080976728.0,
+            "updated": 293859715788.0,
+            "committed": 204770792731.91,
+            "realized": 88470376302.09
+          },
+          "defesa_nacional": {
+            "label": "Defesa nacional",
+            "initial": 103797575398.0,
+            "updated": 103908343207.0,
+            "committed": 71410966918.02,
+            "realized": 20080909097.91
+          },
+          "seguranca_publica": {
+            "label": "Segurança pública",
+            "initial": 19760970902.0,
+            "updated": 19932899357.0,
+            "committed": 11977601716.48,
+            "realized": 3150235264.09
+          }
+        },
+        "top_functions_by_realized": [
+          {
+            "label": "Encargos especiais",
+            "initial": 3791044255552.0,
+            "updated": 3803451669523.0,
+            "committed": 1736045098033.21,
+            "realized": 1238144417023.5
+          },
+          {
+            "label": "Previdência social",
+            "initial": 1175978933351.0,
+            "updated": 1176112842351.0,
+            "committed": 636352463124.03,
+            "realized": 272460669034.78
+          },
+          {
+            "label": "Assistência social",
+            "initial": 294080976728.0,
+            "updated": 293859715788.0,
+            "committed": 204770792731.91,
+            "realized": 88470376302.09
+          },
+          {
+            "label": "Saúde",
+            "initial": 251843504995.0,
+            "updated": 251386428062.0,
+            "committed": 95606004389.15,
+            "realized": 58373367248.25
+          },
+          {
+            "label": "Educação",
+            "initial": 212394584519.0,
+            "updated": 214896574561.0,
+            "committed": 162094203488.97,
+            "realized": 47866757606.21
+          },
+          {
+            "label": "Trabalho",
+            "initial": 122917597784.0,
+            "updated": 122917597784.0,
+            "committed": 33074189116.57,
+            "realized": 32590583777.52
+          },
+          {
+            "label": "Defesa nacional",
+            "initial": 103797575398.0,
+            "updated": 103908343207.0,
+            "committed": 71410966918.02,
+            "realized": 20080909097.91
+          },
+          {
+            "label": "Administração",
+            "initial": 38447583459.0,
+            "updated": 39154528582.0,
+            "committed": 22840545911.63,
+            "realized": 6728707427.31
+          },
+          {
+            "label": "Agricultura",
+            "initial": 36408680136.0,
+            "updated": 36501185550.0,
+            "committed": 22585121909.7,
+            "realized": 5863958438.76
+          },
+          {
+            "label": "Segurança pública",
+            "initial": 19760970902.0,
+            "updated": 19932899357.0,
+            "committed": 11977601716.48,
+            "realized": 3150235264.09
+          }
+        ]
+      }
+    },
+    "watched_functions_total_2023_2026": {
+      "saude": {
+        "label": "Saúde",
+        "initial": 878688688724.0,
+        "updated": 899415623734.0,
+        "committed": 740978112520.89,
+        "realized": 629020683835.52
+      },
+      "educacao": {
+        "label": "Educação",
+        "initial": 693164445914.0,
+        "updated": 722589889747.0,
+        "committed": 666031684252.39,
+        "realized": 475115409789.5
+      },
+      "saneamento": {
+        "label": "Saneamento",
+        "initial": 7128710091.0,
+        "updated": 4841848355.0,
+        "committed": 3791996061.59,
+        "realized": 687431842.83
+      },
+      "administracao": {
+        "label": "Administração",
+        "initial": 132788465199.97,
+        "updated": 134347089257.97,
+        "committed": 115884346401.19,
+        "realized": 86274436305.78
+      },
+      "encargos_especiais": {
+        "label": "Encargos especiais",
+        "initial": 13500411645657.0,
+        "updated": 13797871471724.0,
+        "committed": 9783089937784.62,
+        "realized": 9056365424784.86
+      },
+      "assistencia_social": {
+        "label": "Assistência social",
+        "initial": 1128064003832.0,
+        "updated": 1138225471737.0,
+        "committed": 1048349376333.74,
+        "realized": 911767337963.71
+      },
+      "defesa_nacional": {
+        "label": "Defesa nacional",
+        "initial": 381920855203.51,
+        "updated": 388094686588.51,
+        "committed": 355430188324.94,
+        "realized": 270750524838.21
+      },
+      "seguranca_publica": {
+        "label": "Segurança pública",
+        "initial": 68629273574.0,
+        "updated": 77209799394.0,
+        "committed": 67644004628.04,
+        "realized": 47451589637.87
+      }
+    },
+    "method_note": "Valores são orçamento/despesa federal por função. 'Realizado' é a coluna oficial do download; não é gasto pessoal de partido ou presidente."
+  },
+  "official_travel": {
+    "source": "Portal da Transparência — Download de Viagens",
+    "scope_note": "Total federal de viagens oficiais 2023–2026. É contexto da máquina pública; não é gasto pessoal da Janja nem do PT.",
+    "by_year": {
+      "2023": {
+        "source": "Portal da Transparência — Viagens",
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2023",
+        "total": {
+          "count": 833057,
+          "total": 2306832982.94,
+          "diarias": 1457997616.21,
+          "passagens": 855176318.27,
+          "outros": 13621731.01,
+          "devolucao": 19962682.55
+        },
+        "top_orgs_by_total": [
+          {
+            "org": "Ministério da Justiça e Segurança Pública",
+            "count": 201929,
+            "total": 781947762.59,
+            "diarias": 679604040.92,
+            "passagens": 108418587.26,
+            "outros": 494631.95,
+            "devolucao": 6569497.54
+          },
+          {
+            "org": "Ministério da Defesa",
+            "count": 146664,
+            "total": 319484627.38,
+            "diarias": 150885712.81,
+            "passagens": 169080666.16,
+            "outros": 1463141.08,
+            "devolucao": 1944892.67
+          },
+          {
+            "org": "Ministério da Educação",
+            "count": 174018,
+            "total": 273475056.0,
+            "diarias": 147274467.61,
+            "passagens": 126817502.94,
+            "outros": 2042575.42,
+            "devolucao": 2659489.97
+          },
+          {
+            "org": "Ministério do Meio Ambiente e Mudança do Clima",
+            "count": 42549,
+            "total": 113984630.27,
+            "diarias": 79680831.63,
+            "passagens": 35518679.08,
+            "outros": 293408.59,
+            "devolucao": 1508289.03
+          },
+          {
+            "org": "Sem informação",
+            "count": 56794,
+            "total": 111481470.8,
+            "diarias": 57558959.2,
+            "passagens": 53552041.07,
+            "outros": 1652965.45,
+            "devolucao": 1282494.92
+          },
+          {
+            "org": "Ministério da Saúde",
+            "count": 21801,
+            "total": 86629831.29,
+            "diarias": 37271884.39,
+            "passagens": 49243045.44,
+            "outros": 772075.83,
+            "devolucao": 657174.37
+          },
+          {
+            "org": "Ministério das Relações Exteriores",
+            "count": 5764,
+            "total": 75791300.06,
+            "diarias": 24936149.9,
+            "passagens": 51333078.12,
+            "outros": 66422.88,
+            "devolucao": 544350.84
+          },
+          {
+            "org": "Ministério da Previdência Social",
+            "count": 20653,
+            "total": 73220463.17,
+            "diarias": 54345415.08,
+            "passagens": 18415444.27,
+            "outros": 1209176.19,
+            "devolucao": 749572.37
+          },
+          {
+            "org": "Ministério do Planejamento e Orçamento",
+            "count": 34178,
+            "total": 54462757.13,
+            "diarias": 40649413.2,
+            "passagens": 13747243.79,
+            "outros": 685510.25,
+            "devolucao": 619410.11
+          },
+          {
+            "org": "Presidência da República",
+            "count": 14770,
+            "total": 48796769.9,
+            "diarias": 13768190.83,
+            "passagens": 33508755.34,
+            "outros": 1754177.33,
+            "devolucao": 234353.6
+          }
+        ]
+      },
+      "2024": {
+        "source": "Portal da Transparência — Viagens",
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2024",
+        "total": {
+          "count": 798946,
+          "total": 2408941271.5,
+          "diarias": 1573210073.9,
+          "passagens": 838697931.94,
+          "outros": 14277623.93,
+          "devolucao": 17244358.27
+        },
+        "top_orgs_by_total": [
+          {
+            "org": "Ministério da Justiça e Segurança Pública",
+            "count": 179756,
+            "total": 790886962.13,
+            "diarias": 684915836.08,
+            "passagens": 110538926.21,
+            "outros": 784375.11,
+            "devolucao": 5352175.27
+          },
+          {
+            "org": "Ministério da Defesa",
+            "count": 146220,
+            "total": 337214468.64,
+            "diarias": 183521309.02,
+            "passagens": 153153562.55,
+            "outros": 1767421.45,
+            "devolucao": 1227824.38
+          },
+          {
+            "org": "Ministério da Educação",
+            "count": 163375,
+            "total": 288999918.03,
+            "diarias": 161863071.34,
+            "passagens": 127159098.97,
+            "outros": 2139854.12,
+            "devolucao": 2162106.4
+          },
+          {
+            "org": "Ministério do Meio Ambiente e Mudança do Clima",
+            "count": 41608,
+            "total": 124421548.57,
+            "diarias": 90510090.84,
+            "passagens": 35047985.3,
+            "outros": 268458.34,
+            "devolucao": 1404985.91
+          },
+          {
+            "org": "Ministério da Saúde",
+            "count": 21078,
+            "total": 89650729.97,
+            "diarias": 43708211.46,
+            "passagens": 46001198.87,
+            "outros": 617251.54,
+            "devolucao": 675931.9
+          },
+          {
+            "org": "Ministério da Fazenda",
+            "count": 31681,
+            "total": 89164530.42,
+            "diarias": 49969655.26,
+            "passagens": 38681535.82,
+            "outros": 1232463.09,
+            "devolucao": 719123.75
+          },
+          {
+            "org": "Ministério da Previdência Social",
+            "count": 17866,
+            "total": 71294745.34,
+            "diarias": 54227464.5,
+            "passagens": 16564578.28,
+            "outros": 1225547.25,
+            "devolucao": 722844.69
+          },
+          {
+            "org": "Ministério das Relações Exteriores",
+            "count": 5302,
+            "total": 62523531.1,
+            "diarias": 20333254.4,
+            "passagens": 42463829.63,
+            "outros": 10449.4,
+            "devolucao": 284002.33
+          },
+          {
+            "org": "Ministério do Desenvolvimento Agrário e Agricultura Familiar",
+            "count": 20892,
+            "total": 56988482.62,
+            "diarias": 37188614.04,
+            "passagens": 20185863.66,
+            "outros": 78248.19,
+            "devolucao": 464243.27
+          },
+          {
+            "org": "Presidência da República",
+            "count": 17223,
+            "total": 56099010.3,
+            "diarias": 21219722.35,
+            "passagens": 33718567.09,
+            "outros": 1481193.79,
+            "devolucao": 320472.93
+          }
+        ]
+      },
+      "2025": {
+        "source": "Portal da Transparência — Viagens",
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
+        "total": {
+          "count": 801072,
+          "total": 2476346264.76,
+          "diarias": 1592896014.28,
+          "passagens": 885628088.01,
+          "outros": 11109461.19,
+          "devolucao": 13287298.72
+        },
+        "top_orgs_by_total": [
+          {
+            "org": "Ministério da Justiça e Segurança Pública",
+            "count": 173242,
+            "total": 815268670.37,
+            "diarias": 701214598.51,
+            "passagens": 117217185.7,
+            "outros": 480908.26,
+            "devolucao": 3644022.1
+          },
+          {
+            "org": "Ministério da Defesa",
+            "count": 130392,
+            "total": 338168903.32,
+            "diarias": 186825049.66,
+            "passagens": 150731008.23,
+            "outros": 1635304.99,
+            "devolucao": 1022459.56
+          },
+          {
+            "org": "Ministério da Educação",
+            "count": 174340,
+            "total": 319797745.32,
+            "diarias": 172774475.47,
+            "passagens": 146396973.3,
+            "outros": 2410558.78,
+            "devolucao": 1784262.23
+          },
+          {
+            "org": "Ministério do Meio Ambiente e Mudança do Clima",
+            "count": 47926,
+            "total": 131843616.17,
+            "diarias": 87635241.89,
+            "passagens": 44924362.49,
+            "outros": 347840.45,
+            "devolucao": 1063828.66
+          },
+          {
+            "org": "Ministério da Saúde",
+            "count": 19311,
+            "total": 85719485.13,
+            "diarias": 39733548.02,
+            "passagens": 45994319.88,
+            "outros": 816377.85,
+            "devolucao": 824760.62
+          },
+          {
+            "org": "Ministério da Previdência Social",
+            "count": 17813,
+            "total": 78315223.2,
+            "diarias": 57973859.21,
+            "passagens": 19566045.46,
+            "outros": 1290278.43,
+            "devolucao": 514959.9
+          },
+          {
+            "org": "Ministério da Fazenda",
+            "count": 26197,
+            "total": 71562536.74,
+            "diarias": 39846702.82,
+            "passagens": 31141762.63,
+            "outros": 966038.08,
+            "devolucao": 391966.79
+          },
+          {
+            "org": "Ministério do Desenvolvimento Agrário e Agricultura Familiar",
+            "count": 25153,
+            "total": 62151278.19,
+            "diarias": 39494359.92,
+            "passagens": 22985942.64,
+            "outros": 78651.16,
+            "devolucao": 407675.53
+          },
+          {
+            "org": "Ministério dos Povos Indígenas",
+            "count": 12048,
+            "total": 56900852.78,
+            "diarias": 40062492.25,
+            "passagens": 17085976.86,
+            "outros": 50282.17,
+            "devolucao": 297898.5
+          },
+          {
+            "org": "Sem informação",
+            "count": 32838,
+            "total": 49016401.39,
+            "diarias": 27997230.98,
+            "passagens": 20900470.21,
+            "outros": 384143.46,
+            "devolucao": 265443.26
+          }
+        ]
+      },
+      "2026": {
+        "source": "Portal da Transparência — Viagens",
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2026",
+        "total": {
+          "count": 89066,
+          "total": 238814922.01,
+          "diarias": 127736505.89,
+          "passagens": 111443953.65,
+          "outros": 1341327.79,
+          "devolucao": 1706865.32
+        },
+        "top_orgs_by_total": [
+          {
+            "org": "Ministério da Justiça e Segurança Pública",
+            "count": 21775,
+            "total": 62051323.48,
+            "diarias": 49660016.25,
+            "passagens": 12722481.36,
+            "outros": 36699.16,
+            "devolucao": 367873.29
+          },
+          {
+            "org": "Ministério da Educação",
+            "count": 14490,
+            "total": 28493257.13,
+            "diarias": 13152614.08,
+            "passagens": 15346140.01,
+            "outros": 213837.53,
+            "devolucao": 219334.49
+          },
+          {
+            "org": "Ministério da Defesa",
+            "count": 8028,
+            "total": 24262665.92,
+            "diarias": 8916699.39,
+            "passagens": 15275292.93,
+            "outros": 154269.36,
+            "devolucao": 83595.76
+          },
+          {
+            "org": "Ministério da Fazenda",
+            "count": 4803,
+            "total": 12914161.48,
+            "diarias": 6807936.46,
+            "passagens": 6032319.47,
+            "outros": 163022.31,
+            "devolucao": 89116.76
+          },
+          {
+            "org": "Ministério da Saúde",
+            "count": 2443,
+            "total": 12238105.4,
+            "diarias": 4757502.0,
+            "passagens": 7489958.11,
+            "outros": 131097.37,
+            "devolucao": 140452.08
+          },
+          {
+            "org": "Presidência da República",
+            "count": 2196,
+            "total": 8332810.33,
+            "diarias": 2529185.18,
+            "passagens": 5813038.4,
+            "outros": 22873.07,
+            "devolucao": 32286.32
+          },
+          {
+            "org": "Ministério do Meio Ambiente e Mudança do Clima",
+            "count": 5982,
+            "total": 8307306.85,
+            "diarias": 5595485.26,
+            "passagens": 2752281.36,
+            "outros": 24246.01,
+            "devolucao": 64705.78
+          },
+          {
+            "org": "Ministério da Previdência Social",
+            "count": 2457,
+            "total": 8266968.0,
+            "diarias": 4650440.21,
+            "passagens": 3510373.2,
+            "outros": 178934.62,
+            "devolucao": 72780.03
+          },
+          {
+            "org": "Ministério do Desenvolvimento Agrário e Agricultura Familiar",
+            "count": 2474,
+            "total": 7384739.07,
+            "diarias": 3620092.23,
+            "passagens": 3794259.56,
+            "outros": 14685.19,
+            "devolucao": 44297.91
+          },
+          {
+            "org": "Sem informação",
+            "count": 5078,
+            "total": 7139033.9,
+            "diarias": 3750427.14,
+            "passagens": 3321902.41,
+            "outros": 104987.81,
+            "devolucao": 38283.46
+          }
+        ]
+      }
+    },
+    "presidency_context_2023_2026": {
+      "count": 45481,
+      "total": 158089031.84,
+      "diarias": 53333733.25,
+      "passagens": 102195053.02,
+      "outros": 3423899.23,
+      "devolucao": 863653.66
+    },
+    "top_orgs_2023_2026": [
+      {
+        "org": "Ministério da Justiça e Segurança Pública",
+        "count": 576702,
+        "total": 2450154718.57,
+        "diarias": 2115394491.76,
+        "passagens": 348897180.53,
+        "outros": 1796614.48,
+        "devolucao": 15933568.2
+      },
+      {
+        "org": "Ministério da Defesa",
+        "count": 431304,
+        "total": 1019130665.26,
+        "diarias": 530148770.88,
+        "passagens": 488240529.87,
+        "outros": 5020136.88,
+        "devolucao": 4278772.37
+      },
+      {
+        "org": "Ministério da Educação",
+        "count": 526223,
+        "total": 910765976.48,
+        "diarias": 495064628.5,
+        "passagens": 415719715.22,
+        "outros": 6806825.85,
+        "devolucao": 6825193.09
+      },
+      {
+        "org": "Ministério do Meio Ambiente e Mudança do Clima",
+        "count": 138065,
+        "total": 378557101.86,
+        "diarias": 263421649.62,
+        "passagens": 118243308.23,
+        "outros": 933953.39,
+        "devolucao": 4041809.38
+      },
+      {
+        "org": "Ministério da Saúde",
+        "count": 64633,
+        "total": 274238151.79,
+        "diarias": 125471145.87,
+        "passagens": 148728522.3,
+        "outros": 2336802.59,
+        "devolucao": 2298318.97
+      },
+      {
+        "org": "Ministério da Previdência Social",
+        "count": 58789,
+        "total": 231097399.71,
+        "diarias": 171197179.0,
+        "passagens": 58056441.21,
+        "outros": 3903936.49,
+        "devolucao": 2060156.99
+      },
+      {
+        "org": "Sem informação",
+        "count": 124622,
+        "total": 213242602.87,
+        "diarias": 114972805.87,
+        "passagens": 97557845.71,
+        "outros": 2633778.96,
+        "devolucao": 1921827.67
+      },
+      {
+        "org": "Ministério da Fazenda",
+        "count": 73530,
+        "total": 206698113.22,
+        "diarias": 111559251.82,
+        "passagens": 93760360.7,
+        "outros": 2785412.68,
+        "devolucao": 1406911.98
+      },
+      {
+        "org": "Ministério das Relações Exteriores",
+        "count": 15326,
+        "total": 189103927.82,
+        "diarias": 61321277.35,
+        "passagens": 128763883.5,
+        "outros": 83877.75,
+        "devolucao": 1065110.78
+      },
+      {
+        "org": "Ministério do Desenvolvimento Agrário e Agricultura Familiar",
+        "count": 65302,
+        "total": 165772593.48,
+        "diarias": 105767466.31,
+        "passagens": 60969801.51,
+        "outros": 222600.74,
+        "devolucao": 1187275.08
+      },
+      {
+        "org": "Presidência da República",
+        "count": 45481,
+        "total": 158089031.84,
+        "diarias": 53333733.25,
+        "passagens": 102195053.02,
+        "outros": 3423899.23,
+        "devolucao": 863653.66
+      },
+      {
+        "org": "Ministério dos Povos Indígenas",
+        "count": 34801,
+        "total": 143516492.65,
+        "diarias": 102354938.72,
+        "passagens": 42003734.17,
+        "outros": 172011.31,
+        "devolucao": 1014191.55
+      }
+    ]
+  },
+  "cpgf_presidency": {
+    "source": "Portal da Transparência — Cartão de Pagamento do Governo Federal (CPGF)",
+    "source_url_pattern": "https://portaldatransparencia.gov.br/download-de-dados/cpgf/{yyyymm}",
+    "scope_note": "Camada de contexto: transações CPGF de órgãos/unidades com 'Presid' no nome. Não é gasto pessoal da Janja; comida/alimentação é inferida apenas por palavras no favorecido/transação e deve ser verificada na fonte.",
+    "months_scanned": [
+      "202301",
+      "202302",
+      "202303",
+      "202304",
+      "202305",
+      "202306",
+      "202307",
+      "202308",
+      "202309",
+      "202310",
+      "202311",
+      "202312",
+      "202401",
+      "202402",
+      "202403",
+      "202404",
+      "202405",
+      "202406",
+      "202407",
+      "202408",
+      "202409",
+      "202410",
+      "202411",
+      "202412",
+      "202501",
+      "202502",
+      "202503",
+      "202504",
+      "202505",
+      "202506",
+      "202507",
+      "202508",
+      "202509",
+      "202510",
+      "202512",
+      "202601",
+      "202602",
+      "202603",
+      "202604"
+    ],
+    "months_unavailable_or_blocked": [
+      "202511"
+    ],
+    "total_2023_2026": {
+      "count": 30879,
+      "total": 47436677.38,
+      "food_like_count": 4,
+      "food_like_total": 8110.0,
+      "secret_count": 26917,
+      "secret_total": 46425340.88
+    },
+    "secret_summary": {
+      "count": 26917,
+      "total": 46425340.88,
+      "ratio_of_cpgf_total_pct": 97.87,
+      "caveat": "Favorecido sigiloso não revela quem recebeu. É cobrança por transparência, não atribuição pessoal."
+    },
+    "by_year": {
+      "2023": {
+        "count": 12444,
+        "total": 24226194.05,
+        "food_like_count": 1,
+        "food_like_total": 500.0,
+        "secret_count": 11328,
+        "secret_total": 23975908.72
+      },
+      "2024": {
+        "count": 9546,
+        "total": 15304400.83,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 8348,
+        "secret_total": 15001457.69
+      },
+      "2025": {
+        "count": 6592,
+        "total": 5802574.75,
+        "food_like_count": 3,
+        "food_like_total": 7610.0,
+        "secret_count": 5382,
+        "secret_total": 5443062.73
+      },
+      "2026": {
+        "count": 2297,
+        "total": 2103507.75,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 1859,
+        "secret_total": 2004911.74
+      }
+    },
+    "by_month": {
+      "202301": {
+        "count": 702,
+        "total": 771359.53,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 655,
+        "secret_total": 761864.06
+      },
+      "202302": {
+        "count": 446,
+        "total": 638194.71,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 369,
+        "secret_total": 632067.9
+      },
+      "202303": {
+        "count": 673,
+        "total": 1352269.04,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 582,
+        "secret_total": 1328582.84
+      },
+      "202304": {
+        "count": 897,
+        "total": 2064583.01,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 838,
+        "secret_total": 2049862.19
+      },
+      "202305": {
+        "count": 803,
+        "total": 2137660.96,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 664,
+        "secret_total": 2108559.74
+      },
+      "202306": {
+        "count": 1130,
+        "total": 3063955.81,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 945,
+        "secret_total": 3023435.5
+      },
+      "202307": {
+        "count": 939,
+        "total": 1984635.17,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 839,
+        "secret_total": 1957488.77
+      },
+      "202308": {
+        "count": 1487,
+        "total": 2830745.79,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 1419,
+        "secret_total": 2818785.08
+      },
+      "202309": {
+        "count": 1405,
+        "total": 2798987.82,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 1290,
+        "secret_total": 2782085.17
+      },
+      "202310": {
+        "count": 1275,
+        "total": 2389330.68,
+        "food_like_count": 1,
+        "food_like_total": 500.0,
+        "secret_count": 1127,
+        "secret_total": 2356136.33
+      },
+      "202311": {
+        "count": 1379,
+        "total": 2518502.02,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 1334,
+        "secret_total": 2497581.32
+      },
+      "202312": {
+        "count": 1308,
+        "total": 1675969.51,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 1266,
+        "secret_total": 1659459.82
+      },
+      "202401": {
+        "count": 929,
+        "total": 2247891.46,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 760,
+        "secret_total": 2212584.53
+      },
+      "202402": {
+        "count": 807,
+        "total": 1135784.33,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 778,
+        "secret_total": 1129610.48
+      },
+      "202403": {
+        "count": 1019,
+        "total": 1840620.43,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 952,
+        "secret_total": 1826748.19
+      },
+      "202404": {
+        "count": 1074,
+        "total": 1626321.92,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 1027,
+        "secret_total": 1611450.43
+      },
+      "202405": {
+        "count": 911,
+        "total": 1824699.56,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 810,
+        "secret_total": 1805217.81
+      },
+      "202406": {
+        "count": 1072,
+        "total": 1575853.35,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 1031,
+        "secret_total": 1557138.07
+      },
+      "202407": {
+        "count": 1054,
+        "total": 2325830.26,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 926,
+        "secret_total": 2266200.86
+      },
+      "202408": {
+        "count": 579,
+        "total": 748310.63,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 459,
+        "secret_total": 731274.75
+      },
+      "202409": {
+        "count": 619,
+        "total": 555628.66,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 457,
+        "secret_total": 522697.13
+      },
+      "202410": {
+        "count": 483,
+        "total": 417182.41,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 345,
+        "secret_total": 386386.45
+      },
+      "202411": {
+        "count": 499,
+        "total": 515391.48,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 374,
+        "secret_total": 481682.53
+      },
+      "202412": {
+        "count": 500,
+        "total": 490886.34,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 429,
+        "secret_total": 470466.46
+      },
+      "202501": {
+        "count": 472,
+        "total": 448661.57,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 362,
+        "secret_total": 427228.68
+      },
+      "202502": {
+        "count": 263,
+        "total": 377697.23,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 231,
+        "secret_total": 367692.55
+      },
+      "202503": {
+        "count": 489,
+        "total": 576406.99,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 452,
+        "secret_total": 562144.52
+      },
+      "202504": {
+        "count": 524,
+        "total": 464424.92,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 378,
+        "secret_total": 423592.15
+      },
+      "202505": {
+        "count": 609,
+        "total": 573503.35,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 500,
+        "secret_total": 542020.13
+      },
+      "202506": {
+        "count": 684,
+        "total": 492943.43,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 570,
+        "secret_total": 474296.83
+      },
+      "202507": {
+        "count": 686,
+        "total": 413210.51,
+        "food_like_count": 2,
+        "food_like_total": 6150.0,
+        "secret_count": 464,
+        "secret_total": 334319.94
+      },
+      "202508": {
+        "count": 791,
+        "total": 609043.43,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 644,
+        "secret_total": 582575.49
+      },
+      "202509": {
+        "count": 601,
+        "total": 485670.13,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 534,
+        "secret_total": 469418.07
+      },
+      "202510": {
+        "count": 610,
+        "total": 594177.86,
+        "food_like_count": 1,
+        "food_like_total": 1460.0,
+        "secret_count": 514,
+        "secret_total": 551431.07
+      },
+      "202512": {
+        "count": 863,
+        "total": 766835.33,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 733,
+        "secret_total": 708343.3
+      },
+      "202601": {
+        "count": 841,
+        "total": 848933.49,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 804,
+        "secret_total": 833954.4
+      },
+      "202602": {
+        "count": 403,
+        "total": 336964.97,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 311,
+        "secret_total": 313874.55
+      },
+      "202603": {
+        "count": 557,
+        "total": 429294.6,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 343,
+        "secret_total": 402142.98
+      },
+      "202604": {
+        "count": 496,
+        "total": 488314.69,
+        "food_like_count": 0,
+        "food_like_total": 0.0,
+        "secret_count": 401,
+        "secret_total": 454939.81
+      }
+    },
+    "top_favored": [
+      {
+        "favored": "Sigiloso",
+        "count": 26917,
+        "total": 46425340.88
+      },
+      {
+        "favored": "SEM INFORMACAO",
+        "count": 2385,
+        "total": 419888.08
+      },
+      {
+        "favored": "NAO SE APLICA",
+        "count": 149,
+        "total": 89896.45
+      },
+      {
+        "favored": "AUTO POSTO PARQUE VILLA LOBOS LTDA.",
+        "count": 323,
+        "total": 68006.44
+      },
+      {
+        "favored": "AUTO POSTO HYGIENOPOLIS LTDA",
+        "count": 203,
+        "total": 47996.23
+      },
+      {
+        "favored": "AUTO POSTO GRANA LTDA",
+        "count": 118,
+        "total": 31523.94
+      },
+      {
+        "favored": "LANCE TECNOLOGIA MATERIAIS E SERVICOS LTDA",
+        "count": 13,
+        "total": 23647.3
+      },
+      {
+        "favored": "MOACIR DA SILVA",
+        "count": 3,
+        "total": 14776.0
+      },
+      {
+        "favored": "DFTEK COMERCIO E SERVICOS LTDA",
+        "count": 6,
+        "total": 14030.0
+      },
+      {
+        "favored": "AUTO POSTO BANDEIRA PAULISTA LTDA",
+        "count": 58,
+        "total": 12930.13
+      },
+      {
+        "favored": "PRIMEIRA LINHA COMERCIAL DE ROLAMENTOS LTDA",
+        "count": 10,
+        "total": 10579.41
+      },
+      {
+        "favored": "K2 PRINTERS & PARTS LTDA",
+        "count": 4,
+        "total": 9700.0
+      }
+    ],
+    "top_transaction_types": [
+      {
+        "transaction": "Informações protegidas por sigilo",
+        "count": 26917,
+        "total": 46425340.88
+      },
+      {
+        "transaction": "COMPRA A/V - R$ - APRES",
+        "count": 1543,
+        "total": 539348.54
+      },
+      {
+        "transaction": "COMPRA A/V - INT$ - APRES",
+        "count": 2270,
+        "total": 382091.51
+      },
+      {
+        "transaction": "SAQUE CASH/ATM BB",
+        "count": 64,
+        "total": 47937.0
+      },
+      {
+        "transaction": "SAQUE - INT$ - APRES",
+        "count": 85,
+        "total": 41959.45
+      }
+    ],
+    "food_like_top_records": [
+      {
+        "month": "202507",
+        "date": "15/06/2025",
+        "holder": "MARCOS DE ALMEIDA CAMARGO",
+        "favored": "SOUZA FORMAS E UTENSILIOS PARA CONFEITARIA E PADARIA LTDA",
+        "transaction": "COMPRA A/V - R$ - APRES",
+        "value": 3100.0,
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/cpgf/202507",
+        "warning": "Pista por palavra-chave em CPGF/Presidência; não é atribuição pessoal à Janja."
+      },
+      {
+        "month": "202507",
+        "date": "16/06/2025",
+        "holder": "MARCOS DE ALMEIDA CAMARGO",
+        "favored": "SOUZA FORMAS E UTENSILIOS PARA CONFEITARIA E PADARIA LTDA",
+        "transaction": "COMPRA A/V - R$ - APRES",
+        "value": 3050.0,
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/cpgf/202507",
+        "warning": "Pista por palavra-chave em CPGF/Presidência; não é atribuição pessoal à Janja."
+      },
+      {
+        "month": "202510",
+        "date": "22/09/2025",
+        "holder": "MARCOS DE ALMEIDA CAMARGO",
+        "favored": "MERCADO PAGO INSTITUICAO DE PAGAMENTO LTDA",
+        "transaction": "COMPRA A/V - R$ - APRES",
+        "value": 1460.0,
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/cpgf/202510",
+        "warning": "Pista por palavra-chave em CPGF/Presidência; não é atribuição pessoal à Janja."
+      },
+      {
+        "month": "202310",
+        "date": "25/09/2023",
+        "holder": "FERNANDO FRANCISCO DE FARIAS",
+        "favored": "MERCADO PAGO INSTITUICAO DE PAGAMENTO LTDA",
+        "transaction": "COMPRA A/V - R$ - APRES",
+        "value": 500.0,
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/cpgf/202310",
+        "warning": "Pista por palavra-chave em CPGF/Presidência; não é atribuição pessoal à Janja."
+      }
+    ],
+    "janja_text_mentions": []
+  },
+  "sources_map": {
+    "janja_travel": {
+      "status": "integrado",
+      "source": "Portal da Transparência — Viagens 2023–2026",
+      "detail": "Base primária automatizada para viagens diretas/menções/comitiva."
+    },
+    "janja_structure": {
+      "status": "contexto externo integrado",
+      "source": "Poder360 com dados do Portal",
+      "detail": "Equipe/estrutura sem gabinete próprio; separado dos totais oficiais automatizados."
+    },
+    "federal_budget": {
+      "status": "integrado",
+      "source": "Portal da Transparência — Orçamento da Despesa",
+      "detail": "Saúde, educação, saneamento e demais funções por ano."
+    },
+    "public_debt": {
+      "status": "integrado",
+      "source": "Banco Central SGS",
+      "detail": "DBGG e DLSP em % do PIB com variação desde dez/2022."
+    },
+    "cpgf_presidency": {
+      "status": "integrado",
+      "source": "Portal da Transparência — CPGF",
+      "detail": "Cartões de pagamento em órgãos/unidades da Presidência; contexto separado, sem atribuir à Janja."
+    },
+    "official_travel_context": {
+      "status": "integrado",
+      "source": "Portal da Transparência — Viagens",
+      "detail": "Total federal e recorte Presidência de viagens oficiais; contexto separado dos registros Janja."
+    },
+    "expenses_execution": {
+      "status": "mapeado",
+      "source": "Portal da Transparência — Execução da Despesa",
+      "detail": "Próxima camada: empenhos/pagamentos por mês e busca por termos Janja/Primeira-Dama."
+    },
+    "servers_payroll": {
+      "status": "mapeado/pesado",
+      "source": "Portal da Transparência — Servidores SIAPE",
+      "detail": "Arquivo mensal grande; precisa varredura controlada para equipe/assessores."
+    },
+    "invoices_contracts_bids": {
+      "status": "mapeado",
+      "source": "Notas fiscais, compras e licitações",
+      "detail": "Só marcar comida/roupa se a descrição oficial provar natureza do gasto."
+    }
+  },
+  "cache_status": {
+    "mode": "batch_cached_downloads",
+    "rule": "Arquivos oficiais baixados ficam em data/raw e são reutilizados; novas varreduras só baixam o que ainda não está no cache local.",
+    "generated_at": "2026-04-30T21:55:39.938576+00:00",
+    "travel_zips": {
+      "count": 4,
+      "bytes": 471707908,
+      "latest_file": "viagens-2026.zip"
+    },
+    "budget_zips": {
+      "count": 4,
+      "bytes": 3067303,
+      "latest_file": "orcamento-despesa-2026.zip"
+    },
+    "cpgf_monthly_zips": {
+      "count": 39,
+      "bytes": 9395747,
+      "latest_file": "cpgf-202604.zip"
+    }
+  }
+}

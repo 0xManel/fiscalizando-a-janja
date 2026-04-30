@@ -1,0 +1,17 @@
+{
+  "name": "fiscalizando-a-janja",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Dashboard factual de despesas públicas e agendas associadas à Primeira-Dama, com fontes oficiais.",
+  "scripts": {
+    "scan": "npm run scan:janja && npm run scan:gov && npm run scan:db",
+    "scan:janja": "python3 scripts/scan_radar_janja.py",
+    "scan:gov": "python3 scripts/scan_government_context.py",
+    "scan:db": "python3 scripts/build_dossier_db.py",
+    "scan:all": "npm run scan",
+    "check": "python3 scripts/check_project.py",
+    "serve": "python3 -m http.server 4173"
+  },
+  "keywords": ["transparencia", "dados-publicos", "dashboard", "vercel"],
+  "license": "UNLICENSED"
+}

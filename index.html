@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Fiscalizando a Janja: dossiê público, direto e verificável sobre Janja, governo Lula/PT, cartões, sigilo, viagens e dívida." />
+    <meta name="theme-color" content="#06140b" />
+    <meta property="og:title" content="Fiscalizando a Janja" />
+    <meta property="og:description" content="Janja, governo Lula/PT, cartão corporativo, sigilo e dívida: número grande, fonte aberta e cobrança pública." />
+    <title>Fiscalizando a Janja — gastos do governo sob lupa</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="signalCanvas" class="signal-canvas" aria-hidden="true"></canvas>
+    <div class="brazil-glow" aria-hidden="true"></div>
+
+    <header class="app-header">
+      <nav class="topbar" aria-label="Navegação principal">
+        <a class="brand" href="#topo" aria-label="Fiscalizando a Janja">
+          <span class="brand-mark">FJ</span>
+          <span><strong>Fiscalizando a Janja</strong><small>o dinheiro é seu — a cobrança também</small></span>
+        </a>
+        <div class="nav-actions">
+          <a href="#graficos">Gráficos</a>
+          <a href="#viagens-comidas">Viagens/comidas</a>
+          <a href="#mapa-investigacao">Mapa</a>
+          <a href="#noticias">Fontes</a>
+          <a href="#provas">Provas</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="topo">
+      <section class="hero-redesign" aria-label="Resumo principal">
+        <article class="hero-main-card">
+          <p class="eyebrow">Dinheiro público contra a blindagem</p>
+          <h1 id="governmentGrandTotal">R$ —</h1>
+          <div class="hero-caveat">A máquina do governo sob lupa — <strong>não é gasto pessoal da Janja.</strong></div>
+          <p class="hero-sub" id="governmentGrandNote">Viagens federais, cartão da Presidência, estrutura política e sigilo: tudo onde o contribuinte paga a conta.</p>
+          <div class="hero-formula"><b>O que entra no placar:</b> viagens federais + CPGF da Presidência + estrutura/equipe citada em fonte pública. <strong>Não é gasto pessoal da Janja; é o tamanho da máquina que cerca o poder.</strong></div>
+          <div class="hero-warning">O brasileiro paga imposto. O governo Lula/PT torra, esconde e chama de normal. Aqui a resposta é simples: número na tela, fonte aberta e cobrança sem pedir licença.</div>
+          <div class="hero-actions" aria-label="Ações principais">
+            <a class="primary-action" href="#provas">Ver provas oficiais</a>
+            <a class="secondary-action" href="#noticias">Abrir fontes — sem blindagem</a>
+          </div>
+          <div class="source-tape" aria-label="Fontes primárias usadas">
+            <a href="https://portaldatransparencia.gov.br/download-de-dados/viagens/2026" target="_blank" rel="noopener noreferrer">Viagens oficiais</a>
+            <a href="https://portaldatransparencia.gov.br/download-de-dados/cpgf/202604" target="_blank" rel="noopener noreferrer">CPGF Presidência</a>
+            <a href="https://www.bcb.gov.br/estatisticas/tabelasespeciais" target="_blank" rel="noopener noreferrer">Dívida BCB</a>
+          </div>
+        </article>
+
+        <aside class="hero-side-card">
+          <span class="live-pill"><i></i><b id="statusPill">Carregando base oficial</b></span>
+          <h2>Como não cair na maquiagem.</h2>
+          <p>Cada número tem camada: Janja direto, equipe/contexto, Presidência ou sigilo. Se não houver fonte direta, não inventamos acusação — mas também não fingimos que a conta sumiu.</p>
+          <div class="side-rule"><b>Sem fonte, não vira acusação.</b> Comitiva, apoio e menções ficam separados do direto. Mas sigilo pago pelo cidadão não ganha passe livre.</div>
+          <div class="anti-fake-stack" aria-label="Régua anti-manipulação">
+            <span><b>Direto</b> = registro em nome dela.</span>
+            <span><b>Contexto</b> = equipe, apoio, comitiva ou menção.</span>
+            <span><b>Sigilo</b> = cobrança por transparência, não acusação pessoal.</span>
+          </div>
+          <small id="lastUpdate">Última varredura: —</small>
+        </aside>
+      </section>
+
+      <section class="truth-strip" aria-label="Placar honesto das camadas">
+        <article><span>Direto Janja</span><strong id="truthDirect">R$ —</strong><small>Registro oficial em nome dela. Aqui não tem enrolação.</small></article>
+        <article><span>Contexto/equipe</span><strong id="truthContext">R$ —</strong><small>Apoio, estrutura ou comitiva. Separado para ninguém maquiar.</small></article>
+        <article><span>Governo sob lupa</span><strong id="truthGovernment">R$ —</strong><small>A máquina completa sob cobrança. Não é gasto pessoal.</small></article>
+      </section>
+
+      <details class="metrics-drawer">
+        <summary>Camadas separadas: Janja, equipe, Presidência, CPGF e dívida</summary>
+        <section class="metric-strip" aria-label="Números essenciais">
+          <article class="metric-card hot"><span>Janja direto identificado</span><strong id="janjaDirectTotal">R$ —</strong><small>Viagens oficiais em nome de Rosângela da Silva. É a camada mais defensável.</small></article>
+          <article class="metric-card"><span>Estrutura ligada à primeira-dama</span><strong id="structureTotal">R$ —</strong><small>Custo público de equipe/estrutura, separado do gasto direto.</small></article>
+          <article class="metric-card danger"><span>CPGF da Presidência</span><strong id="cpgfPresidencyTotal">R$ —</strong><small id="cpgfPresidencyNote">Cartão da Presidência. Não é atribuição automática à Janja.</small></article>
+          <article class="metric-card"><span>Beneficiário oculto no CPGF</span><strong id="cpgfSecretTotal">R$ —</strong><small id="cpgfSecretNote">Valor público sem favorecido visível na base consultada.</small></article>
+          <article class="metric-card"><span>Dívida bruta do governo</span><strong id="debtTopValue">—</strong><small id="debtTopNote">Contexto fiscal. Não é gasto pessoal.</small></article>
+        </section>
+      </details>
+
+      <section class="quick-log" aria-label="Últimos sinais oficiais">
+        <div class="quick-log-head">
+          <p class="eyebrow">Provas recentes</p>
+          <h2>Últimos registros com fonte.</h2>
+          <small>Menção em agenda ou comitiva não é gasto pessoal. É pista pública para apertar onde o governo prefere silêncio.</small>
+        </div>
+        <div id="recentSignals" class="quick-log-list"></div>
+      </section>
+
+      <section id="graficos" class="panel charts-panel">
+        <div class="panel-heading compact">
+          <p class="eyebrow">Cartões, dívida e governo federal</p>
+          <h2>Veja a conta que o discurso tenta esconder.</h2>
+          <p>Gráfico simples para qualquer pessoa enxergar: governo de um lado, registros ligados à Janja do outro.</p>
+        </div>
+        <div class="charts-grid">
+          <article class="chart-card">
+            <div class="chart-head"><b>Governo: viagens federais + CPGF Presidência</b><span>2023–2026</span></div>
+            <div id="govYearChart" class="bar-chart"></div>
+          </article>
+          <article class="chart-card">
+            <div class="chart-head"><b>Janja: registros por data</b><span>meses com gasto identificado</span></div>
+            <div id="janjaMonthChart" class="bar-chart"></div>
+          </article>
+          <article class="chart-card debt-chart-card">
+            <div class="chart-head"><b>Dívida bruta: antes x agora</b><span>Banco Central • % do PIB</span></div>
+            <div id="debtChart" class="bar-chart"></div>
+            <p class="chart-caveat">Dívida é contexto fiscal do governo. Não é despesa pessoal; é a conta grande que torna cada gasto público mais cobrável.</p>
+          </article>
+        </div>
+      </section>
+
+
+      <section id="viagens-comidas" class="panel travel-food-panel">
+        <div class="panel-heading compact split">
+          <div>
+            <p class="eyebrow">Viagens e comidas</p>
+            <h2>Passagem, diária e pista de comida.</h2>
+            <p id="travelFoodNote">O que tiver fonte entra. O que for só indício fica marcado como pista. Sem maquiagem oficialista. Sem acusação inventada.</p>
+          </div>
+          <div id="databaseStatus" class="database-pill"><b>Base viva do dossiê</b><span>Carregando registros...</span></div>
+        </div>
+        <div class="travel-food-stats">
+          <article><span>Viagens Janja + contexto</span><strong id="travelDirectTotal">R$ —</strong><small>Direto e comitiva/contexto aparecem juntos aqui; direto puro fica separado nas camadas.</small></article>
+          <article><span>Passagens</span><strong id="travelTicketsTotal">R$ —</strong><small>Deslocamento: avião/trechos/passagens.</small></article>
+          <article><span>Diárias/estadia</span><strong id="travelDailyTotal">R$ —</strong><small>Hospedagem/diárias quando aparece na viagem.</small></article>
+          <article><span>Pistas de comida/almoço</span><strong id="foodClueTotal">R$ —</strong><small>CPGF com pista de alimentação; agenda fica como pista, não valor da comida.</small></article>
+        </div>
+        <div class="travel-food-grid">
+          <article class="travel-list-card">
+            <div class="chart-head"><b>Maiores viagens diretas</b><span>com fonte oficial</span></div>
+            <div id="travelFoodList" class="mini-expense-list"></div>
+          </article>
+          <article class="travel-list-card">
+            <div class="chart-head"><b>Comida/almoço: pistas, não chute</b><span>agenda/CPGF/contexto</span></div>
+            <div class="food-warning">Se a fonte só fala em almoço, vira pista. Se provar compra, sobe de camada. O governo pode tentar esconder; o dossiê separa e expõe.</div>
+            <div id="foodClueList" class="mini-expense-list"></div>
+          </article>
+        </div>
+        <div class="hard-note">Assessores, equipe e comitiva ficam separados. A ironia é simples: o governo quer aplauso, mas quando o dinheiro é público, explicar deveria ser obrigação — não favor.</div>
+      </section>
+
+      <section id="camadas" class="panel layer-panel">
+        <div class="panel-heading compact">
+          <p class="eyebrow">Camadas do dossiê</p>
+          <h2>Separar para ninguém manipular — nem esconder.</h2>
+          <p>Direto é direto. Contexto é contexto. Sigilo é cobrança pública. Aqui o número não é inflado para atacar nem reduzido para proteger.</p>
+        </div>
+        <div class="layer-grid">
+          <article><span>1</span><b>Janja direto</b><strong id="directTotal">R$ —</strong><small>O que entra com mais segurança.</small></article>
+          <article><span>2</span><b>Janja + equipe</b><strong id="structureTravel">R$ —</strong><small>Contexto de apoio/viagens. Não é gasto pessoal exclusivo.</small></article>
+          <article><span>3</span><b>CPGF com sigilo</b><strong id="cpgfSecretPercent">—</strong><small>Quanto do cartão da Presidência fica sem beneficiário visível.</small></article>
+          <article><span>4</span><b>Presidência viagens</b><strong id="presidencyTravel">R$ —</strong><small>Contexto da Presidência; não atribuir à Janja sem prova.</small></article>
+          <article><span>5</span><b>CPGF: comida?</b><strong id="cpgfFoodClue">R$ —</strong><small>Pista por palavra-chave. Não é prova de refeição pessoal.</small></article>
+          <article><span>6</span><b>Dívida bruta</b><strong id="dbggValue">—</strong><small id="dbggNote">Banco Central SGS.</small></article>
+        </div>
+        <div class="hard-note">Carro, aluguel, comida, roupa, hotel, nota fiscal e contrato entram só com fonte verificável. Sem inventar para viralizar. Sem aliviar para blindar.</div>
+      </section>
+
+
+      <section id="mapa-investigacao" class="panel roadmap-panel">
+        <div class="panel-heading compact">
+          <p class="eyebrow">Passos 1, 2 e 3</p>
+          <h2>Dossiê mais forte, sem chute e sem medo.</h2>
+          <p>Cache oficial, equipe separada e CPGF granular: três camadas para cobrar melhor o governo Lula/PT sem misturar gasto pessoal com contexto.</p>
+        </div>
+        <div id="stepLayerCards" class="layer-grid"></div>
+        <div id="cpgfGranularSummary" class="hard-note">Carregando leitura granular do CPGF...</div>
+      </section>
+
+      <section id="noticias" class="panel news-panel">
+        <div class="panel-heading compact">
+          <p class="eyebrow">Links que importam</p>
+          <h2>Fonte antes de opinião. Ataque só com prova.</h2>
+          <p>Cada link mostra de onde saiu o número. Quem quiser defender o governo vai ter que brigar com a fonte, não com opinião.</p>
+        </div>
+        <div id="newsContext" class="news-list"></div>
+      </section>
+
+      <section id="ranking" class="panel ranking-panel">
+        <div class="panel-heading compact split">
+          <div>
+            <p class="eyebrow">Maiores contas primeiro</p>
+            <h2>O que pesa primeiro — sem cortina de fumaça.</h2>
+          </div>
+          <div class="toggle-group" role="group" aria-label="Ranking">
+            <button class="toggle active" data-ranking="direct">Janja</button>
+            <button class="toggle" data-ranking="all">Governo</button>
+          </div>
+        </div>
+        <div id="topExpenses" class="top-expenses"></div>
+      </section>
+
+      <section id="provas" class="panel proof-panel">
+        <div class="panel-heading compact">
+          <p class="eyebrow">Prova sem scroll infinito</p>
+          <h2>Abra só se quiser conferir.</h2>
+          <p>Mostramos o essencial para o povo entender rápido. A base completa fica filtrável e colapsada para quem quiser conferir.</p>
+        </div>
+        <details class="records-drawer">
+          <summary>Ver registros oficiais e filtros</summary>
+          <div class="filters">
+            <select id="yearFilter" aria-label="Filtrar por ano"><option value="all">Todos os anos</option></select>
+            <select id="categoryFilter" aria-label="Filtrar por categoria"><option value="all">Toda evidência</option></select>
+            <select id="expenseFilter" aria-label="Filtrar por tipo de gasto"><option value="all">Todo tipo de gasto</option></select>
+            <input id="searchInput" type="search" placeholder="Buscar destino, órgão, motivo..." />
+          </div>
+          <div id="recordsList" class="records-list"></div>
+        </details>
+      </section>
+
+      <section id="metodo" class="panel method-panel">
+        <div class="method-grid compact-method">
+          <article><h3>Direto</h3><p>Registros que aparecem ligados à Janja em base oficial de viagens.</p></article>
+          <article><h3>Contexto</h3><p>Equipe, comitiva, cartão e dívida aparecem separados para não inflar nem esconder.</p></article>
+          <article><h3>Mapa da investigação aberta</h3><p>Servidor por servidor, contrato, nota, carro, aluguel, comida e DOU.</p></article>
+        </div>
+      </section>
+
+      <section class="panel share-panel" id="publicar">
+        <div class="panel-heading compact split">
+          <div><p class="eyebrow">Para divulgar</p><h2>Texto curto para furar a blindagem.</h2></div>
+          <button class="button ghost" id="copyDraft">Copiar</button>
+        </div>
+        <pre id="xDraft">Carregando rascunho...</pre>
+      </section>
+    </main>
+
+    <footer>
+      <p><strong>Fiscalizando a Janja</strong> organiza dados públicos para cobrança cidadã. Não é sentença judicial. É fiscalização sobre dinheiro público, governo Lula/PT, Janja, Presidência, sigilo e transparência.</p>
+    </footer>
+    <script src="app.js?v=provas-diretas-20260430c" defer></script>
+  </body>
+</html>

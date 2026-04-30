@@ -1,0 +1,12 @@
+# Large downloaded official datasets; regenerate with npm run scan
+data/raw/*.zip
+
+# Local/system
+.DS_Store
+node_modules/
+.vercel/
+.env
+.env.*
+.vercel
+__pycache__/
+*.py[cod]
