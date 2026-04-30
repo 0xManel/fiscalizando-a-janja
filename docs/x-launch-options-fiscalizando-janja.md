@@ -6,7 +6,7 @@ Link do projeto:
 https://fiscalizando-a-janja.vercel.app
 
 Link do GitHub:
-A preencher após push público.
+https://github.com/0xManel/fiscalizando-a-janja
 
 ## Guardrail obrigatório
 
@@ -33,7 +33,7 @@ Site:
 https://fiscalizando-a-janja.vercel.app
 
 Código/fonte:
-[GitHub]
+https://github.com/0xManel/fiscalizando-a-janja
 
 ---
 
@@ -50,7 +50,7 @@ Fiscalizando a Janja:
 https://fiscalizando-a-janja.vercel.app
 
 GitHub aberto:
-[GitHub]
+https://github.com/0xManel/fiscalizando-a-janja
 
 ---
 
@@ -131,7 +131,7 @@ Não quero que isso dependa de fé.
 Quero fonte, dado, código e pressão pública.
 
 GitHub:
-[GitHub]
+https://github.com/0xManel/fiscalizando-a-janja
 
 ### 6/6
 

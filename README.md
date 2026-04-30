@@ -8,6 +8,10 @@ Site em produção:
 
 https://fiscalizando-a-janja.vercel.app
 
+Repositório público:
+
+https://github.com/0xManel/fiscalizando-a-janja
+
 ## O que este projeto faz
 
 - Baixa e processa bases públicas oficiais.
