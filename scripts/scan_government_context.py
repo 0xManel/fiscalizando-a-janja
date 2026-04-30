@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate official government-context data for Fiscalizando a Janja.
+"""Generate official government-context data for Fiscalizando a JANJA e o PT.
 
 Keeps this layer separate from Janja-specific totals. Uses public official sources:
 - Banco Central SGS for public debt indicators.
@@ -464,7 +464,7 @@ def build_sources_map() -> dict:
 def main() -> int:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     payload = {
-        "project": "Fiscalizando a Janja — contexto governo",
+        "project": "Fiscalizando a JANJA e o PT — contexto governo",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "editorial_rule": "Camada de governo é contexto de orçamento federal e dívida. Não deve ser somada ao total Janja nem chamada de gasto pessoal/partidário.",
         "debt": fetch_debt_series(),

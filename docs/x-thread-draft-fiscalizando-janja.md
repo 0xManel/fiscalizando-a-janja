@@ -1,4 +1,4 @@
-# Thread base — Fiscalizando a Janja
+# Thread base — Fiscalizando a JANJA e o PT
 
 Status: rascunho. Não publicado.
 

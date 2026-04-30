@@ -80,12 +80,12 @@ def main() -> None:
             by_year[year][field] = round(by_year[year][field] + brnum(r.get(field)), 2)
 
     db = {
-        "project": "Fiscalizando a Janja",
+        "project": "Fiscalizando a JANJA e o PT",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "schema_version": "1.1.0",
         "update_rule": "Gerado por scripts/build_dossier_db.py após scanners oficiais. Mantém camadas separadas para evitar atribuição falsa.",
         "headline": {
-            "watched_total_formula": "viagens federais + CPGF Presidência + estrutura/equipe Janja segundo fonte externa",
+            "watched_total_formula": "viagens federais + CPGF da Presidência + estrutura/equipe citada em fonte pública; não é gasto pessoal",
             "official_travel_federal_total": round(sum(brnum(y.get("total", {}).get("total")) for y in gov.get("official_travel", {}).get("by_year", {}).values()), 2),
             "cpgf_presidency_total": brnum(cpgf_total.get("total")),
             "janja_structure_total_2023_2024": brnum(summary.get("structure_context", {}).get("total_structure_cost_2023_2024")),

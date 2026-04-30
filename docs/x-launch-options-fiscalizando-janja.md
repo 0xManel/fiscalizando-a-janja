@@ -1,4 +1,4 @@
-# Opções de lançamento — Fiscalizando a Janja
+# Opções de lançamento — Fiscalizando a JANJA e o PT
 
 Status: rascunho. Nada publicado automaticamente.
 
@@ -24,7 +24,7 @@ Usar tom forte, irônico e de cobrança, mas manter o projeto defensável:
 
 O dinheiro é público. A conta também. A blindagem acabou.
 
-Criei o Fiscalizando a Janja: um dossiê aberto com dados públicos sobre Janja, governo Lula/PT, viagens, cartão da Presidência, sigilo e dívida.
+Criei o Fiscalizando a JANJA e o PT: um dossiê aberto com dados públicos sobre Janja, governo Lula/PT, viagens, cartão da Presidência, sigilo e dívida.
 
 Sem fonte, não vira acusação.
 Mas sigilo pago pelo povo não passa batido.
@@ -46,7 +46,7 @@ Viagens federais, cartão da Presidência, estrutura ligada ao poder, sigilo e d
 Não é gasto pessoal da Janja.
 É a máquina do governo Lula/PT exposta por camadas.
 
-Fiscalizando a Janja:
+Fiscalizando a JANJA e o PT:
 https://fiscalizando-a-janja.vercel.app
 
 GitHub aberto:
@@ -78,7 +78,7 @@ https://fiscalizando-a-janja.vercel.app
 
 O dinheiro é público. A conta também.
 
-Lancei o Fiscalizando a Janja: um dossiê aberto para acompanhar Janja, governo Lula/PT, Presidência, cartão corporativo, viagens, sigilo e dívida pública.
+Lancei o Fiscalizando a JANJA e o PT: um dossiê aberto para acompanhar Janja, governo Lula/PT, Presidência, cartão corporativo, viagens, sigilo e dívida pública.
 
 Sem fonte, não vira acusação.
 Mas sigilo pago pelo povo não passa batido.
@@ -139,7 +139,7 @@ Se você também acha que dinheiro público não deveria sumir atrás de sigilo,
 
 O brasileiro paga imposto demais para aceitar blindagem demais.
 
-Fiscalizando a Janja:
+Fiscalizando a JANJA e o PT:
 https://fiscalizando-a-janja.vercel.app
 
 ---
@@ -150,7 +150,7 @@ Dados públicos contra a blindagem. Fiscalizando Janja, governo Lula/PT, cartão
 
 ## Nome temporário
 
-Manel | Fiscalizando a Janja 🇧🇷
+Manel | Fiscalizando a JANJA e o PT 🇧🇷
 
 ## Pin recomendado
 

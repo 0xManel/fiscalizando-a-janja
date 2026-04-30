@@ -1,4 +1,4 @@
-# Pack de lançamento — Fiscalizando a Janja
+# Pack de lançamento — Fiscalizando a JANJA e o PT
 
 Status: rascunho pré-publicação. Nada publicado automaticamente.
 
@@ -6,7 +6,7 @@ Status: rascunho pré-publicação. Nada publicado automaticamente.
 
 Se é público, pode ser fiscalizado.
 
-Estou lançando o **Fiscalizando a Janja**: um dossiê aberto com dados públicos sobre Janja, equipe, Presidência, CPGF, sigilo e gastos do governo.
+Estou lançando o **Fiscalizando a JANJA e o PT**: um dossiê aberto com dados públicos sobre Janja, equipe, Presidência, CPGF, sigilo e gastos do governo.
 
 Sem achismo. Sem acusação sem prova. Só dados, contexto e fiscalização cidadã.
 
@@ -17,7 +17,7 @@ https://fiscalizando-a-janja.vercel.app
 ### Post 1
 Se é público, pode ser fiscalizado.
 
-Lancei o **Fiscalizando a Janja**: um dossiê aberto que organiza dados públicos sobre Janja, equipe, Presidência, CPGF, sigilo e gastos do governo.
+Lancei o **Fiscalizando a JANJA e o PT**: um dossiê aberto que organiza dados públicos sobre Janja, equipe, Presidência, CPGF, sigilo e gastos do governo.
 
 Sem fake news. Sem acusação sem prova. Registro por registro.
 
@@ -66,7 +66,7 @@ Opção principal, mantém tua linha ideológica e conecta com o projeto:
 
 Opção curta:
 
-> Dados públicos. Fiscalização cidadã. Tecnologia. Criador do Fiscalizando a Janja.
+> Dados públicos. Fiscalização cidadã. Tecnologia. Criador do Fiscalizando a JANJA e o PT.
 
 Opção com dev/investigação:
 

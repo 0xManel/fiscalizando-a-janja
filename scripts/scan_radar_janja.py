@@ -489,7 +489,7 @@ def write_outputs(records: list[Record]) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     records_sorted = sorted(records, key=lambda r: (r.date_start[-4:] if r.date_start else str(r.year), r.date_start, r.id), reverse=True)
     payload = {
-        "project": "Fiscalizando a Janja",
+        "project": "Fiscalizando a JANJA e o PT",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "methodology": {
             "scope": "Registros oficiais que mencionam Janja, Rosângela da Silva, Primeira-Dama ou agendas associadas. Nesta versão, a fonte primária automatizada é Viagens do Portal da Transparência; roupa/comida só são classificados se aparecerem explicitamente no texto oficial.",

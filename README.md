@@ -1,4 +1,4 @@
-# Fiscalizando a Janja
+# Fiscalizando a JANJA e o PT
 
 Dossiê público, direto e verificável sobre **Janja, governo Lula/PT, Presidência, cartão corporativo, sigilo, viagens oficiais e dívida pública**.
 

@@ -45,7 +45,7 @@
 .hero-caveat{gap:8px;flex-wrap:wrap}
 .hero-caveat span{color:#e9f6dd;text-transform:uppercase;letter-spacing:.08em;font-size:.78em;opacity:.92}
 @media(max-width:620px){
-  .topbar{padding:9px 0}.brand{gap:9px}.brand-mark{width:40px;height:40px;border-radius:14px}.brand strong{font-size:17px;letter-spacing:-.035em}.brand small{font-size:9px;letter-spacing:.14em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:250px}
+  .topbar{padding:9px 0}.brand{gap:9px;align-items:flex-start}.brand-mark{width:40px;height:40px;border-radius:14px;flex:0 0 auto}.brand strong{font-size:16px;line-height:1.05;letter-spacing:-.04em;white-space:normal}.brand small{font-size:9px;line-height:1.15;letter-spacing:.08em;white-space:normal;overflow:visible;text-overflow:clip;max-width:270px;margin-top:3px}
   .hero-redesign{padding-top:10px}.hero-main-card{border-radius:26px;padding:20px 15px 16px;background:radial-gradient(circle at 78% 0%,rgba(255,223,0,.18),transparent 34%),linear-gradient(150deg,rgba(12,71,28,.86),rgba(5,40,20,.94) 52%,rgba(0,39,118,.18));box-shadow:0 18px 54px rgba(0,0,0,.42)}
   .hero-main-card .eyebrow{font-size:11px;letter-spacing:.18em;margin-bottom:11px;line-height:1.25}.hero-main-card h1{font-size:clamp(58px,17vw,78px);line-height:.82;letter-spacing:-.085em;margin-bottom:10px;text-wrap:balance}
   .hero-caveat{display:flex;border-radius:16px;padding:9px 10px;margin:0 0 12px;background:linear-gradient(135deg,rgba(0,0,0,.48),rgba(255,223,0,.07));border-color:rgba(255,223,0,.34);line-height:1.18}.hero-caveat span{display:block;width:100%;font-size:10px;font-weight:950}.hero-caveat strong{display:block;color:#fff3a8;font-size:14px;line-height:1.18}
