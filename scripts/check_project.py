@@ -84,7 +84,7 @@ html = (ROOT / "index.html")
 app = (ROOT / "app.js")
 if html.exists():
     text = html.read_text(encoding="utf-8")
-    for token in ["Fiscalizando a JANJA e o PT", "Dinheiro público contra a blindagem", "Veja a conta que o discurso tenta esconder", "Viagens e comidas", "Passos 1, 2 e 3", "O que é de quem", "Links que importam", "Top 10 rastreável", "Prova sem scroll infinito", "Sem fonte, não vira acusação"]:
+    for token in ["Fiscalizando a JANJA e o PT", "Dinheiro público contra corrupção e desperdício", "Veja a conta que o discurso tenta esconder", "Viagens e comidas", "Passos 1, 2 e 3", "O que é de quem", "Links que importam", "Top 10 rastreável", "Prova sem scroll infinito", "Sem fonte, não vira acusação"]:
         if token not in text:
             errors.append(f"index missing token: {token}")
 if app.exists():

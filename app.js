@@ -86,7 +86,7 @@ function renderSummary() {
   const secretRatio = Number(cpgf.total) ? (Number(secret.total || 0) / Number(cpgf.total)) * 100 : 0;
   const headline = dossierPayload?.headline || {};
   animateNumber(document.getElementById('governmentGrandTotal'), watchedGovernment, { compact: true, duration: 1300 });
-  renderHeroLatestSpend();
+  renderHero2025Spend();
   setText('heroTravelTotal', shortMoney(totals().federalTravelTotal));
   setText('heroCpgfTotal', shortMoney(cpgf.total));
   setText('heroStructureTotal', shortMoney(totals().structure));
@@ -97,6 +97,7 @@ function renderSummary() {
   setText('truthDirect', shortMoney(summary.direct_total));
   setText('truthContext', shortMoney(Number(summary.support_and_mentions_total || 0) + Number(summary.structure_context?.total_structure_cost_2023_2024 || 0)));
   setText('truthGovernment', shortMoney(watchedGovernment));
+  setText('publicReading', `Leitura correta: ${shortMoney(watchedGovernment)} é governo sob lupa. Direto Janja: ${shortMoney(summary.direct_total)}. Equipe/Presidência/CPGF/dívida ficam separados — não é gasto pessoal sem prova direta.`);
   setText('structureTotal', shortMoney(summary.structure_context?.total_structure_cost_2023_2024));
   setText('cpgfPresidencyTotal', shortMoney(cpgf.total));
   setText('cpgfSecretTotal', shortMoney(secret.total));
@@ -111,24 +112,29 @@ function renderSummary() {
   setText('lastUpdate', `Última varredura: ${generated ? generated.toLocaleString('pt-BR') : '—'}`);
 }
 
-function renderHeroLatestSpend() {
-  const box = document.getElementById('heroLatestSpend');
+function renderHero2025Spend() {
+  const box = document.getElementById('hero2025Spend');
   if (!box) return;
-  const clean = (records || [])
-    .filter(r => !['possivel_homonimo_ou_nao_confirmado', 'nao_confirmado'].includes(r.category))
-    .sort((a, b) => String(b.date_start_iso || '').localeCompare(String(a.date_start_iso || '')) || Number(b.total || 0) - Number(a.total || 0));
-  const latestDirect = clean.find(r => r.counted_in_direct_total);
-  const latest = latestDirect || clean[0];
-  if (!latest) {
-    box.innerHTML = '<span>Último gasto relevante</span><strong>Sem registro carregado</strong><small>A base será atualizada na próxima varredura.</small>';
+  const safeCategories = new Set([
+    'gasto_direto_identificado',
+    'gasto_direto_em_comitiva',
+    'equipe_apoio_primeira_dama',
+    'agenda_com_mencao',
+    'comitiva_presidencial_com_mencao'
+  ]);
+  const yearRecords = (records || []).filter(r => String(r.date_start_iso || r.date_start || '').startsWith('2025') && safeCategories.has(r.category));
+  const janjaContext2025 = yearRecords.reduce((sum, r) => sum + Number(r.total || 0), 0);
+  const federalTravel2025 = Number(govPayload?.official_travel?.by_year?.['2025']?.total?.total || 0);
+  const cpgf2025 = Number(govPayload?.cpgf_presidency?.by_year?.['2025']?.total || 0);
+  const foodLike2025 = Number(govPayload?.cpgf_presidency?.by_year?.['2025']?.food_like_total || 0);
+  if (!yearRecords.length && !federalTravel2025 && !cpgf2025) {
+    box.innerHTML = '<span>2025 sob lupa</span><strong>Sem base carregada</strong><small>A próxima varredura atualiza o recorte anual.</small>';
     return;
   }
-  const label = latest.counted_in_direct_total ? 'Direto Janja' : categoryLabel(latest.category);
-  const place = latest.destination || latest.orgao || 'sem destino informado';
-  box.innerHTML = `<span>Último gasto relevante</span>
-    <strong>${money(latest.total)}</strong>
-    <small>${escapeHtml(latest.date_start || 'sem data')} • ${escapeHtml(place)} • ${escapeHtml(label)}</small>
-    <a href="${escapeAttr(latest.source_url)}" target="_blank" rel="noopener noreferrer">ver fonte oficial</a>`;
+  box.innerHTML = `<span>2025 sob lupa</span>
+    <strong>${shortMoney(janjaContext2025)}</strong>
+    <small>Janja + equipe/comitiva/menções oficiais em 2025 • ${yearRecords.length} registros com fonte.</small>
+    <em>Viagens federais 2025: ${shortMoney(federalTravel2025)} • CPGF Presidência: ${shortMoney(cpgf2025)} • pistas comida: ${shortMoney(foodLike2025)}</em>`;
 }
 
 function renderRecentSignals() {
@@ -147,7 +153,7 @@ function renderRecentSignals() {
     const contextLabel = r.counted_in_direct_total ? 'direto Janja' : 'parte separada';
     const explanation = r.counted_in_direct_total
       ? 'Registro oficial em nome de Rosângela da Silva. É a prova mais direta do recorte — sem enrolação.'
-      : 'Menção, apoio ou comitiva: não entra como gasto pessoal direto, mas serve para apertar a blindagem.';
+      : 'Menção, apoio ou comitiva: não entra como gasto pessoal direto, mas serve para cobrar transparência.';
     const urgency = String(r.urgent || '').toUpperCase() === 'SIM' ? '<span class="urgent-chip">urgente</span>' : '';
     return `<article class="quick-log-card ${r.counted_in_direct_total ? 'direct-proof' : ''}">
       <div><strong>${money(r.total)}</strong><small>${escapeHtml(r.date_start || 'sem data')} • ${escapeHtml(r.destination || 'sem destino')}</small></div>
@@ -390,7 +396,7 @@ function renderRecords() {
 function renderDraft() {
   const { summary, cpgf, watchedGovernment, secret } = totals();
   const headline = dossierPayload?.headline || {};
-  const draft = `${shortMoney(watchedGovernment)} de dinheiro público sob fiscalização.\n\nO painel mostra, separado e com fonte:\n• viagens federais oficiais: ${money(headline.official_travel_federal_total || totals().federalTravelTotal)}\n• Janja direto: ${money(summary.direct_total)}\n• Janja + contexto/comitiva: ${money(summary.janja_direct_total_all_contexts ?? summary.direct_total)}\n• cartão da Presidência: ${money(cpgf.total)}\n• favorecido sigiloso: ${money(secret.total)}\n\nNúmero na tela. Fonte aberta. Cobrança sem blindagem.\n\nhttps://fiscalizando-a-janja.vercel.app`;
+  const draft = `${shortMoney(watchedGovernment)} de dinheiro público sob fiscalização.\n\nO painel mostra, separado e com fonte:\n• viagens federais oficiais: ${money(headline.official_travel_federal_total || totals().federalTravelTotal)}\n• Janja direto: ${money(summary.direct_total)}\n• Janja + contexto/comitiva: ${money(summary.janja_direct_total_all_contexts ?? summary.direct_total)}\n• cartão da Presidência: ${money(cpgf.total)}\n• favorecido sigiloso: ${money(secret.total)}\n\nNúmero na tela. Fonte aberta. Contra corrupção e desperdício.\n\nhttps://fiscalizando-a-janja.vercel.app`;
   setText('xDraft', draft);
 }
 

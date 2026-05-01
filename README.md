@@ -24,9 +24,9 @@ https://github.com/0xManel/fiscalizando-a-janja
   - **Presidência/CPGF:** camada do governo federal; não é atribuição pessoal automática.
   - **Pista:** termo ou padrão que merece investigação, mas ainda não é prova direta.
 
-## Correção anti-fake antes do lançamento
+## Leitura correta do placar
 
-Este projeto **não** afirma que “Janja gastou R$ 7 bilhões em viagens”.
+Este projeto separa o número grande de governo sob lupa do gasto direto identificado em nome da Janja.
 
 A leitura correta é:
 
@@ -35,7 +35,7 @@ A leitura correta é:
 - **R$ 236,7 mil**: total direto conservador em registros oficiais ligados à Janja.
 - **R$ 239,8 mil**: Janja + contexto/comitiva no recorte de viagens.
 
-Qualquer valor de Presidência, equipe, CPGF, comitiva ou sigilo deve ficar separado do gasto pessoal direto.
+Qualquer valor de Presidência, equipe, CPGF, comitiva ou sigilo fica separado do gasto pessoal direto.
 
 ## Princípios editoriais
 
