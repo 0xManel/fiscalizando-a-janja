@@ -351,7 +351,7 @@ def scan_official_travel_context() -> dict:
             "outros": dec_float(vals["outros"]),
             "devolucao": dec_float(vals["devolucao"]),
             "source_url": f"https://portaldatransparencia.gov.br/download-de-dados/viagens/{year}",
-            "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático.",
+            "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático.",
         }
 
     def keep_top(bucket: list[dict], item: dict, limit: int = 40) -> None:
@@ -399,7 +399,7 @@ def scan_official_travel_context() -> dict:
     top_orgs_all = sorted(by_org_total.items(), key=lambda kv: kv[1]["total"], reverse=True)[:12]
     return {
         "source": "Portal da Transparência — Download de Viagens",
-        "scope_note": "Total federal de viagens oficiais 2023–2026. É contexto da máquina pública; não é gasto pessoal da Janja nem do PT.",
+        "scope_note": "Total federal de viagens oficiais 2023–2026. É contexto da estrutura federal; não é gasto pessoal da Janja nem do PT.",
         "by_year": by_year,
         "presidency_context_2023_2026": {k: (int(v) if k == "count" else dec_float(v)) for k, v in presidency.items()},
         "top_orgs_2023_2026": [{"org": name, **{k: (int(v) if k == "count" else dec_float(v)) for k, v in vals.items()}} for name, vals in top_orgs_all],

@@ -35,10 +35,10 @@
         <article class="hero-main-card">
           <p class="eyebrow">Dinheiro público contra corrupção e desperdício</p>
           <h1 id="governmentGrandTotal">R$ —</h1>
-          <div class="hero-2025-spend" id="hero2025Spend" aria-label="Gasto de 2025 sob lupa">
-            <span>2025 sob lupa</span>
-            <strong>Carregando gasto de 2025...</strong>
-            <small>Janja, equipe/comitiva e bases oficiais aparecem separados aqui.</small>
+          <div class="hero-2025-spend" id="hero2025Spend" aria-label="Gasto do ano em curso sob lupa">
+            <span>Ano em curso sob lupa</span>
+            <strong>Carregando recorte anual...</strong>
+            <small>Janja, equipe/comitiva, Presidência e CPGF aparecem separados aqui.</small>
           </div>
           <div class="mobile-hero-breakdown" aria-label="Resumo do placar">
             <div><span>Viagens federais</span><strong id="heroTravelTotal">R$ —</strong></div>
@@ -49,13 +49,12 @@
           <div class="public-claim-strip" id="publicReading"><b>Leitura correta:</b> número grande é governo sob lupa. Gasto direto Janja: carregando. Presidência, equipe, CPGF e dívida ficam em camadas separadas.</div>
           <div class="hero-warning">O brasileiro paga imposto. Se o governo gasta, o povo tem direito de ver a conta. Aqui é número na tela, fonte aberta e cobrança sem pedir licença.</div>
           <div class="hero-actions" aria-label="Ações principais">
-            <a class="primary-action" href="#provas">Ver provas oficiais</a>
-            <a class="secondary-action" href="#noticias">Abrir fontes — sem maquiagem</a>
+            <a class="primary-action" href="#provas">Ver provas na página</a>
           </div>
-          <div class="source-tape" aria-label="Fontes primárias usadas">
-            <a href="https://portaldatransparencia.gov.br/download-de-dados/viagens/2026" target="_blank" rel="noopener noreferrer">Viagens oficiais</a>
-            <a href="https://portaldatransparencia.gov.br/download-de-dados/cpgf/202604" target="_blank" rel="noopener noreferrer">CPGF Presidência</a>
-            <a href="https://www.bcb.gov.br/estatisticas/tabelasespeciais" target="_blank" rel="noopener noreferrer">Dívida BCB</a>
+          <div class="source-tape source-tape-plain" aria-label="Fontes primárias usadas">
+            <span>Viagens oficiais: https://portaldatransparencia.gov.br/download-de-dados/viagens/2026</span>
+            <span>CPGF Presidência: https://portaldatransparencia.gov.br/download-de-dados/cpgf/202604</span>
+            <span>Dívida BCB: https://www.bcb.gov.br/estatisticas/tabelasespeciais</span>
           </div>
           <div class="audit-mini-strip" aria-label="Conferência rápida do placar">
             <div><span>Base lida</span><strong id="heroRecordCount">—</strong><small>registros indexados</small></div>
@@ -128,6 +127,11 @@
             <div class="chart-head"><b>Dívida bruta: antes x agora</b><span>Banco Central • % do PIB</span></div>
             <div id="debtChart" class="bar-chart"></div>
             <p class="chart-caveat">Dívida é contexto fiscal do governo. Não é despesa pessoal; é a conta grande que torna cada gasto público mais cobrável.</p>
+          </article>
+          <article class="chart-card cpgf-chart-card">
+            <div class="chart-head"><b>CPGF Presidência: últimos meses</b><span>cartão corporativo</span></div>
+            <div id="cpgfMonthChart" class="bar-chart"></div>
+            <p class="chart-caveat">Cartão da Presidência sob lupa. Valor sigiloso cobra transparência; não identifica gasto pessoal da Janja.</p>
           </article>
         </div>
       </section>
@@ -256,6 +260,6 @@
     <footer>
       <p><strong>Fiscalizando a JANJA e o PT</strong> organiza dados públicos para cobrança cidadã. Não é sentença judicial. É fiscalização sobre dinheiro público, governo Lula/PT, Janja, Presidência, sigilo e transparência.</p>
     </footer>
-    <script src="app.js?v=gov-proof-20260501b" defer></script>
+    <script src="app.js?v=gov-proof-20260501c" defer></script>
   </body>
 </html>

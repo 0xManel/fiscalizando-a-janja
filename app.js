@@ -24,6 +24,11 @@ function headlineMoney(value) {
 function setText(id, value) { const el = document.getElementById(id); if (el) el.textContent = value; }
 function escapeHtml(value) { return String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[ch])); }
 function escapeAttr(value) { return escapeHtml(value).replace(/`/g, '&#096;'); }
+function sourceText(url, label = 'Fonte') {
+  const clean = String(url || '').trim();
+  if (!clean) return `<span class="source-url empty-source">${escapeHtml(label)}: sem link público</span>`;
+  return `<span class="source-url">${escapeHtml(label)}: ${escapeHtml(clean)}</span>`;
+}
 function shortText(value, max = 130) { const s = String(value || '').trim(); return s.length > max ? `${s.slice(0, max - 1)}…` : s; }
 function pct(value) { return `${Number(value || 0).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`; }
 
@@ -120,6 +125,10 @@ function renderSummary() {
 function renderHero2025Spend() {
   const box = document.getElementById('hero2025Spend');
   if (!box) return;
+  const travelYears = Object.keys(govPayload?.official_travel?.by_year || {}).map(Number).filter(Boolean);
+  const cpgfYears = Object.keys(govPayload?.cpgf_presidency?.by_year || {}).map(Number).filter(Boolean);
+  const recordYears = (records || []).map(r => Number(r.year || String(r.date_start_iso || '').slice(0, 4))).filter(Boolean);
+  const latestYear = Math.max(...travelYears, ...cpgfYears, ...recordYears, new Date().getFullYear());
   const safeCategories = new Set([
     'gasto_direto_identificado',
     'gasto_direto_em_comitiva',
@@ -127,19 +136,19 @@ function renderHero2025Spend() {
     'agenda_com_mencao',
     'comitiva_presidencial_com_mencao'
   ]);
-  const yearRecords = (records || []).filter(r => String(r.date_start_iso || r.date_start || '').startsWith('2025') && safeCategories.has(r.category));
-  const janjaContext2025 = yearRecords.reduce((sum, r) => sum + Number(r.total || 0), 0);
-  const federalTravel2025 = Number(govPayload?.official_travel?.by_year?.['2025']?.total?.total || 0);
-  const cpgf2025 = Number(govPayload?.cpgf_presidency?.by_year?.['2025']?.total || 0);
-  const foodLike2025 = Number(govPayload?.cpgf_presidency?.by_year?.['2025']?.food_like_total || 0);
-  if (!yearRecords.length && !federalTravel2025 && !cpgf2025) {
-    box.innerHTML = '<span>2025 sob lupa</span><strong>Sem base carregada</strong><small>A próxima varredura atualiza o recorte anual.</small>';
+  const yearRecords = (records || []).filter(r => Number(r.year || String(r.date_start_iso || '').slice(0, 4)) === latestYear && safeCategories.has(r.category));
+  const janjaContextYear = yearRecords.reduce((sum, r) => sum + Number(r.total || 0), 0);
+  const federalTravelYear = Number(govPayload?.official_travel?.by_year?.[String(latestYear)]?.total?.total || 0);
+  const cpgfYear = Number(govPayload?.cpgf_presidency?.by_year?.[String(latestYear)]?.total || 0);
+  const foodLikeYear = Number(govPayload?.cpgf_presidency?.by_year?.[String(latestYear)]?.food_like_total || 0);
+  if (!yearRecords.length && !federalTravelYear && !cpgfYear) {
+    box.innerHTML = `<span>${latestYear} sob lupa</span><strong>Sem base carregada</strong><small>A próxima varredura atualiza o recorte anual.</small>`;
     return;
   }
-  box.innerHTML = `<span>2025 sob lupa</span>
-    <strong>${shortMoney(janjaContext2025)}</strong>
-    <small>Janja + equipe/comitiva/menções oficiais em 2025 • ${yearRecords.length} registros com fonte.</small>
-    <em>Viagens federais 2025: ${shortMoney(federalTravel2025)} • CPGF Presidência: ${shortMoney(cpgf2025)} • pistas comida: ${shortMoney(foodLike2025)}</em>`;
+  box.innerHTML = `<span>${latestYear} sob lupa</span>
+    <strong>${shortMoney(federalTravelYear + cpgfYear + janjaContextYear)}</strong>
+    <small>Governo no ano: viagens federais + CPGF Presidência + registros Janja/contexto. Direto pessoal só quando a linha oficial prova.</small>
+    <em>Janja/contexto ${latestYear}: ${shortMoney(janjaContextYear)} (${yearRecords.length} regs.) • Viagens federais: ${shortMoney(federalTravelYear)} • CPGF Presidência: ${shortMoney(cpgfYear)} • pistas comida: ${shortMoney(foodLikeYear)}</em>`;
 }
 
 function renderRecentSignals() {
@@ -163,7 +172,7 @@ function renderRecentSignals() {
     return `<article class="quick-log-card ${r.counted_in_direct_total ? 'direct-proof' : ''}">
       <div><strong>${money(r.total)}</strong><small>${escapeHtml(r.date_start || 'sem data')} • ${escapeHtml(r.destination || 'sem destino')}</small></div>
       <p>${escapeHtml(explanation)}</p>
-      <footer><span>${escapeHtml(category)}</span><span>${escapeHtml(contextLabel)}</span>${urgency}<a href="${escapeAttr(r.source_url)}" target="_blank" rel="noopener noreferrer">fonte oficial</a></footer>
+      <footer><span>${escapeHtml(category)}</span><span>${escapeHtml(contextLabel)}</span>${urgency}${sourceText(r.source_url, 'Fonte oficial')}</footer>
     </article>`;
   }).join('') || '<p class="empty">Sem novos sinais relevantes nos filtros atuais.</p>';
 }
@@ -210,6 +219,7 @@ function renderCharts() {
   renderGovYearChart();
   renderJanjaMonthChart();
   renderDebtChart();
+  renderCpgfMonthChart();
 }
 function renderBarChart(id, rows, { moneyMode = true, valueFormatter = null } = {}) {
   const box = document.getElementById(id);
@@ -252,6 +262,17 @@ function renderDebtChart() {
   });
 }
 
+function renderCpgfMonthChart() {
+  const byMonth = govPayload?.cpgf_presidency?.by_month || dossierPayload?.cpgf_granular?.by_month || {};
+  const rows = Object.entries(byMonth)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .slice(-8)
+    .map(([key, value]) => {
+      const total = Number(value.total || value?.total?.total || 0);
+      return { label: `${key.slice(4, 6)}/${key.slice(2, 4)}`, value: total };
+    });
+  renderBarChart('cpgfMonthChart', rows);
+}
 
 function renderGovTopTrips() {
   const box = document.getElementById('govTopTrips');
@@ -262,7 +283,7 @@ function renderGovTopTrips() {
     <strong>${money(r.total)}</strong>
     <p>${escapeHtml(shortText(`${r.beneficiary || 'beneficiário'} • ${r.destination || 'sem destino'}`, 105))}</p>
     <small>${escapeHtml(r.caveat || 'Contexto federal; não é gasto pessoal automático.')}</small>
-    <a href="${escapeAttr(r.source_url)}" target="_blank" rel="noopener noreferrer">fonte oficial</a>
+    ${sourceText(r.source_url, 'Fonte oficial')}
   </article>`).join('') || '<p class="empty">Sem ranking federal carregado.</p>';
 }
 
@@ -283,7 +304,7 @@ function renderTravelFood() {
   const directBox = document.getElementById('travelFoodList');
   if (directBox) {
     const rows = (direct.top_records || []).slice(0, 6);
-    directBox.innerHTML = rows.map(r => `<article class="mini-expense"><div><b>${escapeHtml(r.date_start || 'sem data')}</b><span>${escapeHtml(r.destination || 'sem destino')}</span></div><strong>${money(r.total)}</strong><p>${escapeHtml(shortText(r.objective, 115))}</p><a href="${escapeAttr(r.source_url)}" target="_blank" rel="noopener noreferrer">fonte oficial</a></article>`).join('') || '<p class="empty">Sem viagens diretas identificadas.</p>';
+    directBox.innerHTML = rows.map(r => `<article class="mini-expense"><div><b>${escapeHtml(r.date_start || 'sem data')}</b><span>${escapeHtml(r.destination || 'sem destino')}</span></div><strong>${money(r.total)}</strong><p>${escapeHtml(shortText(r.objective, 115))}</p>${sourceText(r.source_url, 'Fonte oficial')}</article>`).join('') || '<p class="empty">Sem viagens diretas identificadas.</p>';
   }
   const foodBox = document.getElementById('foodClueList');
   if (foodBox) {
@@ -311,7 +332,7 @@ function renderNewsContext() {
     { tag: 'Dívida', stat: `${Number(dbgg.latest_value || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}% PIB`, title: 'Banco Central: dívida bruta em patamar alto', text: 'Quando a conta pública explode, quem paga é o contribuinte — não o discurso.', url: 'https://www.bcb.gov.br/estatisticas/tabelasespeciais', source: 'BCB SGS' },
     { tag: 'Meta fiscal', stat: 'R$ 324 bi', title: 'Gasto fora da meta vira pergunta pública', text: 'Contexto macro: bilhões fora da regra não podem virar nota de rodapé.', url: 'https://www.poder360.com.br/poder-economia/lula-gasta-r-324-bilhoes-fora-da-meta-fiscal-em-3-anos/', source: 'Poder360' }
   ];
-  box.innerHTML = items.map(item => `<article class="news-item"><div><span>${escapeHtml(item.tag)}</span><strong>${escapeHtml(item.stat)}</strong></div><div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.text)}</p><em>Camada de contexto — não é atribuição pessoal sem prova direta. É cobrança pública com fonte.</em><a href="${escapeAttr(item.url)}" target="_blank" rel="noopener noreferrer">Abrir fonte: ${escapeHtml(item.source)}</a></div></article>`).join('');
+  box.innerHTML = items.map(item => `<article class="news-item"><div><span>${escapeHtml(item.tag)}</span><strong>${escapeHtml(item.stat)}</strong></div><div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.text)}</p><em>Camada de contexto — não é atribuição pessoal sem prova direta. É cobrança pública com fonte.</em>${sourceText(item.url, `Fonte ${item.source}`)}</div></article>`).join('');
 }
 
 function setupRankingToggle() {
@@ -324,10 +345,10 @@ function setupRankingToggle() {
   });
 }
 function govTravelCard(r, idx, label) {
-  return `<article class="top-card"><div class="rank">${idx + 1}</div><div><div class="top-money">${money(r.total)}</div><h3>${escapeHtml(label || r.org || r.paying_org || 'Viagem oficial federal')}</h3><p>${escapeHtml(r.date_start || r.year || 'Sem data')} • ${escapeHtml(r.destination || 'Sem destino')}</p><small>${escapeHtml(shortText(r.objective || 'Motivo não detalhado na linha pública.', 145))}</small><details><summary>Ver explicação e fonte</summary><small>Órgão: ${escapeHtml(r.org || r.paying_org || '—')}<br>Passagens: ${money(r.passagens)} • Diárias: ${money(r.diarias)} • Outros: ${money(r.outros)}<br>${escapeHtml(r.caveat || 'Contexto; não é gasto pessoal automático.')}</small></details><a href="${escapeAttr(r.source_url || 'https://portaldatransparencia.gov.br/download-de-dados/viagens/2025')}" target="_blank" rel="noopener noreferrer">fonte oficial</a></div></article>`;
+  return `<article class="top-card"><div class="rank">${idx + 1}</div><div><div class="top-money">${money(r.total)}</div><h3>${escapeHtml(label || r.org || r.paying_org || 'Viagem oficial federal')}</h3><p>${escapeHtml(r.date_start || r.year || 'Sem data')} • ${escapeHtml(r.destination || 'Sem destino')}</p><small>${escapeHtml(shortText(r.objective || 'Motivo não detalhado na linha pública.', 145))}</small><details><summary>Ver explicação e fonte</summary><small>Órgão: ${escapeHtml(r.org || r.paying_org || '—')}<br>Passagens: ${money(r.passagens)} • Diárias: ${money(r.diarias)} • Outros: ${money(r.outros)}<br>${escapeHtml(r.caveat || 'Contexto; não é gasto pessoal automático.')}</small></details>${sourceText(r.source_url || 'https://portaldatransparencia.gov.br/download-de-dados/viagens/2025', 'Fonte oficial')}</div></article>`;
 }
 function radarTravelCard(r, idx) {
-  return `<article class="top-card"><div class="rank">${idx + 1}</div><div><div class="top-money">${money(r.total)}</div><h3>${escapeHtml(r.expense_label || categoryLabel(r.category))}</h3><p>${escapeHtml(r.date_start || 'Sem data')} • ${escapeHtml(r.destination || 'Sem destino')}</p><small>${escapeHtml(shortText(r.objective || '', 145))}</small><details><summary>Ver explicação e fonte</summary><small>Beneficiário: ${escapeHtml(r.beneficiary || '—')}<br>Órgão: ${escapeHtml(r.orgao_pagador || r.orgao || '—')}<br>Tipo: ${escapeHtml(categoryLabel(r.category))}<br>Passagens: ${money(r.passagens)} • Diárias: ${money(r.diarias)} • Outros: ${money(r.outros)}</small></details><a href="${escapeAttr(r.source_url || 'https://portaldatransparencia.gov.br/download-de-dados/viagens/2025')}" target="_blank" rel="noopener noreferrer">fonte oficial</a></div></article>`;
+  return `<article class="top-card"><div class="rank">${idx + 1}</div><div><div class="top-money">${money(r.total)}</div><h3>${escapeHtml(r.expense_label || categoryLabel(r.category))}</h3><p>${escapeHtml(r.date_start || 'Sem data')} • ${escapeHtml(r.destination || 'Sem destino')}</p><small>${escapeHtml(shortText(r.objective || '', 145))}</small><details><summary>Ver explicação e fonte</summary><small>Beneficiário: ${escapeHtml(r.beneficiary || '—')}<br>Órgão: ${escapeHtml(r.orgao_pagador || r.orgao || '—')}<br>Tipo: ${escapeHtml(categoryLabel(r.category))}<br>Passagens: ${money(r.passagens)} • Diárias: ${money(r.diarias)} • Outros: ${money(r.outros)}</small></details>${sourceText(r.source_url || 'https://portaldatransparencia.gov.br/download-de-dados/viagens/2025', 'Fonte oficial')}</div></article>`;
 }
 function cpgfCard(r, idx) {
   return `<article class="top-card"><div class="rank">${idx + 1}</div><div><div class="top-money">${money(r.total)}</div><h3>${escapeHtml(r.favored || 'Favorecido informado/sigiloso')}</h3><p>${escapeHtml(r.count || 0)} transações • CPGF Presidência</p><small>Camada de cartão da Presidência. Quando o favorecido é sigiloso, o dado cobra transparência — não identifica quem recebeu.</small></div></article>`;
@@ -395,7 +416,7 @@ function filteredRecords() {
 function renderRecords() {
   const list = document.getElementById('recordsList');
   const rows = filteredRecords().slice(0, 20);
-  list.innerHTML = rows.map(r => `<article class="record"><div class="record-head"><div><b>${escapeHtml(r.expense_label || 'Registro oficial')}</b><span>${escapeHtml(r.date_start || 'Sem data')} • ${escapeHtml(r.destination || 'Sem destino')}</span></div><strong>${money(r.total)}</strong></div><p>${escapeHtml(shortText(r.objective || r.simple_explanation, 140))}</p><div class="tags"><span class="tag ${confidenceClass(r.confidence)}">${categoryLabel(r.category)}</span><span class="tag">${r.counted_in_direct_total ? 'entra no direto' : 'contexto'}</span></div><details><summary>Detalhes da prova</summary><small>Beneficiário: ${escapeHtml(r.beneficiary || '—')}<br>Órgão: ${escapeHtml(r.orgao_pagador || r.orgao || '—')}<br>Passagens: ${money(r.passagens)} • Diárias: ${money(r.diarias)} • Outros: ${money(r.outros)}</small></details><a href="${escapeAttr(r.source_url)}" target="_blank" rel="noopener noreferrer">Abrir fonte oficial</a></article>`).join('') || '<p class="empty">Nenhum registro para os filtros atuais.</p>';
+  list.innerHTML = rows.map(r => `<article class="record"><div class="record-head"><div><b>${escapeHtml(r.expense_label || 'Registro oficial')}</b><span>${escapeHtml(r.date_start || 'Sem data')} • ${escapeHtml(r.destination || 'Sem destino')}</span></div><strong>${money(r.total)}</strong></div><p>${escapeHtml(shortText(r.objective || r.simple_explanation, 140))}</p><div class="tags"><span class="tag ${confidenceClass(r.confidence)}">${categoryLabel(r.category)}</span><span class="tag">${r.counted_in_direct_total ? 'entra no direto' : 'contexto'}</span></div><details><summary>Detalhes da prova</summary><small>Beneficiário: ${escapeHtml(r.beneficiary || '—')}<br>Órgão: ${escapeHtml(r.orgao_pagador || r.orgao || '—')}<br>Passagens: ${money(r.passagens)} • Diárias: ${money(r.diarias)} • Outros: ${money(r.outros)}</small></details>${sourceText(r.source_url, 'Fonte oficial')}</article>`).join('') || '<p class="empty">Nenhum registro para os filtros atuais.</p>';
 }
 
 function renderDraft() {

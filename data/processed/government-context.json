@@ -1,6 +1,6 @@
 {
   "project": "Fiscalizando a JANJA e o PT — contexto governo",
-  "generated_at": "2026-05-01T01:29:21.691211+00:00",
+  "generated_at": "2026-05-01T02:04:29.290267+00:00",
   "editorial_rule": "Camada de governo é contexto de orçamento federal e dívida. Não deve ser somada ao total Janja nem chamada de gasto pessoal/partidário.",
   "debt": {
     "dbgg_pct_pib": {
@@ -663,7 +663,7 @@
   },
   "official_travel": {
     "source": "Portal da Transparência — Download de Viagens",
-    "scope_note": "Total federal de viagens oficiais 2023–2026. É contexto da máquina pública; não é gasto pessoal da Janja nem do PT.",
+    "scope_note": "Total federal de viagens oficiais 2023–2026. É contexto da estrutura federal; não é gasto pessoal da Janja nem do PT.",
     "by_year": {
       "2023": {
         "source": "Portal da Transparência — Viagens",
@@ -1217,7 +1217,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2024",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1235,7 +1235,7 @@
         "outros": 1976.95,
         "devolucao": 590.94,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1253,7 +1253,7 @@
         "outros": 927.62,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1271,7 +1271,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1289,7 +1289,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2024,
@@ -1307,7 +1307,7 @@
         "outros": 1665.03,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2024",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1325,7 +1325,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1343,7 +1343,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1361,7 +1361,7 @@
         "outros": 663.02,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2023,
@@ -1379,7 +1379,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2023",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2024,
@@ -1397,7 +1397,7 @@
         "outros": 860.85,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2024",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2023,
@@ -1415,7 +1415,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2023",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1433,7 +1433,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2023,
@@ -1451,7 +1451,7 @@
         "outros": 5581.48,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2023",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2023,
@@ -1469,7 +1469,7 @@
         "outros": 5625.81,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2023",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2023,
@@ -1487,7 +1487,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2023",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2023,
@@ -1505,7 +1505,7 @@
         "outros": 9511.35,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2023",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2023,
@@ -1523,7 +1523,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2023",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1541,7 +1541,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1559,7 +1559,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       }
     ],
     "top_presidency_travel_records_2023_2026": [
@@ -1579,7 +1579,7 @@
         "outros": 1665.03,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2024",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1597,7 +1597,7 @@
         "outros": 663.02,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2023,
@@ -1615,7 +1615,7 @@
         "outros": 5581.48,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2023",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2023,
@@ -1633,7 +1633,7 @@
         "outros": 5625.81,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2023",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1651,7 +1651,7 @@
         "outros": 175.73,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2024,
@@ -1669,7 +1669,7 @@
         "outros": 486.54,
         "devolucao": 585.95,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2024",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1687,7 +1687,7 @@
         "outros": 199.58,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1705,7 +1705,7 @@
         "outros": 0.0,
         "devolucao": 619.25,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1723,7 +1723,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1741,7 +1741,7 @@
         "outros": 838.83,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1759,7 +1759,7 @@
         "outros": 232.67,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2024,
@@ -1777,7 +1777,7 @@
         "outros": 599.98,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2024",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2026,
@@ -1795,7 +1795,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2026",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1813,7 +1813,7 @@
         "outros": 0.0,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1831,7 +1831,7 @@
         "outros": 357.26,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2023,
@@ -1849,7 +1849,7 @@
         "outros": 272.13,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2023",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1867,7 +1867,7 @@
         "outros": 249.02,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2024,
@@ -1885,7 +1885,7 @@
         "outros": 311.53,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2024",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2024,
@@ -1903,7 +1903,7 @@
         "outros": 670.54,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2024",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       },
       {
         "year": 2025,
@@ -1921,7 +1921,7 @@
         "outros": 383.34,
         "devolucao": 0.0,
         "source_url": "https://portaldatransparencia.gov.br/download-de-dados/viagens/2025",
-        "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático."
+        "caveat": "Viagem oficial federal; contexto da estrutura federal, não gasto pessoal automático."
       }
     ]
   },
@@ -2519,7 +2519,7 @@
   "cache_status": {
     "mode": "batch_cached_downloads",
     "rule": "Arquivos oficiais baixados ficam em data/raw e são reutilizados; novas varreduras só baixam o que ainda não está no cache local.",
-    "generated_at": "2026-05-01T01:30:23.111611+00:00",
+    "generated_at": "2026-05-01T02:05:30.134365+00:00",
     "travel_zips": {
       "count": 4,
       "bytes": 471707908,
