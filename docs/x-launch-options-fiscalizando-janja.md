@@ -8,6 +8,17 @@ https://fiscalizando-a-janja.vercel.app
 Link do GitHub:
 https://github.com/0xManel/fiscalizando-a-janja
 
+## Correção obrigatória do número
+
+Não publicar que “Janja gastou R$ 7 bilhões em viagens”. Isso mistura base federal ampla com gasto pessoal e enfraquece o projeto.
+
+Formulação segura:
+
+- R$ 7,43 bi = todas as viagens federais oficiais sob monitoramento.
+- R$ 7,48 bi sob lupa = viagens federais + CPGF Presidência + estrutura/equipe citada em fonte pública.
+- R$ 236,7 mil = direto conservador em registros oficiais ligados à Janja.
+- R$ 239,8 mil = Janja + contexto/comitiva.
+
 ## Guardrail obrigatório
 
 Usar tom forte, irônico e de cobrança, mas manter o projeto defensável:
@@ -39,11 +50,13 @@ https://github.com/0xManel/fiscalizando-a-janja
 
 ## Opção 2 — Post com número grande
 
-R$ 7,48 bi sob lupa.
+R$ 7,48 bi sob lupa — sem inflar e sem mentir.
 
-Viagens federais, cartão da Presidência, estrutura ligada ao poder, sigilo e dívida: tudo em uma página simples para o povo entender onde a conta aparece.
+Não é “Janja gastou R$ 7 bi”. O número junta viagens federais oficiais, cartão da Presidência e estrutura/equipe citada em fonte pública.
 
-Não é gasto pessoal da Janja.
+Janja direto conservador: R$ 236,7 mil.
+Janja + contexto/comitiva: R$ 239,8 mil.
+
 É a máquina do governo Lula/PT exposta por camadas.
 
 Fiscalizando a JANJA e o PT:

@@ -82,11 +82,15 @@ async function loadData() {
 function renderSummary() {
   const { summary, cpgf, watchedGovernment, secret } = totals();
   const dbgg = govPayload?.debt?.dbgg_pct_pib || {};
+  const secretRatio = Number(cpgf.total) ? (Number(secret.total || 0) / Number(cpgf.total)) * 100 : 0;
   animateNumber(document.getElementById('governmentGrandTotal'), watchedGovernment, { compact: true, duration: 1300 });
-  setText('governmentGrandNote', `Viagens federais + CPGF da Presidência + estrutura/equipe citada em fonte pública. É cobrança sobre dinheiro público — não acusação de gasto pessoal.`);
+  setText('governmentGrandNote', `R$ 7,43 bi são todas as viagens federais oficiais do período. O placar soma isso com CPGF da Presidência e estrutura/equipe. Não diga que Janja gastou R$ 7 bi.`);
   setText('heroTravelTotal', shortMoney(totals().federalTravelTotal));
   setText('heroCpgfTotal', shortMoney(cpgf.total));
   setText('heroStructureTotal', shortMoney(totals().structure));
+  setText('heroRecordCount', `${Number(dossierPayload?.records_index?.total_records || records.length || 0).toLocaleString('pt-BR')}`);
+  setText('heroDirectCount', `${Number(summary.direct_records_conservative || 0).toLocaleString('pt-BR')} regs.`);
+  setText('heroSecretShare', pct(secretRatio));
   setText('janjaDirectTotal', shortMoney(summary.direct_total));
   setText('truthDirect', shortMoney(summary.direct_total));
   setText('truthContext', shortMoney(Number(summary.support_and_mentions_total || 0) + Number(summary.structure_context?.total_structure_cost_2023_2024 || 0)));
@@ -98,7 +102,8 @@ function renderSummary() {
   setText('debtTopNote', `${dbgg.latest_date || '—'} • Banco Central. Contexto fiscal, não atribuição pessoal.`);
   setText('cpgfPresidencyNote', `${cpgf.count || 0} transações • despesa da Presidência; não é atribuição automática à Janja.`);
   setText('cpgfSecretNote', `${secret.count || 0} transações: o cidadão paga, mas a base pública não mostra quem recebeu.`);
-  const years = summary.years?.length ? `${Math.min(...summary.years)}–${Math.max(...summary.years)}` : 'anos disponíveis';
+  const allYears = [...(summary.years || []), ...Object.keys(govPayload?.official_travel?.by_year || {}).map(Number)].filter(Boolean);
+  const years = allYears.length ? `${Math.min(...allYears)}–${Math.max(...allYears)}` : 'anos disponíveis';
   setText('statusPill', `Base oficial ${years}`);
   const generated = payload.generated_at ? new Date(payload.generated_at) : null;
   setText('lastUpdate', `Última varredura: ${generated ? generated.toLocaleString('pt-BR') : '—'}`);
@@ -254,7 +259,7 @@ function renderNewsContext() {
   const dbgg = govPayload?.debt?.dbgg_pct_pib || {};
   const items = [
     { tag: 'Estrutura', stat: shortMoney(summary.structure_context?.average_annual_structure_cost_2023_2024), title: 'Poder360: estrutura ligada à Janja custa cerca de R$ 2 mi/ano', text: 'Não há gabinete próprio, mas há custo público na máquina. Trocar nome não faz a conta desaparecer.', url: 'https://www.poder360.com.br/poder-governo/gabinete-de-janja-no-planalto-custa-cerca-de-r-2-mi-por-ano/', source: 'Poder360' },
-    { tag: 'Viagens', stat: shortMoney(summary.janja_direct_total_all_contexts ?? summary.direct_total), title: 'Portal da Transparência: viagens oficiais', text: 'Base primária usada para separar Janja, apoio e comitiva — para ninguém inflar nem esconder.', url: 'https://portaldatransparencia.gov.br/download-de-dados/viagens/2025', source: 'Portal da Transparência' },
+    { tag: 'Viagens', stat: shortMoney(summary.janja_direct_total_all_contexts ?? summary.direct_total), title: 'Portal da Transparência: viagens oficiais federais', text: 'Base primária de todas as viagens federais do período. Não é total pessoal da Janja; o recorte dela fica separado.', url: 'https://portaldatransparencia.gov.br/download-de-dados/viagens/2025', source: 'Portal da Transparência' },
     { tag: 'Cartão', stat: shortMoney(cpgf.total), title: 'CPGF Presidência: cartão público sob lupa', text: 'Camada da Presidência. Não é atribuição pessoal sem prova, mas é dinheiro público sob cobrança.', url: 'https://portaldatransparencia.gov.br/download-de-dados/cpgf/202604', source: 'Portal da Transparência' },
     { tag: 'Sigilo', stat: shortMoney(secret.total), title: 'Favorecido sigiloso no cartão da Presidência', text: 'O cidadão paga, mas a base pública esconde quem recebeu. Isso merece holofote.', url: 'https://www.poder360.com.br/poder-governo/tcu-mostra-99-de-sigilo-no-cartao-corporativo-da-presidencia/', source: 'Poder360/TCU' },
     { tag: 'Dívida', stat: `${Number(dbgg.latest_value || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}% PIB`, title: 'Banco Central: dívida bruta em patamar alto', text: 'Quando a conta pública explode, quem paga é o contribuinte — não o discurso.', url: 'https://www.bcb.gov.br/estatisticas/tabelasespeciais', source: 'BCB SGS' },
@@ -310,7 +315,7 @@ function renderRecords() {
 function renderDraft() {
   const { summary, cpgf, watchedGovernment, secret } = totals();
   const foodClue = govPayload?.cpgf_presidency?.total_2023_2026?.food_like_total || 0;
-  const draft = `O dinheiro é público. A conta também. A blindagem acabou.\n\nColoquei sob lupa ${shortMoney(watchedGovernment)} da máquina do governo: viagens federais, cartão da Presidência e estrutura ligada ao poder.\n\nJanja aparece em ${money(summary.janja_direct_total_all_contexts ?? summary.direct_total)} em registros diretos/contexto de viagens.\nEstrutura/equipe: ${money(summary.structure_context?.total_structure_cost_2023_2024)}.\nCartão Presidência: ${money(cpgf.total)}.\nFavorecido sigiloso: ${money(secret.total)}.\nPista CPGF comida/alimentação: ${money(foodClue)} — pista, não acusação pessoal.\n\nSem fonte, não vira acusação. Mas sigilo, cartão e privilégio pago pelo povo não passam batido.\n\nhttps://fiscalizando-a-janja.vercel.app`;
+  const draft = `R$ 7,48 bi sob lupa — sem inflar e sem mentir.\n\nNão é “Janja gastou R$ 7 bi”. O número junta viagens federais oficiais, CPGF da Presidência e estrutura/equipe citada em fonte pública.\n\nJanja direto conservador: ${money(summary.direct_total)}.\nJanja + contexto/comitiva: ${money(summary.janja_direct_total_all_contexts ?? summary.direct_total)}.\nCartão Presidência: ${money(cpgf.total)}.\nFavorecido sigiloso: ${money(secret.total)}.\n\nSem fonte, não vira acusação. Com dinheiro público, não tem blindagem.\n\nhttps://fiscalizando-a-janja.vercel.app`;
   setText('xDraft', draft);
 }
 

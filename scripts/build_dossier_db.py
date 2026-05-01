@@ -85,7 +85,8 @@ def main() -> None:
         "schema_version": "1.1.0",
         "update_rule": "Gerado por scripts/build_dossier_db.py após scanners oficiais. Mantém camadas separadas para evitar atribuição falsa.",
         "headline": {
-            "watched_total_formula": "viagens federais + CPGF da Presidência + estrutura/equipe citada em fonte pública; não é gasto pessoal",
+            "watched_total_formula": "todas as viagens federais oficiais + CPGF da Presidência + estrutura/equipe citada em fonte pública; não é gasto pessoal da Janja",
+            "anti_fake_claim": "Não afirmar que Janja gastou R$ 7 bilhões em viagens. R$ 7,43 bi é base ampla de viagens federais oficiais; R$ 7,48 bi é placar sob lupa em camadas.",
             "official_travel_federal_total": round(sum(brnum(y.get("total", {}).get("total")) for y in gov.get("official_travel", {}).get("by_year", {}).values()), 2),
             "cpgf_presidency_total": brnum(cpgf_total.get("total")),
             "janja_structure_total_2023_2024": brnum(summary.get("structure_context", {}).get("total_structure_cost_2023_2024")),

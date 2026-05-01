@@ -1,6 +1,6 @@
 {
   "project": "Fiscalizando a JANJA e o PT",
-  "generated_at": "2026-04-30T22:42:41.187028+00:00",
+  "generated_at": "2026-04-30T23:58:46.545909+00:00",
   "methodology": {
     "scope": "Registros oficiais que mencionam Janja, Rosângela da Silva, Primeira-Dama ou agendas associadas. Nesta versão, a fonte primária automatizada é Viagens do Portal da Transparência; roupa/comida só são classificados se aparecerem explicitamente no texto oficial.",
     "counting_rule": "O total direto da Janja soma registros oficiais em nome dela nos dados de viagens. A versão conservadora separa itens em comitiva; equipe, apoio, menções e possíveis homônimos não entram como gasto direto.",
