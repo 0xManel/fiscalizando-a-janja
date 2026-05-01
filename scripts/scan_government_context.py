@@ -317,11 +317,48 @@ def scan_official_travel_context() -> dict:
 
     Context layer only: these numbers are not Janja spending. They show the size
     of official travel spending in the same source family used by the Janja scan.
+    Also keeps top individual travel rows so the public can see where/why the
+    biggest official trips appear, without pretending they are personal expenses.
     """
     by_year = {}
     by_org_total = defaultdict(lambda: {"count": 0, "total": Decimal("0"), "diarias": Decimal("0"), "passagens": Decimal("0"), "outros": Decimal("0"), "devolucao": Decimal("0")})
     presidency_aliases = ("PRESID", "GABINETE PESSOAL DO PRESIDENTE", "VICE-PRESID")
     presidency = {"count": 0, "total": Decimal("0"), "diarias": Decimal("0"), "passagens": Decimal("0"), "outros": Decimal("0"), "devolucao": Decimal("0")}
+    top_records: list[dict] = []
+    top_presidency_records: list[dict] = []
+
+    def field(row: dict, *names: str) -> str:
+        for name in names:
+            value = row.get(name)
+            if value:
+                return str(value).strip()
+        return ""
+
+    def compact_row(year: int, row: dict, org: str, row_total: Decimal, vals: dict) -> dict:
+        return {
+            "year": year,
+            "pcdp": field(row, "Número da Proposta (PCDP)", "Número da PCDP", "Numero da PCDP"),
+            "date_start": field(row, "Período - Data de início", "Data início viagem", "Data inicio viagem"),
+            "date_end": field(row, "Período - Data de fim", "Data fim viagem"),
+            "beneficiary": field(row, "Nome", "Nome viajante"),
+            "org": org,
+            "paying_org": field(row, "Nome órgão pagador", "Nome órgão solicitante", "Nome do órgão"),
+            "destination": field(row, "Destinos"),
+            "objective": field(row, "Motivo", "Objetivo da Viagem"),
+            "total": dec_float(row_total),
+            "diarias": dec_float(vals["diarias"]),
+            "passagens": dec_float(vals["passagens"]),
+            "outros": dec_float(vals["outros"]),
+            "devolucao": dec_float(vals["devolucao"]),
+            "source_url": f"https://portaldatransparencia.gov.br/download-de-dados/viagens/{year}",
+            "caveat": "Viagem oficial federal; contexto da máquina pública, não gasto pessoal automático.",
+        }
+
+    def keep_top(bucket: list[dict], item: dict, limit: int = 40) -> None:
+        bucket.append(item)
+        bucket.sort(key=lambda r: float(r.get("total") or 0), reverse=True)
+        del bucket[limit:]
+
     for year in BUDGET_YEARS:
         z = zipfile.ZipFile(io.BytesIO(fetch_travel_zip(year)))
         csv_name = next(n for n in z.namelist() if n.lower().endswith("_viagem.csv"))
@@ -343,12 +380,15 @@ def scan_official_travel_context() -> dict:
                 bucket["total"] += row_total
                 for k, v in vals.items():
                     bucket[k] += v
+            item = compact_row(year, row, org, row_total, vals)
+            keep_top(top_records, item)
             hay = f"{org} {row.get('Nome órgão solicitante') or row.get('Nome órgão pagador') or ''}".upper()
             if any(alias in hay for alias in presidency_aliases):
                 presidency["count"] += 1
                 presidency["total"] += row_total
                 for k, v in vals.items():
                     presidency[k] += v
+                keep_top(top_presidency_records, item)
         top_orgs = sorted(orgs.items(), key=lambda kv: kv[1]["total"], reverse=True)[:10]
         by_year[str(year)] = {
             "source": "Portal da Transparência — Viagens",
@@ -363,6 +403,8 @@ def scan_official_travel_context() -> dict:
         "by_year": by_year,
         "presidency_context_2023_2026": {k: (int(v) if k == "count" else dec_float(v)) for k, v in presidency.items()},
         "top_orgs_2023_2026": [{"org": name, **{k: (int(v) if k == "count" else dec_float(v)) for k, v in vals.items()}} for name, vals in top_orgs_all],
+        "top_travel_records_2023_2026": top_records[:20],
+        "top_presidency_travel_records_2023_2026": top_presidency_records[:20],
     }
 
 

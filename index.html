@@ -112,6 +112,11 @@
             <div class="chart-head"><b>Governo: todas as viagens federais + CPGF Presidência</b><span>2023–2026</span></div>
             <div id="govYearChart" class="bar-chart"></div>
           </article>
+          <article class="chart-card gov-proof-card">
+            <div class="chart-head"><b>Maiores viagens federais na base</b><span>prova de contexto</span></div>
+            <div id="govTopTrips" class="mini-expense-list"></div>
+            <p class="chart-caveat">São viagens oficiais federais: entram no “governo sob lupa”, não no gasto pessoal da Janja.</p>
+          </article>
           <article class="chart-card">
             <div class="chart-head"><b>Janja: registros por data</b><span>meses com gasto identificado</span></div>
             <div id="janjaMonthChart" class="bar-chart"></div>
@@ -194,14 +199,19 @@
       <section id="ranking" class="panel ranking-panel">
         <div class="panel-heading compact split">
           <div>
-            <p class="eyebrow">Maiores contas primeiro</p>
-            <h2>O que pesa primeiro — sem cortina de fumaça.</h2>
+            <p class="eyebrow">Top 10 rastreável</p>
+            <h2>Maiores gastos por camada — onde foi e por quê.</h2>
+            <p>Viagens federais, Janja/contexto, Presidência e CPGF ficam em rankings separados. Assim ninguém mistura tudo para mentir.</p>
           </div>
-          <div class="toggle-group" role="group" aria-label="Ranking">
-            <button class="toggle active" data-ranking="direct">Janja</button>
-            <button class="toggle" data-ranking="all">Governo</button>
+          <div class="toggle-group ranking-tabs" role="group" aria-label="Ranking">
+            <button class="toggle active" data-ranking="direct">Janja direto</button>
+            <button class="toggle" data-ranking="context">Comitiva/equipe</button>
+            <button class="toggle" data-ranking="federal">Viagens federais</button>
+            <button class="toggle" data-ranking="presidency">Presidência</button>
+            <button class="toggle" data-ranking="cpgf">CPGF</button>
           </div>
         </div>
+        <div id="rankingNote" class="ranking-note">Carregando ranking...</div>
         <div id="topExpenses" class="top-expenses"></div>
       </section>
 
@@ -243,6 +253,6 @@
     <footer>
       <p><strong>Fiscalizando a JANJA e o PT</strong> organiza dados públicos para cobrança cidadã. Não é sentença judicial. É fiscalização sobre dinheiro público, governo Lula/PT, Janja, Presidência, sigilo e transparência.</p>
     </footer>
-    <script src="app.js?v=provas-diretas-20260501a" defer></script>
+    <script src="app.js?v=top10-rastreavel-20260501a" defer></script>
   </body>
 </html>

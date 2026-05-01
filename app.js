@@ -67,6 +67,7 @@ async function loadData() {
   renderSummary();
   renderRecentSignals();
   renderCharts();
+  renderGovTopTrips();
   renderTravelFood();
   renderLayers();
   renderInvestigationRoadmap();
@@ -83,8 +84,9 @@ function renderSummary() {
   const { summary, cpgf, watchedGovernment, secret } = totals();
   const dbgg = govPayload?.debt?.dbgg_pct_pib || {};
   const secretRatio = Number(cpgf.total) ? (Number(secret.total || 0) / Number(cpgf.total)) * 100 : 0;
+  const headline = dossierPayload?.headline || {};
   animateNumber(document.getElementById('governmentGrandTotal'), watchedGovernment, { compact: true, duration: 1300 });
-  setText('governmentGrandNote', `R$ 7,43 bi são todas as viagens federais oficiais do período. O placar soma isso com CPGF da Presidência e estrutura/equipe. Não diga que Janja gastou R$ 7 bi.`);
+  setText('governmentGrandNote', `${shortMoney(headline.official_travel_federal_total || totals().federalTravelTotal)} são todas as viagens federais oficiais do período. O placar soma isso com CPGF da Presidência e estrutura/equipe. Não diga que Janja gastou R$ 7 bi.`);
   setText('heroTravelTotal', shortMoney(totals().federalTravelTotal));
   setText('heroCpgfTotal', shortMoney(cpgf.total));
   setText('heroStructureTotal', shortMoney(totals().structure));
@@ -220,6 +222,19 @@ function renderDebtChart() {
 }
 
 
+function renderGovTopTrips() {
+  const box = document.getElementById('govTopTrips');
+  if (!box) return;
+  const trips = govPayload?.official_travel?.top_travel_records_2023_2026 || [];
+  box.innerHTML = trips.slice(0, 4).map(r => `<article class="mini-expense gov-trip-proof">
+    <div><b>${escapeHtml(r.date_start || String(r.year || 'sem data'))}</b><span>${escapeHtml(shortText(r.org || r.paying_org || 'órgão federal', 34))}</span></div>
+    <strong>${money(r.total)}</strong>
+    <p>${escapeHtml(shortText(`${r.beneficiary || 'beneficiário'} • ${r.destination || 'sem destino'}`, 105))}</p>
+    <small>${escapeHtml(r.caveat || 'Contexto federal; não é gasto pessoal automático.')}</small>
+    <a href="${escapeAttr(r.source_url)}" target="_blank" rel="noopener noreferrer">fonte oficial</a>
+  </article>`).join('') || '<p class="empty">Sem ranking federal carregado.</p>';
+}
+
 function renderTravelFood() {
   const tf = dossierPayload?.travel_food || {};
   const direct = tf.direct_travel || {};
@@ -277,11 +292,51 @@ function setupRankingToggle() {
     });
   });
 }
+function govTravelCard(r, idx, label) {
+  return `<article class="top-card"><div class="rank">${idx + 1}</div><div><div class="top-money">${money(r.total)}</div><h3>${escapeHtml(label || r.org || r.paying_org || 'Viagem oficial federal')}</h3><p>${escapeHtml(r.date_start || r.year || 'Sem data')} • ${escapeHtml(r.destination || 'Sem destino')}</p><small>${escapeHtml(shortText(r.objective || 'Motivo não detalhado na linha pública.', 145))}</small><details><summary>Ver camada e fonte</summary><small>Órgão: ${escapeHtml(r.org || r.paying_org || '—')}<br>Passagens: ${money(r.passagens)} • Diárias: ${money(r.diarias)} • Outros: ${money(r.outros)}<br>${escapeHtml(r.caveat || 'Contexto; não é gasto pessoal automático.')}</small></details><a href="${escapeAttr(r.source_url || 'https://portaldatransparencia.gov.br/download-de-dados/viagens/2025')}" target="_blank" rel="noopener noreferrer">fonte oficial</a></div></article>`;
+}
+function radarTravelCard(r, idx) {
+  return `<article class="top-card"><div class="rank">${idx + 1}</div><div><div class="top-money">${money(r.total)}</div><h3>${escapeHtml(r.expense_label || categoryLabel(r.category))}</h3><p>${escapeHtml(r.date_start || 'Sem data')} • ${escapeHtml(r.destination || 'Sem destino')}</p><small>${escapeHtml(shortText(r.objective || '', 145))}</small><details><summary>Ver camada e fonte</summary><small>Beneficiário: ${escapeHtml(r.beneficiary || '—')}<br>Órgão: ${escapeHtml(r.orgao_pagador || r.orgao || '—')}<br>Camada: ${escapeHtml(categoryLabel(r.category))}<br>Passagens: ${money(r.passagens)} • Diárias: ${money(r.diarias)} • Outros: ${money(r.outros)}</small></details><a href="${escapeAttr(r.source_url || 'https://portaldatransparencia.gov.br/download-de-dados/viagens/2025')}" target="_blank" rel="noopener noreferrer">fonte oficial</a></div></article>`;
+}
+function cpgfCard(r, idx) {
+  return `<article class="top-card"><div class="rank">${idx + 1}</div><div><div class="top-money">${money(r.total)}</div><h3>${escapeHtml(r.favored || 'Favorecido informado/sigiloso')}</h3><p>${escapeHtml(r.count || 0)} transações • CPGF Presidência</p><small>Camada de cartão da Presidência. Quando o favorecido é sigiloso, o dado cobra transparência — não identifica quem recebeu.</small></div></article>`;
+}
 function renderTopExpenses() {
   const box = document.getElementById('topExpenses');
+  const note = document.getElementById('rankingNote');
   const summary = payload.summary || {};
-  const list = activeRanking === 'direct' ? (summary.top_expenses_direct || []) : (summary.top_expenses_all || []);
-  box.innerHTML = list.slice(0, 6).map((r, idx) => `<article class="top-card"><div class="rank">${idx + 1}</div><div><div class="top-money">${money(r.total)}</div><h3>${escapeHtml(r.expense_label || categoryLabel(r.category))}</h3><p>${escapeHtml(r.date_start || 'Sem data')} • ${escapeHtml(r.destination || 'Sem destino')}</p><small>${escapeHtml(shortText(r.objective || '', 115))}</small></div></article>`).join('') || '<p class="empty">Ainda não há registros.</p>';
+  const govTravel = govPayload?.official_travel || {};
+  const cpgf = govPayload?.cpgf_presidency || {};
+  const configs = {
+    direct: {
+      note: 'Top 10 direto Janja: registros mais fortes, em nome dela ou CPF mascarado oficial. Não inclui máquina inteira.',
+      rows: (summary.top_expenses_direct || []).slice(0, 10),
+      render: (r, i) => radarTravelCard(r, i)
+    },
+    context: {
+      note: 'Top 10 comitiva/equipe/contexto: registros ligados por apoio, menção ou comitiva. Ficam separados do gasto pessoal direto.',
+      rows: (summary.top_expenses_all || []).filter(r => !r.counted_in_direct_total).slice(0, 10),
+      render: (r, i) => radarTravelCard(r, i)
+    },
+    federal: {
+      note: 'Top 10 viagens federais oficiais: base ampla do Portal da Transparência. Não é gasto pessoal da Janja.',
+      rows: (govTravel.top_travel_records_2023_2026 || []).slice(0, 10),
+      render: (r, i) => govTravelCard(r, i, 'Viagem federal oficial')
+    },
+    presidency: {
+      note: 'Top 10 viagens no recorte Presidência: contexto da Presidência, não atribuição automática à Janja.',
+      rows: (govTravel.top_presidency_travel_records_2023_2026 || []).slice(0, 10),
+      render: (r, i) => govTravelCard(r, i, 'Viagem oficial — Presidência')
+    },
+    cpgf: {
+      note: 'Top 10 CPGF Presidência por favorecido: cartão corporativo sob lupa. Sigilo não mostra quem recebeu.',
+      rows: (cpgf.top_favored || []).slice(0, 10),
+      render: (r, i) => cpgfCard(r, i)
+    }
+  };
+  const cfg = configs[activeRanking] || configs.direct;
+  if (note) note.textContent = cfg.note;
+  box.innerHTML = cfg.rows.map((r, idx) => cfg.render(r, idx)).join('') || '<p class="empty">Ainda não há registros nessa camada.</p>';
 }
 
 function setupFilters() {
@@ -314,8 +369,8 @@ function renderRecords() {
 
 function renderDraft() {
   const { summary, cpgf, watchedGovernment, secret } = totals();
-  const foodClue = govPayload?.cpgf_presidency?.total_2023_2026?.food_like_total || 0;
-  const draft = `R$ 7,48 bi sob lupa — sem inflar e sem mentir.\n\nNão é “Janja gastou R$ 7 bi”. O número junta viagens federais oficiais, CPGF da Presidência e estrutura/equipe citada em fonte pública.\n\nJanja direto conservador: ${money(summary.direct_total)}.\nJanja + contexto/comitiva: ${money(summary.janja_direct_total_all_contexts ?? summary.direct_total)}.\nCartão Presidência: ${money(cpgf.total)}.\nFavorecido sigiloso: ${money(secret.total)}.\n\nSem fonte, não vira acusação. Com dinheiro público, não tem blindagem.\n\nhttps://fiscalizando-a-janja.vercel.app`;
+  const headline = dossierPayload?.headline || {};
+  const draft = `${shortMoney(watchedGovernment)} sob lupa — sem inflar e sem mentir.\n\nNão é “Janja gastou R$ 7 bi”. O número junta viagens federais oficiais (${money(headline.official_travel_federal_total || totals().federalTravelTotal)}), CPGF da Presidência e estrutura/equipe citada em fonte pública.\n\nJanja direto conservador: ${money(summary.direct_total)}.\nJanja + contexto/comitiva: ${money(summary.janja_direct_total_all_contexts ?? summary.direct_total)}.\nCartão Presidência: ${money(cpgf.total)}.\nFavorecido sigiloso: ${money(secret.total)}.\n\nSem fonte, não vira acusação. Com dinheiro público, não tem blindagem.\n\nhttps://fiscalizando-a-janja.vercel.app`;
   setText('xDraft', draft);
 }
 

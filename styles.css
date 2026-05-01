@@ -72,3 +72,20 @@
 }
 .claim-check-strip b{color:#47d7ff}
 @media(max-width:620px){.claim-check-strip{font-size:12px;padding:9px 10px}}
+
+
+/* Top 10 traceable rankings */
+.ranking-tabs{flex-wrap:wrap;max-width:620px;justify-content:flex-end}
+.ranking-note{
+  margin:0 0 16px;
+  padding:12px 14px;
+  border:1px solid rgba(255,221,45,.22);
+  border-radius:16px;
+  color:#d9ffe9;
+  background:rgba(6,20,11,.72);
+  font-size:14px;
+}
+.top-card details{margin-top:8px;color:#bdebd0}
+.top-card summary{cursor:pointer;color:#47d7ff;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.top-card a{display:inline-block;margin-top:8px;color:#ffdd2d;font-size:12px;font-weight:800;text-transform:uppercase}
+@media(max-width:620px){.ranking-tabs{justify-content:flex-start}.ranking-tabs .toggle{font-size:11px;padding:9px 10px}.ranking-note{font-size:13px}}
