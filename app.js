@@ -86,7 +86,7 @@ function renderSummary() {
   const secretRatio = Number(cpgf.total) ? (Number(secret.total || 0) / Number(cpgf.total)) * 100 : 0;
   const headline = dossierPayload?.headline || {};
   animateNumber(document.getElementById('governmentGrandTotal'), watchedGovernment, { compact: true, duration: 1300 });
-  setText('governmentGrandNote', `${shortMoney(headline.official_travel_federal_total || totals().federalTravelTotal)} são viagens federais oficiais do período. Também entram cartão da Presidência e estrutura/equipe. O gasto direto em nome da Janja fica separado.`);
+  renderHeroLatestSpend();
   setText('heroTravelTotal', shortMoney(totals().federalTravelTotal));
   setText('heroCpgfTotal', shortMoney(cpgf.total));
   setText('heroStructureTotal', shortMoney(totals().structure));
@@ -109,6 +109,26 @@ function renderSummary() {
   setText('statusPill', `Base oficial ${years}`);
   const generated = payload.generated_at ? new Date(payload.generated_at) : null;
   setText('lastUpdate', `Última varredura: ${generated ? generated.toLocaleString('pt-BR') : '—'}`);
+}
+
+function renderHeroLatestSpend() {
+  const box = document.getElementById('heroLatestSpend');
+  if (!box) return;
+  const clean = (records || [])
+    .filter(r => !['possivel_homonimo_ou_nao_confirmado', 'nao_confirmado'].includes(r.category))
+    .sort((a, b) => String(b.date_start_iso || '').localeCompare(String(a.date_start_iso || '')) || Number(b.total || 0) - Number(a.total || 0));
+  const latestDirect = clean.find(r => r.counted_in_direct_total);
+  const latest = latestDirect || clean[0];
+  if (!latest) {
+    box.innerHTML = '<span>Último gasto relevante</span><strong>Sem registro carregado</strong><small>A base será atualizada na próxima varredura.</small>';
+    return;
+  }
+  const label = latest.counted_in_direct_total ? 'Direto Janja' : categoryLabel(latest.category);
+  const place = latest.destination || latest.orgao || 'sem destino informado';
+  box.innerHTML = `<span>Último gasto relevante</span>
+    <strong>${money(latest.total)}</strong>
+    <small>${escapeHtml(latest.date_start || 'sem data')} • ${escapeHtml(place)} • ${escapeHtml(label)}</small>
+    <a href="${escapeAttr(latest.source_url)}" target="_blank" rel="noopener noreferrer">ver fonte oficial</a>`;
 }
 
 function renderRecentSignals() {
