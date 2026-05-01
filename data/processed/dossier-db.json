@@ -1,6 +1,6 @@
 {
   "project": "Fiscalizando a JANJA e o PT",
-  "generated_at": "2026-05-01T01:06:09.356026+00:00",
+  "generated_at": "2026-05-01T01:30:23.246298+00:00",
   "schema_version": "1.1.0",
   "update_rule": "Gerado por scripts/build_dossier_db.py após scanners oficiais. Mantém camadas separadas para evitar atribuição falsa.",
   "headline": {
@@ -15,7 +15,7 @@
   "cache_status": {
     "mode": "batch_cached_downloads",
     "rule": "Arquivos oficiais baixados ficam em data/raw e são reutilizados; novas varreduras só baixam o que ainda não está no cache local.",
-    "generated_at": "2026-05-01T01:05:17.123329+00:00",
+    "generated_at": "2026-05-01T01:30:23.111611+00:00",
     "travel_zips": {
       "count": 4,
       "bytes": 471707908,

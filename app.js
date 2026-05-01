@@ -16,6 +16,11 @@ function shortMoney(value) {
   if (Math.abs(n) >= 1_000) return `R$ ${(n / 1_000).toLocaleString('pt-BR', { maximumFractionDigits: 1 })} mil`;
   return money(n);
 }
+function headlineMoney(value) {
+  const n = Number(value || 0);
+  if (Math.abs(n) >= 1_000_000_000) return `R$ ${(n / 1_000_000_000).toLocaleString('pt-BR', { maximumFractionDigits: 2 })} Bilhões`;
+  return shortMoney(n);
+}
 function setText(id, value) { const el = document.getElementById(id); if (el) el.textContent = value; }
 function escapeHtml(value) { return String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[ch])); }
 function escapeAttr(value) { return escapeHtml(value).replace(/`/g, '&#096;'); }
@@ -85,7 +90,7 @@ function renderSummary() {
   const dbgg = govPayload?.debt?.dbgg_pct_pib || {};
   const secretRatio = Number(cpgf.total) ? (Number(secret.total || 0) / Number(cpgf.total)) * 100 : 0;
   const headline = dossierPayload?.headline || {};
-  animateNumber(document.getElementById('governmentGrandTotal'), watchedGovernment, { compact: true, duration: 1300 });
+  setText('governmentGrandTotal', headlineMoney(watchedGovernment));
   renderHero2025Spend();
   setText('heroTravelTotal', shortMoney(totals().federalTravelTotal));
   setText('heroCpgfTotal', shortMoney(cpgf.total));
