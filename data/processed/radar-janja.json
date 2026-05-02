@@ -1,11 +1,11 @@
 {
-  "project": "Fiscalizando a JANJA e o PT",
-  "generated_at": "2026-05-01T02:04:29.102895+00:00",
+  "project": "Janjômetro",
+  "generated_at": "2026-05-02T22:49:12.841577+00:00",
   "methodology": {
     "scope": "Registros oficiais que mencionam Janja, Rosângela da Silva, Primeira-Dama ou agendas associadas. Nesta versão, a fonte primária automatizada é Viagens do Portal da Transparência; roupa/comida só são classificados se aparecerem explicitamente no texto oficial.",
     "counting_rule": "O total direto da Janja soma registros oficiais em nome dela nos dados de viagens. A versão conservadora separa itens em comitiva; equipe, apoio, menções e possíveis homônimos não entram como gasto direto.",
     "structure_note": "Não existe orçamento próprio oficial de gabinete da Primeira-Dama. Estrutura/equipe é tratada como camada separada, baseada em levantamento externo com dados do Portal da Transparência, até automatizarmos folha/despesas/empenhos.",
-    "warning": "Base factual para fiscalização cidadã; não afirma crime, irregularidade ou desvio sem fonte jurídica/oficial.",
+    "warning": "Base factual para fiscalização cidadã; sem fonte jurídica/oficial, o painel não transforma registro público em acusação.",
     "terms": [
       "\\bJANJA\\b",
       "ROS[ÂA]NGELA\\s+LULA",

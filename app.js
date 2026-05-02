@@ -75,6 +75,7 @@ async function loadData() {
   dossierPayload = await dossierRes.json();
   records = payload.records || [];
   renderSummary();
+  renderUpdateStatus();
   renderRecentSignals();
   renderCharts();
   renderGovTopTrips();
@@ -107,7 +108,7 @@ function renderSummary() {
   setText('truthDirect', shortMoney(summary.direct_total));
   setText('truthContext', shortMoney(Number(summary.support_and_mentions_total || 0) + Number(summary.structure_context?.total_structure_cost_2023_2024 || 0)));
   setText('truthGovernment', shortMoney(watchedGovernment));
-  setText('publicReading', `Leitura correta: ${shortMoney(watchedGovernment)} é governo sob lupa. Direto Janja: ${shortMoney(summary.direct_total)}. Equipe/Presidência/CPGF/dívida ficam separados — não é gasto pessoal sem prova direta.`);
+  setText('publicReading', `Leitura correta: ${shortMoney(watchedGovernment)} é governo sob lupa. Direto Janja: ${shortMoney(summary.direct_total)}. Equipe, Presidência, CPGF e dívida ficam em partes separadas — não é gasto pessoal sem prova direta.`);
   setText('structureTotal', shortMoney(summary.structure_context?.total_structure_cost_2023_2024));
   setText('cpgfPresidencyTotal', shortMoney(cpgf.total));
   setText('cpgfSecretTotal', shortMoney(secret.total));
@@ -119,6 +120,11 @@ function renderSummary() {
   const years = allYears.length ? `${Math.min(...allYears)}–${Math.max(...allYears)}` : 'anos disponíveis';
   setText('statusPill', `Base oficial ${years}`);
   const generated = payload.generated_at ? new Date(payload.generated_at) : null;
+  const recordCount = Number(dossierPayload?.records_index?.total_records || records.length || 0).toLocaleString('pt-BR');
+  const headerStatus = document.getElementById('headerStatus');
+  if (headerStatus) {
+    headerStatus.innerHTML = `<span>Base oficial</span><strong>${recordCount} registros • ${generated ? generated.toLocaleDateString('pt-BR') : 'sem data'}</strong>`;
+  }
   setText('lastUpdate', `Última varredura: ${generated ? generated.toLocaleString('pt-BR') : '—'}`);
 }
 
@@ -149,6 +155,40 @@ function renderHero2025Spend() {
     <strong>${shortMoney(federalTravelYear + cpgfYear + janjaContextYear)}</strong>
     <small>Governo no ano: viagens federais + CPGF Presidência + registros Janja/contexto. Direto pessoal só quando a linha oficial prova.</small>
     <em>Janja/contexto ${latestYear}: ${shortMoney(janjaContextYear)} (${yearRecords.length} regs.) • Viagens federais: ${shortMoney(federalTravelYear)} • CPGF Presidência: ${shortMoney(cpgfYear)} • pistas comida: ${shortMoney(foodLikeYear)}</em>`;
+}
+
+function renderUpdateStatus() {
+  const grid = document.getElementById('updateStatusGrid');
+  const pill = document.querySelector('#updateStatus .update-mode-pill');
+  const fileStrip = document.getElementById('updateFileStrip');
+  if (!grid) return;
+  const cache = dossierPayload?.cache_status || govPayload?.cache_status || {};
+  const generated = cache.generated_at || dossierPayload?.generated_at || payload?.generated_at;
+  const dt = generated ? new Date(generated) : null;
+  const ageMin = dt ? Math.max(0, Math.round((Date.now() - dt.getTime()) / 60000)) : null;
+  const freshClass = ageMin !== null && ageMin <= 180 ? 'ok' : 'stale';
+  const travelCount = cache.travel_zips?.count ?? cache.travel_zips ?? '—';
+  const budgetCount = cache.budget_zips?.count ?? cache.budget_zips ?? '—';
+  const cpgfCount = cache.cpgf_monthly_zips?.count ?? cache.cpgf_monthly_zips ?? '—';
+  if (pill) pill.innerHTML = `<span class="freshness-dot ${freshClass}"></span><b>Atualização por lote oficial</b><small>${dt ? dt.toLocaleString('pt-BR') : 'sem data'} • varredura por arquivos oficiais, não transmissão ao vivo</small>`;
+  const items = [
+    ['Última varredura', dt ? dt.toLocaleString('pt-BR') : '—', ageMin !== null ? `${ageMin} min desde a geração` : 'aguardando base'],
+    ['Viagens oficiais', travelCount, 'arquivos ZIP/cache lidos'],
+    ['CPGF Presidência', cpgfCount, 'meses monitorados'],
+    ['Cache auditável', cache.public_status?.total_cached_files ?? budgetCount, cache.public_status?.public_summary || 'anos/arquivos de contexto']
+  ];
+  grid.innerHTML = items.map(([label, value, note]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong><small>${escapeHtml(note)}</small></article>`).join('');
+  if (fileStrip) {
+    const latest = cache.public_status?.latest_official_files || {};
+    const files = [
+      ['Viagens', latest.viagens || cache.travel_zips?.latest_file],
+      ['Orçamento', latest.orcamento || cache.budget_zips?.latest_file],
+      ['CPGF', latest.cpgf || cache.cpgf_monthly_zips?.latest_file]
+    ].filter(([, value]) => value);
+    fileStrip.innerHTML = files.length
+      ? `<b>Arquivos oficiais mais recentes no cache:</b>${files.map(([label, value]) => `<span>${escapeHtml(label)}: ${escapeHtml(value)}</span>`).join('')}<em>Novos dados dependem da publicação nos portais oficiais; o painel não é transmissão ao vivo.</em>`
+      : `<b>Arquivos oficiais:</b><em>Cache em leitura. O painel usa varredura por lote, não transmissão ao vivo.</em>`;
+  }
 }
 
 function renderRecentSignals() {
@@ -211,7 +251,7 @@ function renderInvestigationRoadmap() {
   if (cpgfBox) {
     const secret = cpgf.secret_summary || {};
     const latestMonth = Object.keys(cpgf.by_month || {}).sort().pop();
-    cpgfBox.textContent = `CPGF granular: ${shortMoney(cpgf.total?.total)} em ${cpgf.total?.count || 0} transações da Presidência. Sigilo: ${shortMoney(secret.total)} (${Number(secret.ratio_of_cpgf_total_pct || 0).toLocaleString('pt-BR', { maximumFractionDigits: 2 })}%). Último mês no cache: ${latestMonth || '—'}. Não é atribuição pessoal à Janja — é pressão contra a caixa-preta.`;
+    cpgfBox.textContent = `CPGF granular: ${shortMoney(cpgf.total?.total)} em ${cpgf.total?.count || 0} transações da Presidência. Sigilo: ${shortMoney(secret.total)} (${Number(secret.ratio_of_cpgf_total_pct || 0).toLocaleString('pt-BR', { maximumFractionDigits: 2 })}%). Último mês no cache: ${latestMonth || '—'}. Não é atribuição pessoal à Janja — é cobrança por transparência onde a base pública oculta favorecidos.`;
   }
 }
 
@@ -239,6 +279,29 @@ function renderGovYearChart() {
     value: Number(y.total?.total || 0) + Number(cpgfByYear[year]?.total || 0)
   }));
   renderBarChart('govYearChart', rows);
+  renderHeroYearPills(rows.slice(-4));
+}
+function renderHeroYearPills(rows) {
+  const box = document.getElementById('heroGovYearChart');
+  const insight = document.getElementById('heroChartInsight');
+  if (!box) return;
+  const max = Math.max(...rows.map(r => Number(r.value || 0)), 1);
+  box.innerHTML = rows.map(row => {
+    const value = Number(row.value || 0);
+    const height = Math.max(18, (value / max) * 100);
+    const topClass = value === max ? ' peak' : '';
+    return `<article class="hero-year-pill${topClass}" aria-label="${escapeAttr(row.label)}: ${escapeAttr(shortMoney(value))}"><span>${escapeHtml(row.label)}</span><i style="height:${height}%"></i><b>${shortMoney(value)}</b></article>`;
+  }).join('') || '<p class="empty">Sem dados para gráfico.</p>';
+  if (insight) {
+    const latest = rows.at(-1);
+    const previous = rows.at(-2);
+    const peak = rows.reduce((best, row) => Number(row.value || 0) > Number(best.value || 0) ? row : best, rows[0] || { label: '—', value: 0 });
+    const latestValue = Number(latest?.value || 0);
+    const previousValue = Number(previous?.value || 0);
+    const delta = previousValue ? ((latestValue - previousValue) / previousValue) * 100 : 0;
+    const deltaLabel = previous ? `${delta >= 0 ? '+' : '−'}${Math.abs(delta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}% vs ${previous.label}` : 'sem comparação anterior';
+    insight.innerHTML = `<span><b>${escapeHtml(latest?.label || '—')}</b>${escapeHtml(shortMoney(latestValue))}</span><span><b>Pico</b>${escapeHtml(peak.label)} • ${escapeHtml(shortMoney(peak.value))}</span><span><b>Variação</b>${escapeHtml(deltaLabel)}</span>`;
+  }
 }
 function renderJanjaMonthChart() {
   const monthly = new Map();
@@ -315,7 +378,7 @@ function renderTravelFood() {
   if (status) {
     const idx = dossierPayload?.records_index || {};
     const generated = dossierPayload?.generated_at ? new Date(dossierPayload.generated_at).toLocaleString('pt-BR') : '—';
-    status.innerHTML = `<b>Base viva do dossiê</b><span>${idx.total_records || 0} registros indexados • ${idx.food_or_meal_clue_records || 0} pistas de comida/almoço • atualizada em ${escapeHtml(generated)}</span>`;
+    status.innerHTML = `<b>Base auditável</b><span>${idx.total_records || 0} registros indexados • ${idx.food_or_meal_clue_records || 0} pistas de comida/almoço • atualizada em ${escapeHtml(generated)}</span>`;
   }
 }
 
@@ -324,15 +387,58 @@ function renderNewsContext() {
   if (!box) return;
   const { summary, cpgf, secret } = totals();
   const dbgg = govPayload?.debt?.dbgg_pct_pib || {};
-  const items = [
-    { tag: 'Estrutura', stat: shortMoney(summary.structure_context?.average_annual_structure_cost_2023_2024), title: 'Poder360: estrutura ligada à Janja custa cerca de R$ 2 mi/ano', text: 'Não há gabinete próprio, mas há custo público na máquina. Trocar nome não faz a conta desaparecer.', url: 'https://www.poder360.com.br/poder-governo/gabinete-de-janja-no-planalto-custa-cerca-de-r-2-mi-por-ano/', source: 'Poder360' },
-    { tag: 'Viagens', stat: shortMoney(summary.janja_direct_total_all_contexts ?? summary.direct_total), title: 'Portal da Transparência: viagens oficiais federais', text: 'Base primária de todas as viagens federais do período. Não é total pessoal da Janja; o recorte dela fica separado.', url: 'https://portaldatransparencia.gov.br/download-de-dados/viagens/2025', source: 'Portal da Transparência' },
-    { tag: 'Cartão', stat: shortMoney(cpgf.total), title: 'CPGF Presidência: cartão público sob lupa', text: 'Camada da Presidência. Não é atribuição pessoal sem prova, mas é dinheiro público sob cobrança.', url: 'https://portaldatransparencia.gov.br/download-de-dados/cpgf/202604', source: 'Portal da Transparência' },
-    { tag: 'Sigilo', stat: shortMoney(secret.total), title: 'Favorecido sigiloso no cartão da Presidência', text: 'O cidadão paga, mas a base pública esconde quem recebeu. Isso merece holofote.', url: 'https://www.poder360.com.br/poder-governo/tcu-mostra-99-de-sigilo-no-cartao-corporativo-da-presidencia/', source: 'Poder360/TCU' },
-    { tag: 'Dívida', stat: `${Number(dbgg.latest_value || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}% PIB`, title: 'Banco Central: dívida bruta em patamar alto', text: 'Quando a conta pública explode, quem paga é o contribuinte — não o discurso.', url: 'https://www.bcb.gov.br/estatisticas/tabelasespeciais', source: 'BCB SGS' },
-    { tag: 'Meta fiscal', stat: 'R$ 324 bi', title: 'Gasto fora da meta vira pergunta pública', text: 'Contexto macro: bilhões fora da regra não podem virar nota de rodapé.', url: 'https://www.poder360.com.br/poder-economia/lula-gasta-r-324-bilhoes-fora-da-meta-fiscal-em-3-anos/', source: 'Poder360' }
+  const fallback = [
+    { layer: 'Estrutura', visual_type: 'structure', stat: shortMoney(summary.structure_context?.average_annual_structure_cost_2023_2024), title: 'Poder360: estrutura ligada à Janja custa cerca de R$ 2 mi/ano', summary: 'Não há gabinete próprio, mas há custo público de equipe e apoio. Trocar o rótulo não faz a conta desaparecer.', url: 'https://www.poder360.com.br/poder-governo/gabinete-de-janja-no-planalto-custa-cerca-de-r-2-mi-por-ano/', source: 'Poder360' },
+    { layer: 'Viagens', visual_type: 'travel', stat: shortMoney(summary.janja_direct_total_all_contexts ?? summary.direct_total), title: 'Portal da Transparência: viagens oficiais federais', summary: 'Base primária de todas as viagens federais do período. Não é total pessoal da Janja; o recorte dela fica separado.', url: 'https://portaldatransparencia.gov.br/download-de-dados/viagens/2025', source: 'Portal da Transparência' },
+    { layer: 'Cartão', visual_type: 'card', stat: shortMoney(cpgf.total), title: 'CPGF Presidência: cartão público sob lupa', summary: 'Camada da Presidência. Não é atribuição pessoal sem prova, mas é dinheiro público sob cobrança.', url: 'https://portaldatransparencia.gov.br/download-de-dados/cpgf/202604', source: 'Portal da Transparência' },
+    { layer: 'Sigilo', visual_type: 'secrecy', stat: shortMoney(secret.total), title: 'Favorecido sigiloso no cartão da Presidência', summary: 'O cidadão paga, mas a base pública esconde quem recebeu. Isso merece holofote.', url: 'https://www.poder360.com.br/poder-governo/tcu-mostra-99-de-sigilo-no-cartao-corporativo-da-presidencia/', source: 'Poder360/TCU' },
+    { layer: 'Dívida', visual_type: 'debt', stat: `${Number(dbgg.latest_value || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}% PIB`, title: 'Banco Central: dívida bruta em patamar alto', summary: 'Quando a conta pública pesa, quem paga é o contribuinte — não o discurso.', url: 'https://www.bcb.gov.br/estatisticas/tabelasespeciais', source: 'BCB SGS' },
+    { layer: 'Meta fiscal', visual_type: 'macro', stat: 'R$ 324 bi', title: 'Gasto fora da meta vira pergunta pública', summary: 'Contexto macro: bilhões fora da regra não podem virar nota de rodapé.', url: 'https://www.poder360.com.br/poder-economia/lula-gasta-r-324-bilhoes-fora-da-meta-fiscal-em-3-anos/', source: 'Poder360' }
   ];
-  box.innerHTML = items.map(item => `<article class="news-item"><div><span>${escapeHtml(item.tag)}</span><strong>${escapeHtml(item.stat)}</strong></div><div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.text)}</p><em>Camada de contexto — não é atribuição pessoal sem prova direta. É cobrança pública com fonte.</em>${sourceText(item.url, `Fonte ${item.source}`)}</div></article>`).join('');
+  const jsonItems = Array.isArray(dossierPayload?.news_links) ? dossierPayload.news_links : [];
+  const items = (jsonItems.length ? jsonItems : fallback).map((item, idx) => ({
+    layer: item.layer || item.tag || fallback[idx % fallback.length].layer,
+    visual_type: item.visual_type || fallback[idx % fallback.length].visual_type,
+    stat: item.stat || fallback[idx % fallback.length].stat || item.source || 'Fonte',
+    title: item.title,
+    summary: item.summary || item.text || item.caveat || fallback[idx % fallback.length].summary,
+    url: item.url,
+    source: item.source || 'Fonte aberta',
+    source_type: item.source_type || 'fonte/contexto aberto',
+    credibility: item.credibility || 'contexto',
+    claim_scope: item.claim_scope || item.layer || 'camada de contexto',
+    official_basis: item.official_basis || 'Fonte aberta informada no card; confira a URL exibida como texto.',
+    included_in_direct_janja_total: Boolean(item.included_in_direct_janja_total),
+    image_policy: item.image_policy || 'visual gerado no dashboard; sem hotlink de foto',
+    caveat: item.caveat || 'Contexto separado — não é atribuição pessoal sem prova direta.'
+  }));
+  box.innerHTML = items.map((item, idx) => {
+    const safeType = String(item.visual_type || 'context').replace(/[^a-z0-9_-]/gi, '').toLowerCase() || 'context';
+    const layerLabel = String(item.layer || 'Fonte').slice(0, 2).toUpperCase();
+    const directBadge = item.included_in_direct_janja_total ? 'entra no direto' : 'contexto separado';
+    return `<article class="news-card-premium">
+      <div class="news-visual ${escapeAttr(safeType)}" aria-hidden="true">
+        <span>${escapeHtml(layerLabel)}</span>
+        <b>${escapeHtml(item.stat)}</b>
+        <div class="news-visual-meta"><small>${escapeHtml(item.source)}</small><small>${escapeHtml(directBadge)}</small></div>
+      </div>
+      <div class="news-body">
+        <div class="news-kicker"><span>${escapeHtml(item.layer)}</span><small>${escapeHtml(item.source)} • ${escapeHtml(item.credibility)}</small></div>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.summary)}</p>
+        <div class="news-proof-rail" aria-label="Resumo da evidência do link">
+          <span><b>Número</b>${escapeHtml(item.stat)}</span>
+          <span><b>Escopo</b>${escapeHtml(item.claim_scope)}</span>
+          <span><b>Total direto</b>${item.included_in_direct_janja_total ? 'entra' : 'não entra'}</span>
+          <span><b>Fonte</b>${escapeHtml(item.source)}</span>
+        </div>
+        <p class="basis-note"><b>Base:</b> ${escapeHtml(item.official_basis)}</p>
+        <em>${escapeHtml(item.caveat)}</em>
+        <small class="news-source-note">${escapeHtml(item.source_type)} • ${escapeHtml(item.image_policy)}</small>
+        ${sourceText(item.url, `Fonte ${item.source}`)}
+      </div>
+    </article>`;
+  }).join('');
 }
 
 function setupRankingToggle() {
@@ -361,7 +467,7 @@ function renderTopExpenses() {
   const cpgf = govPayload?.cpgf_presidency || {};
   const configs = {
     direct: {
-      note: 'Top 10 direto Janja: registros mais fortes, em nome dela ou CPF mascarado oficial. Não inclui máquina inteira.',
+      note: 'Top 10 direto Janja: registros mais fortes, em nome dela ou CPF mascarado oficial. Não inclui governo, Presidência, equipe nem comitiva.',
       rows: (summary.top_expenses_direct || []).slice(0, 10),
       render: (r, i) => radarTravelCard(r, i)
     },
@@ -415,20 +521,37 @@ function filteredRecords() {
 }
 function renderRecords() {
   const list = document.getElementById('recordsList');
-  const rows = filteredRecords().slice(0, 20);
+  const filtered = filteredRecords();
+  const rows = filtered.slice(0, 20);
+  const status = document.getElementById('recordsResultStatus');
+  if (status) {
+    status.textContent = `${filtered.length.toLocaleString('pt-BR')} registros encontrados; mostrando ${rows.length.toLocaleString('pt-BR')} primeiros por maior valor. Use filtros para auditar sem misturar evidências.`;
+  }
   list.innerHTML = rows.map(r => `<article class="record"><div class="record-head"><div><b>${escapeHtml(r.expense_label || 'Registro oficial')}</b><span>${escapeHtml(r.date_start || 'Sem data')} • ${escapeHtml(r.destination || 'Sem destino')}</span></div><strong>${money(r.total)}</strong></div><p>${escapeHtml(shortText(r.objective || r.simple_explanation, 140))}</p><div class="tags"><span class="tag ${confidenceClass(r.confidence)}">${categoryLabel(r.category)}</span><span class="tag">${r.counted_in_direct_total ? 'entra no direto' : 'contexto'}</span></div><details><summary>Detalhes da prova</summary><small>Beneficiário: ${escapeHtml(r.beneficiary || '—')}<br>Órgão: ${escapeHtml(r.orgao_pagador || r.orgao || '—')}<br>Passagens: ${money(r.passagens)} • Diárias: ${money(r.diarias)} • Outros: ${money(r.outros)}</small></details>${sourceText(r.source_url, 'Fonte oficial')}</article>`).join('') || '<p class="empty">Nenhum registro para os filtros atuais.</p>';
 }
 
 function renderDraft() {
   const { summary, cpgf, watchedGovernment, secret } = totals();
   const headline = dossierPayload?.headline || {};
-  const draft = `${shortMoney(watchedGovernment)} de dinheiro público sob fiscalização.\n\nO painel mostra, separado e com fonte:\n• viagens federais oficiais: ${money(headline.official_travel_federal_total || totals().federalTravelTotal)}\n• Janja direto: ${money(summary.direct_total)}\n• Janja + contexto/comitiva: ${money(summary.janja_direct_total_all_contexts ?? summary.direct_total)}\n• cartão da Presidência: ${money(cpgf.total)}\n• favorecido sigiloso: ${money(secret.total)}\n\nNúmero na tela. Fonte aberta. Contra corrupção e desperdício.\n\nhttps://fiscalizando-a-janja.vercel.app`;
+  const recordsCount = Number(dossierPayload?.records_index?.total_records || records.length || 0).toLocaleString('pt-BR');
+  const url = 'https://janjometro.vercel.app';
+  const directTotal = money(summary.direct_total);
+  const contextTotal = money(summary.janja_direct_total_all_contexts ?? summary.direct_total);
+  const cpgfTotal = money(cpgf.total);
+  const secretTotal = money(secret.total);
+  const travelTotal = money(headline.official_travel_federal_total || totals().federalTravelTotal);
+  const draft = `Dossiê aberto no ar: Janjômetro. Registro direto fica separado de comitiva, equipe, Presidência e sigilo. Sem fonte, não vira acusação. ${url}`;
+  const longPost = `🚨 Janjômetro está no ar.\n\nEu montei um painel público para qualquer pessoa conferir registros oficiais sem depender de manchete, torcida ou versão de governo.\n\nO que a página separa:\n• viagens federais oficiais: ${travelTotal}\n• gasto direto identificado em nome da Janja: ${directTotal}\n• contexto/comitiva/equipe: ${contextTotal}\n• cartão corporativo da Presidência: ${cpgfTotal}\n• favorecido sigiloso no CPGF: ${secretTotal}\n\nA regra é simples: direto é direto; equipe, comitiva, menção e Presidência ficam separados. Se não tem fonte, não vira acusação.\n\nO objetivo é fiscalização cidadã: número na tela, fonte aberta e cobrança pública contra desperdício, sigilo e favorecido oculto.\n\nAcesse: ${url}`;
+  const thread = `1/ Estou abrindo o Janjômetro: um dossiê público com ${recordsCount} registros indexados.\n\n2/ O painel não mistura tudo para viralizar: separa direto Janja (${directTotal}), contexto/comitiva (${contextTotal}) e cartão da Presidência (${cpgfTotal}).\n\n3/ Onde há sigilo ou favorecido oculto, o painel cobra transparência. Onde só há menção/contexto, ele marca como contexto — não como gasto pessoal.\n\n4/ Sem fonte, não vira acusação. Com fonte, não fica escondido.\n${url}`;
   setText('xDraft', draft);
+  setText('longPostDraft', longPost);
+  setText('threadDraft', thread);
 }
 
 function startSignalCanvas() {
   const canvas = document.getElementById('signalCanvas');
   if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.innerWidth < 760) return;
   const ctx = canvas.getContext('2d');
   let w, h, dots;
   function resize() {
@@ -444,11 +567,25 @@ function startSignalCanvas() {
   resize(); window.addEventListener('resize', resize); frame();
 }
 
-document.getElementById('copyDraft')?.addEventListener('click', async () => {
-  const text = document.getElementById('xDraft').textContent;
-  await navigator.clipboard.writeText(text);
-  document.getElementById('copyDraft').textContent = 'Copiado';
-  setTimeout(() => document.getElementById('copyDraft').textContent = 'Copiar', 1600);
+async function copyLaunchText(button) {
+  const targetId = button?.dataset?.copyTarget;
+  const target = targetId ? document.getElementById(targetId) : null;
+  const status = document.getElementById('copyStatus');
+  if (!target) return;
+  const original = button.textContent;
+  try {
+    await navigator.clipboard.writeText(target.textContent.trim());
+    button.textContent = 'Copiado';
+    if (status) status.textContent = 'Rascunho copiado. Revise antes de publicar; nada é postado automaticamente.';
+  } catch (err) {
+    button.textContent = 'Selecione';
+    if (status) status.textContent = 'Não consegui copiar automaticamente. Selecione o texto e copie manualmente.';
+  }
+  setTimeout(() => { button.textContent = original; }, 1800);
+}
+
+document.querySelectorAll('[data-copy-target]').forEach(button => {
+  button.addEventListener('click', () => copyLaunchText(button));
 });
 
 loadData().catch(err => {

@@ -1,8 +1,8 @@
 {
-  "name": "fiscalizando-a-janja",
+  "name": "janjometro",
   "version": "0.2.0",
   "private": true,
-  "description": "Dashboard factual de despesas públicas e agendas associadas à Primeira-Dama, com fontes oficiais.",
+  "description": "Janjômetro: dashboard factual de despesas públicas, Presidência, viagens, sigilo e fontes oficiais.",
   "scripts": {
     "scan": "npm run scan:janja && npm run scan:gov && npm run scan:db",
     "scan:janja": "python3 scripts/scan_radar_janja.py",

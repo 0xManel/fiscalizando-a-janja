@@ -261,7 +261,7 @@ def classify_expense_type(objective: str, destination: str, diarias: Decimal, pa
     """
     hay = f"{objective} {destination}"
     if re.search(r"MODA|ROUPA|VESTU[ÁA]RIO|VESTIMENTA|TRAJE", hay, re.I):
-        return "roupa_vestuario", EXPENSE_TYPE_LABELS["roupa_vestuario"], "O texto oficial menciona roupa/vestuário. Precisa conferência manual antes de virar acusação."
+        return "roupa_vestuario", EXPENSE_TYPE_LABELS["roupa_vestuario"], "O texto oficial menciona roupa/vestuário. Precisa conferência manual antes de virar afirmação pública."
     if re.search(r"REFEI[ÇC][ÃA]O|RESTAURANTE|BUFFET|COMIDA|JANTAR|ALMO[ÇC]O", hay, re.I):
         return "alimentacao_comida", EXPENSE_TYPE_LABELS["alimentacao_comida"], "O texto oficial menciona almoço/refeição/comida na agenda. Não significa nota de restaurante; serve como pista para fiscalizar."
     if passagens >= diarias and passagens >= outros and passagens > 0:
@@ -489,13 +489,13 @@ def write_outputs(records: list[Record]) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     records_sorted = sorted(records, key=lambda r: (r.date_start[-4:] if r.date_start else str(r.year), r.date_start, r.id), reverse=True)
     payload = {
-        "project": "Fiscalizando a JANJA e o PT",
+        "project": "Janjômetro",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "methodology": {
             "scope": "Registros oficiais que mencionam Janja, Rosângela da Silva, Primeira-Dama ou agendas associadas. Nesta versão, a fonte primária automatizada é Viagens do Portal da Transparência; roupa/comida só são classificados se aparecerem explicitamente no texto oficial.",
             "counting_rule": "O total direto da Janja soma registros oficiais em nome dela nos dados de viagens. A versão conservadora separa itens em comitiva; equipe, apoio, menções e possíveis homônimos não entram como gasto direto.",
             "structure_note": "Não existe orçamento próprio oficial de gabinete da Primeira-Dama. Estrutura/equipe é tratada como camada separada, baseada em levantamento externo com dados do Portal da Transparência, até automatizarmos folha/despesas/empenhos.",
-            "warning": "Base factual para fiscalização cidadã; não afirma crime, irregularidade ou desvio sem fonte jurídica/oficial.",
+            "warning": "Base factual para fiscalização cidadã; sem fonte jurídica/oficial, o painel não transforma registro público em acusação.",
             "terms": [p.pattern for p in SEARCH_PATTERNS],
         },
         "summary": summarize(records_sorted),

@@ -3,22 +3,24 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="Fiscalizando a JANJA e o PT: dossiê público, direto e verificável sobre Janja, governo Lula/PT, cartões, sigilo, viagens e dívida." />
+    <meta name="description" content="Janjômetro: dossiê público e verificável sobre Janja, governo Lula/PT, cartões, sigilo, viagens e dívida." />
     <meta name="theme-color" content="#06140b" />
-    <meta property="og:title" content="Fiscalizando a JANJA e o PT" />
-    <meta property="og:description" content="Janja, governo Lula/PT, cartão corporativo, sigilo e dívida: número grande, fonte aberta e cobrança pública." />
-    <title>Fiscalizando a JANJA e o PT — gastos do governo sob lupa</title>
+    <meta property="og:title" content="Janjômetro" />
+    <meta property="og:description" content="Janjômetro coloca Janja, governo Lula/PT, cartão corporativo, sigilo e dívida sob lupa: número grande, fonte aberta e cobrança pública." />
+    <title>Janjômetro — gastos do governo sob lupa</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#provas">Pular para as provas oficiais</a>
+    <div class="scroll-progress" aria-hidden="true"></div>
     <canvas id="signalCanvas" class="signal-canvas" aria-hidden="true"></canvas>
     <div class="brazil-glow" aria-hidden="true"></div>
 
     <header class="app-header">
       <nav class="topbar" aria-label="Navegação principal">
-        <a class="brand" href="#topo" aria-label="Fiscalizando a JANJA e o PT">
+        <a class="brand" href="#topo" aria-label="Janjômetro">
           <span class="brand-mark" aria-hidden="true">🇧🇷</span>
-          <span><strong>Fiscalizando a JANJA e o PT</strong><small>Dinheiro público. Fonte aberta. Cobrança sem maquiagem.</small></span>
+          <span><strong>Janjômetro</strong><small>Dinheiro público. Fonte aberta. Cobrança sem maquiagem.</small></span>
         </a>
         <div class="nav-actions">
           <a href="#graficos">Gráficos</a>
@@ -27,13 +29,17 @@
           <a href="#noticias">Fontes</a>
           <a href="#provas">Provas</a>
         </div>
+        <div class="header-status" id="headerStatus" aria-live="polite">
+          <span>Base oficial</span>
+          <strong>carregando</strong>
+        </div>
       </nav>
     </header>
 
     <main id="topo">
       <section class="hero-redesign" aria-label="Resumo principal">
         <article class="hero-main-card">
-          <p class="eyebrow">Dinheiro público contra corrupção e desperdício</p>
+          <p class="eyebrow">Dinheiro público contra desperdício e sigilo</p>
           <h1 id="governmentGrandTotal">R$ —</h1>
           <div class="hero-2025-spend" id="hero2025Spend" aria-label="Gasto do ano em curso sob lupa">
             <span>Ano em curso sob lupa</span>
@@ -47,9 +53,17 @@
           </div>
           <div class="hero-formula"><b>O que entra no placar:</b> viagens federais oficiais do período, cartão da Presidência e estrutura/equipe citada em fonte pública. <strong>O gasto direto em nome da Janja fica separado.</strong></div>
           <div class="public-claim-strip" id="publicReading"><b>Leitura correta:</b> número grande é governo sob lupa. Gasto direto Janja: carregando. Presidência, equipe, CPGF e dívida ficam em camadas separadas.</div>
-          <div class="hero-warning">O brasileiro paga imposto. Se o governo gasta, o povo tem direito de ver a conta. Aqui é número na tela, fonte aberta e cobrança sem pedir licença.</div>
+          <section class="hero-top-chart" aria-label="Gráfico principal do governo sob lupa por ano">
+            <div class="chart-head"><b>Governo sob lupa por ano</b><span>viagens federais + CPGF Presidência</span></div>
+            <div id="heroGovYearChart" class="bar-chart compact-bars"></div>
+            <div id="heroChartInsight" class="chart-insight-row" aria-label="Leitura rápida do gráfico anual"></div>
+            <p class="chart-caveat">Contexto de governo/Presidência. Não atribui gasto pessoal à Janja sem registro direto.</p>
+          </section>
+          <div class="hero-warning">O brasileiro paga imposto. Se o governo gasta, o povo tem direito de ver a conta. Aqui é número na tela, fonte aberta e cobrança pública.</div>
           <div class="hero-actions" aria-label="Ações principais">
             <a class="primary-action" href="#provas">Ver provas na página</a>
+            <a class="secondary-action" href="#ranking">Abrir Top 10 rastreável</a>
+            <a class="secondary-action" href="#metodo">Entender método</a>
           </div>
           <div class="source-tape source-tape-plain" aria-label="Fontes primárias usadas">
             <span>Viagens oficiais: https://portaldatransparencia.gov.br/download-de-dados/viagens/2026</span>
@@ -79,7 +93,7 @@
 
       <section class="truth-strip" aria-label="Placar honesto por tipo de gasto">
         <article><span>Direto Janja</span><strong id="truthDirect">R$ —</strong><small>Registro oficial em nome dela. Aqui não tem enrolação.</small></article>
-        <article><span>Contexto/equipe</span><strong id="truthContext">R$ —</strong><small>Apoio, estrutura ou comitiva. Separado para ninguém maquiar.</small></article>
+        <article><span>Contexto/equipe</span><strong id="truthContext">R$ —</strong><small>Apoio, estrutura ou comitiva. Separado para ninguém confundir com gasto direto.</small></article>
         <article><span>Governo sob lupa</span><strong id="truthGovernment">R$ —</strong><small>Viagens federais totais + CPGF + estrutura/equipe. Não é gasto pessoal.</small></article>
       </section>
 
@@ -103,11 +117,17 @@
         <div id="recentSignals" class="quick-log-list"></div>
       </section>
 
+      <section id="updateStatus" class="update-status-panel" aria-label="Status da atualização quase em tempo real">
+        <div class="update-mode-pill"><span class="freshness-dot"></span><b>Base oficial em refresh acelerado</b><small>Carregando status...</small></div>
+        <div id="updateStatusGrid" class="update-status-grid"></div>
+        <div id="updateFileStrip" class="update-file-strip" aria-label="Últimos arquivos oficiais lidos"></div>
+      </section>
+
       <section id="graficos" class="panel charts-panel">
         <div class="panel-heading compact">
           <p class="eyebrow">Cartões, dívida e governo federal</p>
-          <h2>Veja a conta que o discurso tenta esconder.</h2>
-          <p>Gráfico simples para separar: base federal ampla de um lado; registros diretos/contexto de Janja do outro. Sem misturar para viralizar.</p>
+          <h2>Veja os números que pedem explicação.</h2>
+          <p>Gráfico simples para separar: base federal ampla de um lado; registros diretos/contexto de Janja do outro. Sem misturar para chamar clique.</p>
         </div>
         <div class="charts-grid">
           <article class="chart-card">
@@ -142,9 +162,9 @@
           <div>
             <p class="eyebrow">Viagens e comidas</p>
             <h2>Passagem, diária e pista de comida.</h2>
-            <p id="travelFoodNote">O que tiver fonte entra. O que for só indício fica marcado como pista. Sem maquiagem oficialista. Sem acusação inventada.</p>
+            <p id="travelFoodNote">O que tiver fonte entra. O que for só indício fica marcado como pista. Fonte primeiro, opinião depois. Sem acusação inventada.</p>
           </div>
-          <div id="databaseStatus" class="database-pill"><b>Base viva do dossiê</b><span>Carregando registros...</span></div>
+          <div id="databaseStatus" class="database-pill"><b>Base auditável</b><span>Carregando registros...</span></div>
         </div>
         <div class="travel-food-stats">
           <article><span>Viagens Janja + contexto</span><strong id="travelDirectTotal">R$ —</strong><small>Direto e comitiva/contexto aparecem juntos aqui; o valor direto fica separado no placar.</small></article>
@@ -197,8 +217,8 @@
       <section id="noticias" class="panel news-panel">
         <div class="panel-heading compact">
           <p class="eyebrow">Links que importam</p>
-          <h2>Fonte antes de opinião. Ataque só com prova.</h2>
-          <p>Cada link mostra de onde saiu o número. Quem quiser defender o governo vai ter que brigar com a fonte, não com opinião.</p>
+          <h2>Fonte antes de opinião. Cobrança só com prova.</h2>
+          <p>Cada link mostra de onde saiu o número. Quem quiser defender o governo vai ter que responder à fonte, não a opinião.</p>
         </div>
         <div id="newsContext" class="news-list"></div>
       </section>
@@ -208,7 +228,7 @@
           <div>
             <p class="eyebrow">Top 10 rastreável</p>
             <h2>Maiores gastos separados — onde foi e por quê.</h2>
-            <p>Viagens federais, Janja/contexto, Presidência e CPGF aparecem em listas separadas. Assim qualquer brasileiro entende sem alguém misturar tudo para mentir.</p>
+            <p>Viagens federais, Janja/contexto, Presidência e CPGF aparecem em listas separadas. Assim qualquer brasileiro entende sem alguém misturar tudo para confundir.</p>
           </div>
           <div class="toggle-group ranking-tabs" role="group" aria-label="Ranking">
             <button class="toggle active" data-ranking="direct">Janja direto</button>
@@ -224,9 +244,9 @@
 
       <section id="provas" class="panel proof-panel">
         <div class="panel-heading compact">
-          <p class="eyebrow">Prova sem scroll infinito</p>
-          <h2>Abra só se quiser conferir.</h2>
-          <p>Mostramos o essencial para o povo entender rápido. A base completa fica filtrável e colapsada para quem quiser conferir.</p>
+          <p class="eyebrow">Prova sem bagunça</p>
+          <h2>Confira quando quiser.</h2>
+          <p>Mostramos primeiro o essencial para qualquer pessoa entender rápido. Quem quiser auditar pode abrir os registros, filtrar e conferir a fonte.</p>
         </div>
         <details class="records-drawer">
           <summary>Ver registros oficiais e filtros</summary>
@@ -236,6 +256,7 @@
             <select id="expenseFilter" aria-label="Filtrar por tipo de gasto"><option value="all">Todo tipo de gasto</option></select>
             <input id="searchInput" type="search" placeholder="Buscar destino, órgão, motivo..." />
           </div>
+          <div id="recordsResultStatus" class="records-result-status" aria-live="polite">Carregando registros...</div>
           <div id="recordsList" class="records-list"></div>
         </details>
       </section>
@@ -244,22 +265,39 @@
         <div class="method-grid compact-method">
           <article><h3>Direto</h3><p>Registros que aparecem ligados à Janja em base oficial de viagens.</p></article>
           <article><h3>Contexto</h3><p>Equipe, comitiva, cartão e dívida aparecem separados para não inflar nem esconder.</p></article>
-          <article><h3>Mapa da investigação aberta</h3><p>Servidor por servidor, contrato, nota, carro, aluguel, comida e DOU.</p></article>
+          <article><h3>Próximas cobranças públicas</h3><p>Servidor por servidor, contrato, nota, carro, aluguel, comida e DOU — só entra como afirmação quando houver fonte.</p></article>
         </div>
       </section>
 
       <section class="panel share-panel" id="publicar">
         <div class="panel-heading compact split">
-          <div><p class="eyebrow">Para divulgar</p><h2>Texto curto contra corrupção e desperdício.</h2></div>
-          <button class="button ghost" id="copyDraft">Copiar</button>
+          <div>
+            <p class="eyebrow">Para divulgar com segurança</p>
+            <h2>Rascunhos fortes — sem atropelar a prova.</h2>
+            <p>Copie e revise antes de publicar. Nada sai daqui automaticamente; gasto direto, equipe e Presidência continuam separados.</p>
+          </div>
         </div>
-        <pre id="xDraft">Carregando rascunho...</pre>
+        <div class="launch-copy-grid">
+          <article>
+            <div class="launch-copy-head"><span>Rascunho curto</span><button class="copy-mini" data-copy-target="xDraft">Copiar</button></div>
+            <pre id="xDraft">Carregando rascunho...</pre>
+          </article>
+          <article>
+            <div class="launch-copy-head"><span>Post maior / Telegram / LinkedIn</span><button class="copy-mini" data-copy-target="longPostDraft">Copiar</button></div>
+            <pre id="longPostDraft">Carregando post...</pre>
+          </article>
+          <article>
+            <div class="launch-copy-head"><span>Mini thread opcional</span><button class="copy-mini" data-copy-target="threadDraft">Copiar</button></div>
+            <pre id="threadDraft">Carregando thread...</pre>
+          </article>
+        </div>
+        <p id="copyStatus" class="copy-status" aria-live="polite"></p>
       </section>
     </main>
 
     <footer>
-      <p><strong>Fiscalizando a JANJA e o PT</strong> organiza dados públicos para cobrança cidadã. Não é sentença judicial. É fiscalização sobre dinheiro público, governo Lula/PT, Janja, Presidência, sigilo e transparência.</p>
+      <p><strong>Janjômetro</strong> organiza dados públicos para cobrança cidadã. Não é sentença judicial. É fiscalização sobre dinheiro público, governo Lula/PT, Janja, Presidência, sigilo e transparência.</p>
     </footer>
-    <script src="app.js?v=gov-proof-20260501c" defer></script>
+    <script src="app.js?v=fase2-batch-20260502a" defer></script>
   </body>
 </html>

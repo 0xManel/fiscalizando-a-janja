@@ -1,4 +1,4 @@
-# Fiscalizando a JANJA e o PT
+# Janjômetro
 
 Dossiê público, direto e verificável sobre **Janja, governo Lula/PT, Presidência, cartão corporativo, sigilo, viagens oficiais e dívida pública**.
 
@@ -6,7 +6,7 @@ A ideia é simples: **o dinheiro é público, a conta também**. Se o governo us
 
 Site em produção:
 
-https://fiscalizando-a-janja.vercel.app
+https://janjometro.vercel.app
 
 Repositório público:
 

@@ -84,7 +84,7 @@ html = (ROOT / "index.html")
 app = (ROOT / "app.js")
 if html.exists():
     text = html.read_text(encoding="utf-8")
-    for token in ["Fiscalizando a JANJA e o PT", "Dinheiro público contra corrupção e desperdício", "Veja a conta que o discurso tenta esconder", "Viagens e comidas", "Passos 1, 2 e 3", "O que é de quem", "Links que importam", "Top 10 rastreável", "Prova sem scroll infinito", "Sem fonte, não vira acusação"]:
+    for token in ["Janjômetro", "Dinheiro público contra desperdício e sigilo", "Veja os números que pedem explicação", "Viagens e comidas", "Passos 1, 2 e 3", "O que é de quem", "Links que importam", "Top 10 rastreável", "Prova sem bagunça", "Sem fonte, não vira acusação"]:
         if token not in text:
             errors.append(f"index missing token: {token}")
 if app.exists():
@@ -95,6 +95,17 @@ if app.exists():
         errors.append("app missing government context URL")
     if "data/processed/dossier-db.json" not in text:
         errors.append("app missing dossier db URL")
+    for unsafe in ["window.open(", "createObjectURL(", ".click()", "download="]:
+        if unsafe in text:
+            errors.append(f"app has unsafe public download/navigation pattern: {unsafe}")
+
+if html.exists():
+    text = html.read_text(encoding="utf-8")
+    for unsafe in ["download=", "target=\"_blank\""]:
+        if unsafe in text:
+            errors.append(f"index has unsafe public download/navigation pattern: {unsafe}")
+    if "href=\"http" in text or "href='http" in text:
+        errors.append("index should not expose external http(s) anchors; render source URLs as plain text")
 
 if errors:
     print("❌ Radar Janja checks failed")
