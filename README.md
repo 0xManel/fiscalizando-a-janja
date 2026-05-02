@@ -6,7 +6,11 @@ A ideia é simples: **o dinheiro é público, a conta também**. Se o governo us
 
 Site em produção:
 
-https://janjometro.vercel.app
+https://janjometro-0xmanel.vercel.app
+
+Alias atual legado:
+
+https://fiscalizando-a-janja.vercel.app
 
 Repositório público:
 
