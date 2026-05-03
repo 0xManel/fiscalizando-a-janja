@@ -572,3 +572,29 @@ body{
     grid-template-columns:1fr 1fr!important;
   }
 }
+
+/* Pandemic-vs-normal comparison: clearer, more favorable, data-safe chart */
+.hardship-compare-shell{gap:10px!important}
+.hardship-ticker-row{grid-template-columns:1fr 1fr .72fr!important}
+.hardship-proof-strip{display:grid;grid-template-columns:1fr 1fr .78fr;gap:7px;margin:-2px 0 0}
+.hardship-proof-strip span{display:block;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(255,255,255,.045);padding:8px 9px;color:#dbe6ef;font-size:11px;font-weight:850;line-height:1.18}
+.hardship-proof-strip b{display:block;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}.hardship-proof-strip span:first-child{border-color:rgba(0,168,126,.28);background:rgba(0,168,126,.08)}.hardship-proof-strip span:nth-child(2){border-color:rgba(226,59,74,.3);background:rgba(226,59,74,.08)}
+.hardship-chart-stage{background:radial-gradient(circle at 18% 22%,rgba(0,168,126,.15),transparent 34%),radial-gradient(circle at 88% 12%,rgba(226,59,74,.14),transparent 32%),linear-gradient(180deg,rgba(10,18,32,.96),rgba(2,6,23,.94))!important}
+.hardship-svg .crisis-band{fill:url(#crisisBand);stroke:rgba(255,255,255,.08);stroke-width:1}.market-fill{fill:none}.hardship-svg .market-line{stroke-width:6}.hardship-svg .market-point circle{r:6}.hardship-pairs{grid-template-columns:repeat(3,minmax(0,1fr))!important}.hardship-pair{border-radius:16px!important}.partial-note{border:1px dashed rgba(255,255,255,.16);border-radius:14px;background:rgba(255,255,255,.035);color:#cbd5e1;padding:8px 10px;font-size:11.5px;font-weight:820;line-height:1.25}.crypto-compare-card .compare-head b{max-width:780px!important}
+@media(min-width:761px){.hardship-proof-strip{grid-template-columns:1fr 1fr .78fr}.hardship-pairs .market-pair:nth-child(n){display:grid!important}.hardship-svg{height:148px!important}.crypto-compare-card .compare-head b{font-size:clamp(25px,2.8vw,34px)!important}.crypto-compare-card .compare-head small{font-size:11.5px!important}.hardship-pair div small{display:block!important;font-size:9px!important}.hardship-pair b{font-size:10.8px!important}.hardship-pair strong{font-size:11px!important}}
+@media(max-width:760px){.hardship-ticker-row,.hardship-proof-strip{grid-template-columns:1fr!important}.hardship-proof-strip span:nth-child(3){display:none}.hardship-pairs{grid-template-columns:1fr!important}.hardship-pair:nth-child(n+3){display:none!important}.partial-note{font-size:11px}.crypto-compare-card .compare-head b{font-size:clamp(25px,8.2vw,36px)!important}.hardship-svg{height:218px!important}}
+
+/* First-fold fit for pandemic-vs-normal chart */
+@media(min-width:761px){
+  .hardship-ticker-row{grid-template-columns:1fr 1fr .62fr!important;gap:5px!important}
+  .hardship-proof-strip{grid-template-columns:1fr 1fr!important;gap:5px!important}
+  .hardship-proof-strip span{padding:6px 8px!important;font-size:10px!important;line-height:1.12!important}
+  .hardship-proof-strip span:nth-child(3){display:none!important}
+  .hardship-chart-stage{padding:5px!important;border-radius:16px!important}
+  .hardship-svg{height:112px!important}
+  .hardship-pairs{display:none!important}
+  .partial-note{display:none!important}
+  .crypto-compare-card .president-compare-insight{display:none!important}
+  .crypto-compare-card .chart-caveat{font-size:10.5px!important;line-height:1.2!important;padding:7px 9px!important;margin-top:7px!important}
+  .crypto-compare-card{padding:14px!important;margin-bottom:12px!important}
+}

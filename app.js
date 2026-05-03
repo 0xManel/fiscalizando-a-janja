@@ -319,7 +319,6 @@ function renderPresidentComparison() {
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([year, row]) => ({
       year,
-      mandateIndex: Number(year) < 2023 ? Number(year) - 2019 : Number(year) - 2023,
       realized: Number(row.realized || 0),
       committed: Number(row.committed || row.realized || 0),
       updated: Number(row.updated || row.committed || row.realized || 0),
@@ -328,73 +327,80 @@ function renderPresidentComparison() {
       source: row.source_url || ''
     }))
     .filter(r => r.realized > 0);
-  const bolRows = rows.filter(r => r.president.toLowerCase().includes('bolsonaro')).slice(0, 4);
-  const lulaRows = rows.filter(r => !r.president.toLowerCase().includes('bolsonaro')).slice(0, 4);
-  const paired = [0, 1, 2, 3].map(i => ({ index: i, bol: bolRows[i], lula: lulaRows[i] })).filter(pair => pair.bol || pair.lula);
-  const values = rows.flatMap(r => [r.realized, r.committed, r.updated]).filter(Boolean);
-  const max = Math.max(...values, 1);
-  const min = Math.min(...values, max);
+
+  const bolBase = rows.find(r => r.year === '2019');
+  const bolPandemic = rows.filter(r => ['2020', '2021', '2022'].includes(String(r.year)));
+  const lulaNormal = rows.filter(r => ['2023', '2024', '2025'].includes(String(r.year)));
+  const lulaPartial = rows.find(r => r.year === '2026');
+  const comparePairs = [0, 1, 2].map(i => ({ index: i, bol: bolPandemic[i], lula: lulaNormal[i] })).filter(pair => pair.bol && pair.lula);
+  const compareRows = [...bolPandemic, ...lulaNormal];
+  const allValues = compareRows.flatMap(r => [r.realized, r.committed, r.updated]).filter(Boolean);
+  const max = Math.max(...allValues, 1);
+  const min = Math.min(...allValues, max);
   const range = Math.max(max - min, 1);
-  const xFor = index => 48 + (index / 3) * 304;
-  const yFor = value => 212 - ((Number(value || 0) - min) / range) * 160;
-  const pointAttr = list => list.map(r => `${xFor(r.mandateIndex).toFixed(1)},${yFor(r.realized).toFixed(1)}`).join(' ');
-  const svgPoints = rows.map(r => {
-    const cls = r.president.toLowerCase().includes('bolsonaro') ? 'bolsonaro' : 'lula';
-    const x = xFor(r.mandateIndex);
+  const xFor = index => 58 + (index / 2) * 284;
+  const yFor = value => 206 - ((Number(value || 0) - min) / range) * 146;
+  const bolPandemicAvg = bolPandemic.reduce((sum, r) => sum + r.realized, 0) / Math.max(bolPandemic.length, 1);
+  const lulaNormalAvg = lulaNormal.reduce((sum, r) => sum + r.realized, 0) / Math.max(lulaNormal.length, 1);
+  const avgDelta = bolPandemicAvg ? ((lulaNormalAvg - bolPandemicAvg) / bolPandemicAvg) * 100 : 0;
+  const pointAttr = list => list.map((r, i) => `${xFor(i).toFixed(1)},${yFor(r.realized).toFixed(1)}`).join(' ');
+  const pointMarkup = (list, cls) => list.map((r, i) => {
+    const x = xFor(i);
     const y = yFor(r.realized);
     return `<g class="market-point ${cls}" aria-label="${escapeAttr(`${r.president} ${r.year}: ${shortMoney(r.realized)}`)}">
       <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5"></circle>
       <text x="${x.toFixed(1)}" y="${(y - 12).toFixed(1)}">${escapeHtml(r.year)}</text>
     </g>`;
   }).join('');
-  const pairCards = paired.map(pair => {
-    const bol = pair.bol;
-    const lula = pair.lula;
-    const bolValue = Number(bol?.realized || 0);
-    const lulaValue = Number(lula?.realized || 0);
-    const delta = bolValue && lulaValue ? ((lulaValue - bolValue) / bolValue) * 100 : null;
-    const deltaCopy = delta === null ? '—' : `${delta >= 0 ? '+' : '−'}${Math.abs(delta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%`;
-    return `<article class="market-pair" aria-label="Ano ${pair.index + 1} de mandato: Bolsonaro ${bol ? shortMoney(bolValue) : 'sem dado'}, Lula ${lula ? shortMoney(lulaValue) : 'sem dado'}">
-      <span>${pair.index + 1}º ano</span>
-      <div><b class="bolsonaro-line">${escapeHtml(bol?.year || '—')} ${escapeHtml(shortMoney(bolValue))}</b><small>Bolsonaro verde</small></div>
-      <div><b class="lula-line">${escapeHtml(lula?.year || '—')} ${escapeHtml(shortMoney(lulaValue))}</b><small>Lula vermelho</small></div>
+  const pairCards = comparePairs.map(pair => {
+    const bolValue = Number(pair.bol.realized || 0);
+    const lulaValue = Number(pair.lula.realized || 0);
+    const delta = bolValue ? ((lulaValue - bolValue) / bolValue) * 100 : 0;
+    const deltaCopy = `${delta >= 0 ? '+' : '−'}${Math.abs(delta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%`;
+    return `<article class="market-pair hardship-pair" aria-label="Comparação ${pair.bol.year} pandemia versus ${pair.lula.year} sem pandemia">
+      <span>${pair.index + 1}ª comparação</span>
+      <div><b class="bolsonaro-line">${escapeHtml(pair.bol.year)} pandemia • ${escapeHtml(shortMoney(bolValue))}</b><small>Bolsonaro sob crise sanitária</small></div>
+      <div><b class="lula-line">${escapeHtml(pair.lula.year)} sem pandemia • ${escapeHtml(shortMoney(lulaValue))}</b><small>Lula em cenário normal</small></div>
       <strong>${escapeHtml(deltaCopy)}</strong>
     </article>`;
   }).join('');
-  const bolPandemic = bolRows.filter(r => ['2020', '2021', '2022'].includes(String(r.year)));
-  const bolPandemicAvg = bolPandemic.reduce((sum, r) => sum + r.realized, 0) / Math.max(bolPandemic.length, 1);
-  const lulaNormal = lulaRows.filter(r => ['2023', '2024', '2025'].includes(String(r.year)));
-  const lulaNormalAvg = lulaNormal.reduce((sum, r) => sum + r.realized, 0) / Math.max(lulaNormal.length, 1);
-  const avgDelta = bolPandemicAvg ? ((lulaNormalAvg - bolPandemicAvg) / bolPandemicAvg) * 100 : 0;
-  box.innerHTML = `<div class="market-compare-shell">
-    <div class="market-ticker-row" aria-label="Resumo estilo mercado">
-      <span class="ticker-chip bolsonaro-chip">BOLSONARO/BRL <b>${escapeHtml(shortMoney(bolRows.reduce((sum, r) => sum + r.realized, 0)))}</b></span>
-      <span class="ticker-chip lula-chip">LULA/BRL <b>${escapeHtml(shortMoney(lulaRows.reduce((sum, r) => sum + r.realized, 0)))}</b></span>
-      <span class="ticker-chip spread-chip">SPREAD MÉDIA <b>${avgDelta >= 0 ? '+' : '−'}${Math.abs(avgDelta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%</b></span>
+
+  box.innerHTML = `<div class="market-compare-shell hardship-compare-shell">
+    <div class="market-ticker-row hardship-ticker-row" aria-label="Resumo estilo mercado com dificuldade fiscal">
+      <span class="ticker-chip bolsonaro-chip">BOLSONARO PANDEMIA <b>${escapeHtml(shortMoney(bolPandemicAvg))}/ano</b></span>
+      <span class="ticker-chip lula-chip">LULA SEM PANDEMIA <b>${escapeHtml(shortMoney(lulaNormalAvg))}/ano</b></span>
+      <span class="ticker-chip spread-chip">LULA ACIMA <b>+${Math.abs(avgDelta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%</b></span>
     </div>
-    <div class="market-chart-stage">
-      <svg class="market-svg" viewBox="0 0 400 240" role="img" aria-label="Duas linhas correlativas: Bolsonaro em verde e Lula em vermelho por ano de mandato">
+    <div class="hardship-proof-strip" aria-label="Contexto comparativo">
+      <span><b>2020–2022</b> pandemia, saúde e gastos imprevistos</span>
+      <span><b>2023–2025</b> governo Lula em cenário sem pandemia global</span>
+      <span><b>2026</b> parcial, fica fora da média principal</span>
+    </div>
+    <div class="market-chart-stage hardship-chart-stage">
+      <svg class="market-svg hardship-svg" viewBox="0 0 400 240" role="img" aria-label="Bolsonaro em verde na pandemia comparado a Lula em vermelho sem pandemia">
         <defs>
           <linearGradient id="bolsonaroGlow" x1="0" x2="1"><stop stop-color="#00a87e"/><stop offset="1" stop-color="#7dff9f"/></linearGradient>
-          <linearGradient id="lulaGlow" x1="0" x2="1"><stop stop-color="#ff7a85"/><stop offset="1" stop-color="#e23b4a"/></linearGradient>
+          <linearGradient id="lulaGlow" x1="0" x2="1"><stop stop-color="#ff8790"/><stop offset="1" stop-color="#e23b4a"/></linearGradient>
+          <linearGradient id="crisisBand" x1="0" x2="1"><stop stop-color="rgba(0,168,126,.16)"/><stop offset="1" stop-color="rgba(226,59,74,.12)"/></linearGradient>
         </defs>
+        <rect class="crisis-band" x="30" y="30" width="340" height="190" rx="18"></rect>
         <g class="market-grid">
-          <line x1="28" y1="52" x2="374" y2="52"></line><line x1="28" y1="92" x2="374" y2="92"></line><line x1="28" y1="132" x2="374" y2="132"></line><line x1="28" y1="172" x2="374" y2="172"></line><line x1="28" y1="212" x2="374" y2="212"></line>
-          <line x1="48" y1="34" x2="48" y2="220"></line><line x1="149" y1="34" x2="149" y2="220"></line><line x1="251" y1="34" x2="251" y2="220"></line><line x1="352" y1="34" x2="352" y2="220"></line>
+          <line x1="28" y1="60" x2="374" y2="60"></line><line x1="28" y1="104" x2="374" y2="104"></line><line x1="28" y1="148" x2="374" y2="148"></line><line x1="28" y1="192" x2="374" y2="192"></line>
+          <line x1="58" y1="34" x2="58" y2="220"></line><line x1="200" y1="34" x2="200" y2="220"></line><line x1="342" y1="34" x2="342" y2="220"></line>
         </g>
-        <polyline class="market-line bolsonaro" points="${pointAttr(bolRows)}"></polyline>
-        <polyline class="market-line lula" points="${pointAttr(lulaRows)}"></polyline>
-        ${svgPoints}
-        <text class="market-axis" x="48" y="234">1º ano</text><text class="market-axis" x="149" y="234">2º</text><text class="market-axis" x="251" y="234">3º</text><text class="market-axis" x="352" y="234">4º</text>
+        <path class="market-fill bolsonaro" d="M ${pointAttr(bolPandemic).replaceAll(',', ' L ')}"></path>
+        <polyline class="market-line bolsonaro" points="${pointAttr(bolPandemic)}"></polyline>
+        <polyline class="market-line lula" points="${pointAttr(lulaNormal)}"></polyline>
+        ${pointMarkup(bolPandemic, 'bolsonaro')}
+        ${pointMarkup(lulaNormal, 'lula')}
+        <text class="market-axis" x="58" y="234">1º recorte</text><text class="market-axis" x="200" y="234">2º</text><text class="market-axis" x="342" y="234">3º</text>
       </svg>
     </div>
-    <div class="market-pairs">${pairCards}</div>
+    <div class="market-pairs hardship-pairs">${pairCards}</div>
+    <div class="partial-note">Base extra: 2019 pré-pandemia ${escapeHtml(shortMoney(bolBase?.realized || 0))}. 2026 Lula parcial ${escapeHtml(shortMoney(lulaPartial?.realized || 0))}, por isso não entra no comparativo principal.</div>
   </div>`;
   if (insight) {
-    const bolVal = bolRows.reduce((sum, r) => sum + r.realized, 0);
-    const lulaVal = lulaRows.reduce((sum, r) => sum + r.realized, 0);
-    const delta = bolVal ? ((lulaVal - bolVal) / bolVal) * 100 : 0;
-    insight.innerHTML = `<span><b>Pandemia Bolsonaro</b>${escapeHtml(shortMoney(bolPandemicAvg))}<small>média anual 2020–2022</small></span><span><b>Lula normal</b>${escapeHtml(shortMoney(lulaNormalAvg))}<small>média anual 2023–2025</small></span><span><b>Leitura forte</b>+${Math.abs(avgDelta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%<small>Lula 2023–2025 acima da média Bolsonaro na pandemia</small></span>`;
+    insight.innerHTML = `<span><b>Bolsonaro com crise</b>${escapeHtml(shortMoney(bolPandemicAvg))}<small>média anual 2020–2022, período da pandemia</small></span><span><b>Lula sem pandemia</b>${escapeHtml(shortMoney(lulaNormalAvg))}<small>média anual 2023–2025, 2026 parcial excluído</small></span><span><b>Leitura do gráfico</b>+${Math.abs(avgDelta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%<small>Lula 2023–2025 acima da média Bolsonaro durante a pandemia</small></span>`;
   }
 }
 function setupDockNavigation() {
