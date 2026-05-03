@@ -25,7 +25,7 @@ OUT_DIR = ROOT / "data" / "processed"
 OUT_JSON = OUT_DIR / "government-context.json"
 
 BUDGET_YEARS = [2023, 2024, 2025, 2026]
-COMPARE_BUDGET_YEARS = [2020, 2021, 2022, 2023, 2024, 2025, 2026]
+COMPARE_BUDGET_YEARS = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
 BUDGET_URL = "https://portaldatransparencia.gov.br/download-de-dados/orcamento-despesa/{year}"
 TRAVEL_URL = "https://portaldatransparencia.gov.br/download-de-dados/viagens/{year}"
 CPGF_URL = "https://portaldatransparencia.gov.br/download-de-dados/cpgf/{yyyymm}"
@@ -462,8 +462,9 @@ def scan_budget() -> dict:
 
 
 def build_government_comparison(budget: dict) -> dict:
-    """Official first-screen comparison: Lula years versus Bolsonaro pandemic years."""
+    """Official first-screen comparison: Bolsonaro mandate versus Lula available years."""
     pre_lula = {
+        "2019": {"president": "Bolsonaro", "period_label": "Bolsonaro", "note": "Ano pré-pandemia; total federal oficial realizado."},
         "2020": {"president": "Bolsonaro", "period_label": "Bolsonaro / pandemia", "note": "Ano de pandemia; total federal oficial realizado."},
         "2021": {"president": "Bolsonaro", "period_label": "Bolsonaro / pandemia", "note": "Ano de pandemia; total federal oficial realizado."},
         "2022": {"president": "Bolsonaro", "period_label": "Bolsonaro / pandemia", "note": "Ano pós-pico da pandemia; total federal oficial realizado."},
@@ -501,10 +502,11 @@ def build_government_comparison(budget: dict) -> dict:
     lula_years = [y for y in ["2023", "2024", "2025", "2026"] if y in by_year]
     return {
         "source": "Portal da Transparência — Orçamento da Despesa",
-        "method_note": "Compara orçamento/despesa federal realizada por ano. Bolsonaro/pandemia usa 2020–2022; Lula usa 2023–2026 disponíveis. É contexto de governo, não gasto pessoal da Janja.",
-        "pandemic_caveat": "2020–2022 inclui despesas federais no período da pandemia; 2026 é ano em andamento/parcial se a base oficial ainda não fechou.",
+        "method_note": "Compara orçamento/despesa federal realizada por ano. Bolsonaro usa 2019–2022; Lula usa 2023–2026 disponíveis. É contexto de governo, não gasto pessoal da Janja.",
+        "pandemic_caveat": "2019 é pré-pandemia; 2020–2022 inclui despesas federais no período da pandemia; 2026 é ano em andamento/parcial se a base oficial ainda não fechou.",
         "by_year": by_year,
         "totals": {
+            "bolsonaro_mandate_2019_2022": total_for(["2019", "2020", "2021", "2022"]),
             "bolsonaro_pandemic_2020_2022": total_for(["2020", "2021", "2022"]),
             "lula_available_2023_2026": total_for(lula_years),
         },

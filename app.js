@@ -317,22 +317,43 @@ function renderPresidentComparison() {
   const byYear = cmp.by_year || {};
   const rows = Object.entries(byYear)
     .sort(([a], [b]) => a.localeCompare(b))
-    .map(([year, row]) => ({ year, value: Number(row.realized || 0), president: row.president || (Number(year) < 2023 ? 'Bolsonaro' : 'Lula'), note: row.note || '', source: row.source_url || '' }))
-    .filter(r => r.value > 0);
-  const max = Math.max(...rows.map(r => r.value), 1);
+    .map(([year, row]) => ({
+      year,
+      realized: Number(row.realized || 0),
+      committed: Number(row.committed || row.realized || 0),
+      updated: Number(row.updated || row.committed || row.realized || 0),
+      president: row.president || (Number(year) < 2023 ? 'Bolsonaro' : 'Lula'),
+      note: row.note || '',
+      source: row.source_url || ''
+    }))
+    .filter(r => r.realized > 0);
+  const max = Math.max(...rows.map(r => Math.max(r.realized, r.committed, r.updated)), 1);
   box.innerHTML = rows.map(r => {
-    const h = Math.max(12, (r.value / max) * 100);
     const cls = r.president.toLowerCase().includes('bolsonaro') ? 'bolsonaro' : 'lula';
-    return `<article class="president-year ${cls}" title="${escapeAttr(r.note)}"><span>${escapeHtml(r.year)}</span><i style="height:${h}%"></i><b>${shortMoney(r.value)}</b><small>${escapeHtml(r.president)}</small></article>`;
+    const wick = Math.max(18, (Math.max(r.updated, r.committed, r.realized) / max) * 100);
+    const body = Math.max(8, (r.realized / max) * 100);
+    const committedPct = Math.min(100, Math.max(4, (r.committed / max) * 100));
+    return `<article class="president-year ${cls}" title="${escapeAttr(r.note)}" aria-label="${escapeAttr(`${r.president} ${r.year}: realizado ${shortMoney(r.realized)}`)}">
+      <span>${escapeHtml(r.year)}</span>
+      <div class="candle-stage">
+        <i class="candle-wick" style="height:${wick}%"></i>
+        <i class="candle-body" style="height:${body}%"></i>
+        <i class="candle-commit" style="bottom:${committedPct}%"></i>
+      </div>
+      <b>${shortMoney(r.realized)}</b>
+      <small>${escapeHtml(r.president)}</small>
+    </article>`;
   }).join('') || '<p class="empty">Sem dados oficiais de comparação carregados.</p>';
   if (insight) {
-    const bol = cmp.totals?.bolsonaro_pandemic_2020_2022 || {};
+    const bol = cmp.totals?.bolsonaro_mandate_2019_2022 || cmp.totals?.bolsonaro_pandemic_2020_2022 || {};
     const lula = cmp.totals?.lula_available_2023_2026 || {};
     const bolVal = Number(bol.realized || 0);
     const lulaVal = Number(lula.realized || 0);
     const delta = bolVal ? ((lulaVal - bolVal) / bolVal) * 100 : 0;
     const deltaCopy = bolVal && lulaVal ? `${delta >= 0 ? '+' : '−'}${Math.abs(delta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%` : '—';
-    insight.innerHTML = `<span><b>Bolsonaro pandemia</b>${escapeHtml(shortMoney(bolVal))}<small>2020–2022</small></span><span><b>Lula disponível</b>${escapeHtml(shortMoney(lulaVal))}<small>${escapeHtml((lula.years || ['2023','2026']).join('–'))}</small></span><span><b>Diferença</b>${escapeHtml(deltaCopy)}<small>base federal ampla</small></span>`;
+    const bolYears = (bol.years || ['2019','2022']).join('–');
+    const lulaYears = (lula.years || ['2023','2026']).join('–');
+    insight.innerHTML = `<span><b>Bolsonaro verde</b>${escapeHtml(shortMoney(bolVal))}<small>${escapeHtml(bolYears)} • 4 anos</small></span><span><b>Lula vermelho</b>${escapeHtml(shortMoney(lulaVal))}<small>${escapeHtml(lulaYears)} disponíveis</small></span><span><b>Diferença</b>${escapeHtml(deltaCopy)}<small>mesma base federal ampla</small></span>`;
   }
 }
 
@@ -633,6 +654,81 @@ function renderDraft() {
   setText('xDraft', draft);
   setText('longPostDraft', longPost);
   setText('threadDraft', thread);
+}
+
+function setupSectionNav() {
+  const aliases = {
+    topo: 'inicio',
+    inicio: 'inicio',
+    janja: 'janja',
+    ranking: 'janja',
+    assessores: 'assessores',
+    camadas: 'assessores',
+    'mapa-investigacao': 'assessores',
+    viagens: 'viagens',
+    'viagens-comidas': 'viagens',
+    dividas: 'dividas',
+    graficos: 'dividas',
+    provas: 'provas',
+    fontes: 'fontes',
+    metodo: 'fontes',
+    noticias: 'fontes',
+    publicar: 'publicar'
+  };
+  window.__janjometroViewAliases = aliases;
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', event => {
+      const hash = decodeURIComponent(link.getAttribute('href') || '').replace('#', '');
+      const view = aliases[hash];
+      if (!view) return;
+      event.preventDefault();
+      setActiveView(view, hash);
+    });
+  });
+  const initialHash = decodeURIComponent(location.hash || '').replace('#', '');
+  setActiveView(aliases[initialHash] || 'inicio', initialHash || 'inicio', { replace: true });
+  window.addEventListener('hashchange', () => {
+    const nextHash = decodeURIComponent(location.hash || '').replace('#', '');
+    const nextView = aliases[nextHash] || nextHash || 'inicio';
+    setActiveView(nextView, nextHash || nextView, { replace: true, scroll: false });
+  });
+}
+
+function setActiveView(view, hash = view, options = {}) {
+  const views = [...document.querySelectorAll('.app-view')];
+  const matching = views.filter(section => section.dataset.view === view);
+  if (!matching.length) return;
+  document.body.dataset.activeView = view;
+  views.forEach(section => {
+    const active = section.dataset.view === view;
+    section.hidden = !active;
+    section.classList.toggle('is-active-view', active);
+  });
+  document.querySelectorAll('[data-view-target]').forEach(button => {
+    const active = button.dataset.viewTarget === view;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-current', active ? 'page' : 'false');
+  });
+  document.querySelectorAll('.nav-actions a').forEach(link => {
+    const target = decodeURIComponent(link.getAttribute('href') || '').replace('#', '');
+    const targetView = window.__janjometroViewAliases?.[target] || target;
+    const active = targetView === view;
+    link.classList.toggle('active', active);
+    if (active) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+  const nextHash = `#${hash || view}`;
+  if (location.hash !== nextHash) {
+    const method = options.replace ? 'replaceState' : 'pushState';
+    history[method](null, '', nextHash);
+  }
+  if (options.scroll !== false) window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+}
+
+function setupDockNavigation() {
+  document.querySelectorAll('[data-view-target]').forEach(button => {
+    button.addEventListener('click', () => setActiveView(button.dataset.viewTarget));
+  });
 }
 
 function startSignalCanvas() {
