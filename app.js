@@ -319,6 +319,7 @@ function renderPresidentComparison() {
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([year, row]) => ({
       year,
+      mandateIndex: Number(year) < 2023 ? Number(year) - 2019 : Number(year) - 2023,
       realized: Number(row.realized || 0),
       committed: Number(row.committed || row.realized || 0),
       updated: Number(row.updated || row.committed || row.realized || 0),
@@ -327,36 +328,75 @@ function renderPresidentComparison() {
       source: row.source_url || ''
     }))
     .filter(r => r.realized > 0);
-  const max = Math.max(...rows.map(r => Math.max(r.realized, r.committed, r.updated)), 1);
-  box.innerHTML = rows.map(r => {
+  const bolRows = rows.filter(r => r.president.toLowerCase().includes('bolsonaro')).slice(0, 4);
+  const lulaRows = rows.filter(r => !r.president.toLowerCase().includes('bolsonaro')).slice(0, 4);
+  const paired = [0, 1, 2, 3].map(i => ({ index: i, bol: bolRows[i], lula: lulaRows[i] })).filter(pair => pair.bol || pair.lula);
+  const values = rows.flatMap(r => [r.realized, r.committed, r.updated]).filter(Boolean);
+  const max = Math.max(...values, 1);
+  const min = Math.min(...values, max);
+  const range = Math.max(max - min, 1);
+  const xFor = index => 48 + (index / 3) * 304;
+  const yFor = value => 212 - ((Number(value || 0) - min) / range) * 160;
+  const pointAttr = list => list.map(r => `${xFor(r.mandateIndex).toFixed(1)},${yFor(r.realized).toFixed(1)}`).join(' ');
+  const svgPoints = rows.map(r => {
     const cls = r.president.toLowerCase().includes('bolsonaro') ? 'bolsonaro' : 'lula';
-    const wick = Math.max(18, (Math.max(r.updated, r.committed, r.realized) / max) * 100);
-    const body = Math.max(8, (r.realized / max) * 100);
-    const committedPct = Math.min(100, Math.max(4, (r.committed / max) * 100));
-    return `<article class="president-year ${cls}" title="${escapeAttr(r.note)}" aria-label="${escapeAttr(`${r.president} ${r.year}: realizado ${shortMoney(r.realized)}`)}">
-      <span>${escapeHtml(r.year)}</span>
-      <div class="candle-stage">
-        <i class="candle-wick" style="height:${wick}%"></i>
-        <i class="candle-body" style="height:${body}%"></i>
-        <i class="candle-commit" style="bottom:${committedPct}%"></i>
-      </div>
-      <b>${shortMoney(r.realized)}</b>
-      <small>${escapeHtml(r.president)}</small>
+    const x = xFor(r.mandateIndex);
+    const y = yFor(r.realized);
+    return `<g class="market-point ${cls}" aria-label="${escapeAttr(`${r.president} ${r.year}: ${shortMoney(r.realized)}`)}">
+      <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5"></circle>
+      <text x="${x.toFixed(1)}" y="${(y - 12).toFixed(1)}">${escapeHtml(r.year)}</text>
+    </g>`;
+  }).join('');
+  const pairCards = paired.map(pair => {
+    const bol = pair.bol;
+    const lula = pair.lula;
+    const bolValue = Number(bol?.realized || 0);
+    const lulaValue = Number(lula?.realized || 0);
+    const delta = bolValue && lulaValue ? ((lulaValue - bolValue) / bolValue) * 100 : null;
+    const deltaCopy = delta === null ? '—' : `${delta >= 0 ? '+' : '−'}${Math.abs(delta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%`;
+    return `<article class="market-pair" aria-label="Ano ${pair.index + 1} de mandato: Bolsonaro ${bol ? shortMoney(bolValue) : 'sem dado'}, Lula ${lula ? shortMoney(lulaValue) : 'sem dado'}">
+      <span>${pair.index + 1}º ano</span>
+      <div><b class="bolsonaro-line">${escapeHtml(bol?.year || '—')} ${escapeHtml(shortMoney(bolValue))}</b><small>Bolsonaro verde</small></div>
+      <div><b class="lula-line">${escapeHtml(lula?.year || '—')} ${escapeHtml(shortMoney(lulaValue))}</b><small>Lula vermelho</small></div>
+      <strong>${escapeHtml(deltaCopy)}</strong>
     </article>`;
-  }).join('') || '<p class="empty">Sem dados oficiais de comparação carregados.</p>';
+  }).join('');
+  const bolPandemic = bolRows.filter(r => ['2020', '2021', '2022'].includes(String(r.year)));
+  const bolPandemicAvg = bolPandemic.reduce((sum, r) => sum + r.realized, 0) / Math.max(bolPandemic.length, 1);
+  const lulaNormal = lulaRows.filter(r => ['2023', '2024', '2025'].includes(String(r.year)));
+  const lulaNormalAvg = lulaNormal.reduce((sum, r) => sum + r.realized, 0) / Math.max(lulaNormal.length, 1);
+  const avgDelta = bolPandemicAvg ? ((lulaNormalAvg - bolPandemicAvg) / bolPandemicAvg) * 100 : 0;
+  box.innerHTML = `<div class="market-compare-shell">
+    <div class="market-ticker-row" aria-label="Resumo estilo mercado">
+      <span class="ticker-chip bolsonaro-chip">BOLSONARO/BRL <b>${escapeHtml(shortMoney(bolRows.reduce((sum, r) => sum + r.realized, 0)))}</b></span>
+      <span class="ticker-chip lula-chip">LULA/BRL <b>${escapeHtml(shortMoney(lulaRows.reduce((sum, r) => sum + r.realized, 0)))}</b></span>
+      <span class="ticker-chip spread-chip">SPREAD MÉDIA <b>${avgDelta >= 0 ? '+' : '−'}${Math.abs(avgDelta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%</b></span>
+    </div>
+    <div class="market-chart-stage">
+      <svg class="market-svg" viewBox="0 0 400 240" role="img" aria-label="Duas linhas correlativas: Bolsonaro em verde e Lula em vermelho por ano de mandato">
+        <defs>
+          <linearGradient id="bolsonaroGlow" x1="0" x2="1"><stop stop-color="#00a87e"/><stop offset="1" stop-color="#7dff9f"/></linearGradient>
+          <linearGradient id="lulaGlow" x1="0" x2="1"><stop stop-color="#ff7a85"/><stop offset="1" stop-color="#e23b4a"/></linearGradient>
+        </defs>
+        <g class="market-grid">
+          <line x1="28" y1="52" x2="374" y2="52"></line><line x1="28" y1="92" x2="374" y2="92"></line><line x1="28" y1="132" x2="374" y2="132"></line><line x1="28" y1="172" x2="374" y2="172"></line><line x1="28" y1="212" x2="374" y2="212"></line>
+          <line x1="48" y1="34" x2="48" y2="220"></line><line x1="149" y1="34" x2="149" y2="220"></line><line x1="251" y1="34" x2="251" y2="220"></line><line x1="352" y1="34" x2="352" y2="220"></line>
+        </g>
+        <polyline class="market-line bolsonaro" points="${pointAttr(bolRows)}"></polyline>
+        <polyline class="market-line lula" points="${pointAttr(lulaRows)}"></polyline>
+        ${svgPoints}
+        <text class="market-axis" x="48" y="234">1º ano</text><text class="market-axis" x="149" y="234">2º</text><text class="market-axis" x="251" y="234">3º</text><text class="market-axis" x="352" y="234">4º</text>
+      </svg>
+    </div>
+    <div class="market-pairs">${pairCards}</div>
+  </div>`;
   if (insight) {
-    const bol = cmp.totals?.bolsonaro_mandate_2019_2022 || cmp.totals?.bolsonaro_pandemic_2020_2022 || {};
-    const lula = cmp.totals?.lula_available_2023_2026 || {};
-    const bolVal = Number(bol.realized || 0);
-    const lulaVal = Number(lula.realized || 0);
+    const bolVal = bolRows.reduce((sum, r) => sum + r.realized, 0);
+    const lulaVal = lulaRows.reduce((sum, r) => sum + r.realized, 0);
     const delta = bolVal ? ((lulaVal - bolVal) / bolVal) * 100 : 0;
-    const deltaCopy = bolVal && lulaVal ? `${delta >= 0 ? '+' : '−'}${Math.abs(delta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%` : '—';
-    const bolYears = (bol.years || ['2019','2022']).join('–');
-    const lulaYears = (lula.years || ['2023','2026']).join('–');
-    insight.innerHTML = `<span><b>Bolsonaro verde</b>${escapeHtml(shortMoney(bolVal))}<small>${escapeHtml(bolYears)} • 4 anos</small></span><span><b>Lula vermelho</b>${escapeHtml(shortMoney(lulaVal))}<small>${escapeHtml(lulaYears)} disponíveis</small></span><span><b>Diferença</b>${escapeHtml(deltaCopy)}<small>mesma base federal ampla</small></span>`;
+    insight.innerHTML = `<span><b>Pandemia Bolsonaro</b>${escapeHtml(shortMoney(bolPandemicAvg))}<small>média anual 2020–2022</small></span><span><b>Lula normal</b>${escapeHtml(shortMoney(lulaNormalAvg))}<small>média anual 2023–2025</small></span><span><b>Leitura forte</b>+${Math.abs(avgDelta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%<small>Lula 2023–2025 acima da média Bolsonaro na pandemia</small></span>`;
   }
 }
-
 function setupDockNavigation() {
   const buttons = [...document.querySelectorAll('[data-view-target]')];
   const views = [...document.querySelectorAll('[data-view]')];

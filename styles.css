@@ -385,3 +385,190 @@ body{
     max-height:calc(100dvh - 160px)!important;
   }
 }
+
+/* BTC/ETH-style correlated comparison: Bolsonaro green vs Lula red */
+.crypto-compare-card{
+  background:#07090b!important;
+  color:#f8fafc!important;
+  border-color:rgba(255,255,255,.12)!important;
+  overflow:hidden!important;
+}
+.crypto-compare-card::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  pointer-events:none;
+  background:radial-gradient(circle at 18% 0%,rgba(0,168,126,.24),transparent 34%),radial-gradient(circle at 92% 10%,rgba(226,59,74,.2),transparent 30%);
+  opacity:.9;
+}
+.crypto-compare-card > *{position:relative;z-index:1}
+.crypto-compare-card .compare-head{
+  display:grid!important;
+  grid-template-columns:auto minmax(0,1fr)!important;
+  align-items:start!important;
+  gap:14px!important;
+  margin-bottom:12px!important;
+}
+.crypto-compare-card .compare-badge{
+  background:linear-gradient(135deg,#00a87e,#191c1f 48%,#e23b4a)!important;
+  color:#fff!important;
+  box-shadow:none!important;
+  border:1px solid rgba(255,255,255,.16)!important;
+}
+.crypto-compare-card .compare-head b{
+  display:block!important;
+  color:#fff!important;
+  font-size:clamp(30px,4.8vw,58px)!important;
+  line-height:.92!important;
+  letter-spacing:-.075em!important;
+  max-width:900px!important;
+  text-wrap:balance!important;
+}
+.crypto-compare-card .compare-head small{
+  display:block!important;
+  margin-top:8px!important;
+  color:#cbd5e1!important;
+  font-size:clamp(12px,1.4vw,15px)!important;
+  font-weight:850!important;
+  text-transform:uppercase!important;
+  letter-spacing:.08em!important;
+}
+.crypto-compare-card .chart-caveat{
+  color:#dbe6ef!important;
+  border:1px solid rgba(255,255,255,.1)!important;
+  border-radius:16px!important;
+  background:rgba(255,255,255,.045)!important;
+  padding:10px 12px!important;
+}
+.crypto-compare-card .president-compare-chart{display:block!important;height:auto!important;grid-template-columns:none!important;gap:0!important;align-items:stretch!important;padding:0!important;border-bottom:0!important;background:none!important}.market-compare-shell{display:grid;gap:12px;min-width:0;width:100%}
+.market-ticker-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.ticker-chip{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(255,255,255,.055);padding:9px 11px;color:#cbd5e1;font-size:11px;font-weight:950;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden}
+.ticker-chip b{font-size:12px;letter-spacing:-.02em;color:#fff}.bolsonaro-chip{border-color:rgba(0,168,126,.34);background:rgba(0,168,126,.09)}.bolsonaro-chip b{color:#7dff9f}.lula-chip{border-color:rgba(226,59,74,.38);background:rgba(226,59,74,.1)}.lula-chip b{color:#ff9aa3}.spread-chip{border-color:rgba(255,255,255,.18)}
+.market-chart-stage{position:relative;border:1px solid rgba(255,255,255,.1);border-radius:22px;background:linear-gradient(180deg,rgba(15,23,42,.86),rgba(2,6,23,.92));padding:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+.market-svg{width:100%;height:260px;display:block;overflow:visible}.market-grid line{stroke:rgba(255,255,255,.1);stroke-width:1}.market-line{fill:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 10px currentColor)}.market-line.bolsonaro{stroke:url(#bolsonaroGlow);color:#00a87e}.market-line.lula{stroke:url(#lulaGlow);color:#e23b4a}.market-point circle{fill:#07090b;stroke-width:4}.market-point.bolsonaro circle{stroke:#00a87e}.market-point.lula circle{stroke:#e23b4a}.market-point text{font:900 10px/1 Inter,system-ui,sans-serif;fill:#e5edf6;text-anchor:middle;paint-order:stroke;stroke:#07090b;stroke-width:4;stroke-linejoin:round}.market-axis{font:900 10px/1 Inter,system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;text-transform:uppercase;letter-spacing:.08em}
+.market-pairs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.market-pair{display:grid;gap:7px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:rgba(255,255,255,.045);padding:10px;min-width:0}.market-pair>span{color:#94a3b8;font-size:10px;font-weight:950;text-transform:uppercase;letter-spacing:.1em}.market-pair div{min-width:0}.market-pair b{display:block;font-size:12px;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.market-pair small{display:block;color:#9aa6b5;font-size:10px;font-weight:850;text-transform:uppercase;letter-spacing:.04em}.market-pair strong{justify-self:start;border-radius:999px;background:#111827;color:#fff;padding:5px 8px;font-size:12px}.bolsonaro-line{color:#7dff9f!important}.lula-line{color:#ff9aa3!important}
+.crypto-compare-card .president-compare-insight span{background:rgba(255,255,255,.055)!important;border-color:rgba(255,255,255,.12)!important;color:#fff!important}.crypto-compare-card .president-compare-insight b{color:#fff!important}.crypto-compare-card .president-compare-insight span:nth-child(1){border-left:5px solid #00a87e!important}.crypto-compare-card .president-compare-insight span:nth-child(2),.crypto-compare-card .president-compare-insight span:nth-child(3){border-left:5px solid #e23b4a!important}
+@media(max-width:760px){.crypto-compare-card .compare-head{grid-template-columns:1fr!important;gap:8px!important}.crypto-compare-card .compare-head b{font-size:clamp(27px,9vw,40px)!important;letter-spacing:-.06em!important}.crypto-compare-card .compare-head small{font-size:11px!important;line-height:1.25!important}.market-ticker-row{grid-template-columns:1fr}.ticker-chip{font-size:10px;padding:8px 10px}.market-svg{height:230px}.market-chart-stage{border-radius:18px;padding:8px}.market-pairs{grid-template-columns:1fr 1fr}.market-pair{padding:9px;border-radius:15px}.market-pair b{font-size:11px}.market-pair strong{font-size:11px}.crypto-compare-card .president-compare-insight{grid-template-columns:1fr!important}.crypto-compare-card .chart-caveat{font-size:11.5px!important;line-height:1.25!important}}
+@media(max-width:390px){.crypto-compare-card .compare-head b{font-size:26px!important}.market-pairs{grid-template-columns:1fr}.market-svg{height:210px}.ticker-chip{white-space:normal;border-radius:18px}.ticker-chip b{margin-left:auto}}
+
+/* Creative cron QA: keep the comparison chart visible before the dock, not buried in a long hero */
+.crypto-compare-card .compare-head b{font-size:clamp(24px,3.2vw,42px)!important;line-height:.95!important}
+.crypto-compare-card .compare-head small{font-size:clamp(11px,1.1vw,13px)!important;line-height:1.22!important;margin-top:6px!important}
+.market-svg{height:190px!important}
+.market-chart-stage{padding:8px!important;border-radius:18px!important}
+.market-pairs{gap:6px!important}
+.market-pair{padding:8px!important;border-radius:14px!important}
+.market-pair>span{font-size:9px!important}.market-pair b{font-size:11px!important}.market-pair small{font-size:9px!important}.market-pair strong{font-size:11px!important;padding:4px 7px!important}
+.crypto-compare-card .chart-caveat{font-size:11.5px!important;line-height:1.22!important;padding:8px 10px!important;margin-top:8px!important}
+@media(max-width:760px){.market-svg{height:220px!important}.market-pairs{grid-template-columns:1fr 1fr!important}.crypto-compare-card .compare-head b{font-size:clamp(25px,8.4vw,36px)!important}}
+@media(max-width:390px){.market-svg{height:205px!important}.market-pairs{grid-template-columns:1fr!important}}
+
+/* First-fold crypto graph priority: make comparison visible before scroll */
+.crypto-compare-card{
+  margin:8px 0 16px!important;
+  padding:clamp(14px,1.6vw,20px)!important;
+}
+.crypto-compare-card .compare-head b{
+  font-size:clamp(28px,3.8vw,48px)!important;
+  line-height:.9!important;
+}
+.market-svg{
+  height:190px!important;
+}
+.market-chart-stage{
+  padding:8px!important;
+}
+.market-pairs{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+.market-pair{
+  padding:8px!important;
+  gap:5px!important;
+}
+.market-pair small{
+  display:none!important;
+}
+.crypto-compare-card .president-compare-insight{
+  margin-top:10px!important;
+}
+.crypto-compare-card .president-compare-insight span{
+  padding:9px 10px!important;
+  font-size:11.5px!important;
+}
+.crypto-compare-card .chart-caveat{
+  margin-top:9px!important;
+  padding:8px 10px!important;
+  font-size:11.5px!important;
+}
+@media(min-width:761px){
+  .hero-main-card{
+    justify-content:flex-start!important;
+    padding-top:clamp(18px,3vw,30px)!important;
+  }
+  .hero-main-card h1{
+    font-size:clamp(42px,6vw,82px)!important;
+    margin-top:2px!important;
+  }
+  .hero-2025-spend{
+    display:none!important;
+  }
+  .mobile-hero-breakdown{
+    display:none!important;
+  }
+}
+@media(max-width:760px){
+  .crypto-compare-card{
+    margin:4px 0 10px!important;
+  }
+  .market-svg{
+    height:210px!important;
+  }
+  .market-pairs{
+    grid-template-columns:1fr 1fr!important;
+  }
+  .crypto-compare-card .president-compare-insight span:nth-child(1),
+  .crypto-compare-card .president-compare-insight span:nth-child(2){
+    display:none!important;
+  }
+}
+
+/* First-fold fit refinement: title + full trading chart above dock */
+@media(min-width:761px){
+  .crypto-compare-card .compare-head{
+    gap:10px!important;
+    margin-bottom:8px!important;
+  }
+  .crypto-compare-card .compare-head b{
+    font-size:clamp(26px,3vw,36px)!important;
+    line-height:.93!important;
+    letter-spacing:-.06em!important;
+  }
+  .crypto-compare-card .compare-head small{
+    margin-top:5px!important;
+    font-size:12px!important;
+    line-height:1.2!important;
+  }
+  .market-ticker-row{
+    gap:6px!important;
+  }
+  .ticker-chip{
+    padding:7px 9px!important;
+    font-size:10px!important;
+  }
+  .ticker-chip b{
+    font-size:10.5px!important;
+  }
+  .market-svg{
+    height:142px!important;
+  }
+  .market-chart-stage{
+    padding:6px!important;
+    border-radius:18px!important;
+  }
+  .market-pair:nth-child(n+3){
+    display:none!important;
+  }
+  .market-pairs{
+    grid-template-columns:1fr 1fr!important;
+  }
+}

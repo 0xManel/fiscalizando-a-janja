@@ -42,6 +42,15 @@
       <section class="hero-redesign app-view" data-view="inicio" aria-label="Resumo principal">
         <article class="hero-main-card">
           <p class="eyebrow">Dinheiro público contra desperdício e sigilo</p>
+          <section class="president-compare-card crypto-compare-card" aria-label="Gráfico estilo trading comparando despesas federais Bolsonaro verde e Lula vermelho">
+            <div class="compare-head">
+              <span class="compare-badge">Trading público</span>
+              <div><b>Pandemia: Bolsonaro abaixo da média Lula</b><small>Bolsonaro verde x Lula vermelho • despesa federal realizada • Portal da Transparência</small></div>
+            </div>
+            <div id="presidentComparisonChart" class="president-compare-chart"></div>
+            <div id="presidentComparisonInsight" class="president-compare-insight">Carregando comparação oficial...</div>
+            <p class="chart-caveat">Comparação ampla de governo: Bolsonaro 2019–2022 aparece em verde; Lula 2023–2026 aparece em vermelho e 2026 pode estar parcial. Leitura por despesa federal realizada — não é gasto pessoal da Janja.</p>
+          </section>
           <h1 id="governmentGrandTotal">R$ —</h1>
           <div class="hero-2025-spend" id="hero2025Spend" aria-label="Gasto do ano em curso sob lupa">
             <span>Ano em curso sob lupa</span>
@@ -53,15 +62,6 @@
             <div><span>CPGF Presidência</span><strong id="heroCpgfTotal">R$ —</strong></div>
             <div><span>Estrutura/equipe</span><strong id="heroStructureTotal">R$ —</strong></div>
           </div>
-          <section class="president-compare-card" aria-label="Gráfico de velas comparando despesas federais Bolsonaro verde e Lula vermelho">
-            <div class="compare-head">
-              <span class="compare-badge">Gráfico de velas</span>
-              <div><b>Velas correlativas: Lula vermelho x Bolsonaro verde</b><small>despesa federal realizada • mesma escala • Portal da Transparência</small></div>
-            </div>
-            <div id="presidentComparisonChart" class="president-compare-chart"></div>
-            <div id="presidentComparisonInsight" class="president-compare-insight">Carregando comparação oficial...</div>
-            <p class="chart-caveat">Comparação ampla de governo: Bolsonaro 2019–2022 aparece em verde; Lula 2023–2026 aparece em vermelho e 2026 pode estar parcial. Não é gasto pessoal da Janja.</p>
-          </section>
           <div class="hero-formula"><b>O que entra no placar:</b> viagens federais oficiais do período, cartão da Presidência e estrutura/equipe citada em fonte pública. <strong>O que aparece diretamente ligado à Janja fica separado.</strong></div>
           <div class="public-claim-strip" id="publicReading"><b>Leitura correta:</b> número grande é dinheiro público sob lupa. Direto Janja: carregando. Presidência, equipe, cartão e dívida aparecem separados.</div>
           <div class="hero-evidence-strip" aria-label="Resumo rápido das camadas de evidência">
@@ -324,6 +324,6 @@
     <footer>
       <p><strong>Janjômetro</strong> organiza dados públicos para cobrança cidadã. Não é sentença judicial. É fiscalização sobre dinheiro público, Janja, Presidência, sigilo e transparência.</p>
     </footer>
-    <script src="app.js?v=janjometro-dock-readable-20260503c" defer></script>
+    <script src="app.js?v=janjometro-crypto-comparison-20260503d" defer></script>
   </body>
 </html>
