@@ -51,7 +51,7 @@ if payload_path.exists():
 gov_path = ROOT / "data/processed/government-context.json"
 if gov_path.exists():
     gov = json.loads(gov_path.read_text(encoding="utf-8"))
-    for key in ["project", "generated_at", "debt", "budget", "official_travel", "cpgf_presidency", "sources_map"]:
+    for key in ["project", "generated_at", "debt", "budget", "government_comparison", "official_travel", "cpgf_presidency", "sources_map"]:
         if key not in gov:
             errors.append(f"government context missing key {key}")
     for key in ["dbgg_pct_pib", "dlsp_pct_pib"]:
@@ -84,7 +84,7 @@ html = (ROOT / "index.html")
 app = (ROOT / "app.js")
 if html.exists():
     text = html.read_text(encoding="utf-8")
-    for token in ["Janjômetro", "Dinheiro público contra desperdício e sigilo", "Veja os números que pedem explicação", "Viagens e comidas", "Passos 1, 2 e 3", "O que é de quem", "Links que importam", "Top 10 rastreável", "Prova sem bagunça", "Sem fonte, não vira acusação"]:
+    for token in ["Janjômetro", "Dinheiro público contra desperdício e sigilo", "Lula x Bolsonaro/pandemia", "Dock do JANJOMETRO", "Veja os números que pedem explicação", "Viagens e pistas de alimentação", "Passos 1, 2 e 3", "O que é de quem", "Links que importam", "Top 10 rastreável", "Prova sem bagunça", "Sem fonte, não vira acusação"]:
         if token not in text:
             errors.append(f"index missing token: {token}")
 if app.exists():

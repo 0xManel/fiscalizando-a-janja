@@ -78,6 +78,7 @@ async function loadData() {
   renderUpdateStatus();
   renderRecentSignals();
   renderCharts();
+  renderPresidentComparison();
   renderGovTopTrips();
   renderTravelFood();
   renderLayers();
@@ -108,7 +109,12 @@ function renderSummary() {
   setText('truthDirect', shortMoney(summary.direct_total));
   setText('truthContext', shortMoney(Number(summary.support_and_mentions_total || 0) + Number(summary.structure_context?.total_structure_cost_2023_2024 || 0)));
   setText('truthGovernment', shortMoney(watchedGovernment));
-  setText('publicReading', `Leitura correta: ${shortMoney(watchedGovernment)} é governo sob lupa. Direto Janja: ${shortMoney(summary.direct_total)}. Equipe, Presidência, CPGF e dívida ficam em partes separadas — não é gasto pessoal sem prova direta.`);
+  setText('publicReading', `Leitura correta: ${shortMoney(watchedGovernment)} é dinheiro público sob lupa. Direto Janja: ${shortMoney(summary.direct_total)}. Equipe, Presidência, cartão e dívida aparecem separados — não é gasto pessoal sem prova direta.`);
+  const directCount = Number(summary.direct_records_conservative || records.filter(r => r.counted_in_direct_total).length || 0);
+  const contextCount = records.filter(r => !r.counted_in_direct_total && !['possivel_homonimo_ou_nao_confirmado', 'nao_confirmado'].includes(r.category)).length;
+  setText('evidenceDirectCount', directCount.toLocaleString('pt-BR'));
+  setText('evidenceContextCount', contextCount.toLocaleString('pt-BR'));
+  setText('evidenceSecretCount', `${Number(secret.count || 0).toLocaleString('pt-BR')} trans.`);
   setText('structureTotal', shortMoney(summary.structure_context?.total_structure_cost_2023_2024));
   setText('cpgfPresidencyTotal', shortMoney(cpgf.total));
   setText('cpgfSecretTotal', shortMoney(secret.total));
@@ -154,7 +160,7 @@ function renderHero2025Spend() {
   box.innerHTML = `<span>${latestYear} sob lupa</span>
     <strong>${shortMoney(federalTravelYear + cpgfYear + janjaContextYear)}</strong>
     <small>Governo no ano: viagens federais + CPGF Presidência + registros Janja/contexto. Direto pessoal só quando a linha oficial prova.</small>
-    <em>Janja/contexto ${latestYear}: ${shortMoney(janjaContextYear)} (${yearRecords.length} regs.) • Viagens federais: ${shortMoney(federalTravelYear)} • CPGF Presidência: ${shortMoney(cpgfYear)} • pistas comida: ${shortMoney(foodLikeYear)}</em>`;
+    <em>Janja/contexto ${latestYear}: ${shortMoney(janjaContextYear)} (${yearRecords.length} regs.) • Viagens federais: ${shortMoney(federalTravelYear)} • CPGF Presidência: ${shortMoney(cpgfYear)} • pistas de alimentação: ${shortMoney(foodLikeYear)}</em>`;
 }
 
 function renderUpdateStatus() {
@@ -207,7 +213,7 @@ function renderRecentSignals() {
     const contextLabel = r.counted_in_direct_total ? 'direto Janja' : 'parte separada';
     const explanation = r.counted_in_direct_total
       ? 'Registro oficial em nome de Rosângela da Silva. É a prova mais direta do recorte — sem enrolação.'
-      : 'Menção, apoio ou comitiva: não entra como gasto pessoal direto, mas serve para cobrar transparência.';
+      : 'Menção, apoio ou comitiva: não entra como gasto pessoal direto, mas serve para cobrar explicação com fonte.';
     const urgency = String(r.urgent || '').toUpperCase() === 'SIM' ? '<span class="urgent-chip">urgente</span>' : '';
     return `<article class="quick-log-card ${r.counted_in_direct_total ? 'direct-proof' : ''}">
       <div><strong>${money(r.total)}</strong><small>${escapeHtml(r.date_start || 'sem data')} • ${escapeHtml(r.destination || 'sem destino')}</small></div>
@@ -243,7 +249,7 @@ function renderInvestigationRoadmap() {
     const enriched = steps.map(step => {
       if (step.step === '1') return { ...step, value: `${cache.cpgf_monthly_zips?.count || 0} meses CPGF`, small: cache.rule || step.public_copy };
       if (step.step === '2') return { ...step, value: shortMoney(staff.total_structure_cost_2023_2024), small: `${staff.known_team_size_estimate || '—'} pessoas citadas • equipe/estrutura separada do direto.` };
-      if (step.step === '3') return { ...step, value: shortMoney(cpgf.total?.total), small: `${cpgf.total?.count || 0} transações • mês a mês + sigilo + pistas.` };
+      if (step.step === '3') return { ...step, value: shortMoney(cpgf.total?.total), small: `${cpgf.total?.count || 0} transações • mês a mês, sigilo e pistas separadas.` };
       return { ...step, value: step.status, small: step.public_copy };
     });
     box.innerHTML = enriched.map(step => `<article><span>${escapeHtml(step.step)}</span><b>${escapeHtml(step.title)}</b><strong>${escapeHtml(step.value)}</strong><small>${escapeHtml(step.small || step.public_copy || '')}</small></article>`).join('') || '<p class="empty">Mapa de investigação ainda não carregado.</p>';
@@ -303,6 +309,64 @@ function renderHeroYearPills(rows) {
     insight.innerHTML = `<span><b>${escapeHtml(latest?.label || '—')}</b>${escapeHtml(shortMoney(latestValue))}</span><span><b>Pico</b>${escapeHtml(peak.label)} • ${escapeHtml(shortMoney(peak.value))}</span><span><b>Variação</b>${escapeHtml(deltaLabel)}</span>`;
   }
 }
+function renderPresidentComparison() {
+  const box = document.getElementById('presidentComparisonChart');
+  const insight = document.getElementById('presidentComparisonInsight');
+  if (!box) return;
+  const cmp = govPayload?.government_comparison || {};
+  const byYear = cmp.by_year || {};
+  const rows = Object.entries(byYear)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([year, row]) => ({ year, value: Number(row.realized || 0), president: row.president || (Number(year) < 2023 ? 'Bolsonaro' : 'Lula'), note: row.note || '', source: row.source_url || '' }))
+    .filter(r => r.value > 0);
+  const max = Math.max(...rows.map(r => r.value), 1);
+  box.innerHTML = rows.map(r => {
+    const h = Math.max(12, (r.value / max) * 100);
+    const cls = r.president.toLowerCase().includes('bolsonaro') ? 'bolsonaro' : 'lula';
+    return `<article class="president-year ${cls}" title="${escapeAttr(r.note)}"><span>${escapeHtml(r.year)}</span><i style="height:${h}%"></i><b>${shortMoney(r.value)}</b><small>${escapeHtml(r.president)}</small></article>`;
+  }).join('') || '<p class="empty">Sem dados oficiais de comparação carregados.</p>';
+  if (insight) {
+    const bol = cmp.totals?.bolsonaro_pandemic_2020_2022 || {};
+    const lula = cmp.totals?.lula_available_2023_2026 || {};
+    const bolVal = Number(bol.realized || 0);
+    const lulaVal = Number(lula.realized || 0);
+    const delta = bolVal ? ((lulaVal - bolVal) / bolVal) * 100 : 0;
+    const deltaCopy = bolVal && lulaVal ? `${delta >= 0 ? '+' : '−'}${Math.abs(delta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%` : '—';
+    insight.innerHTML = `<span><b>Bolsonaro pandemia</b>${escapeHtml(shortMoney(bolVal))}<small>2020–2022</small></span><span><b>Lula disponível</b>${escapeHtml(shortMoney(lulaVal))}<small>${escapeHtml((lula.years || ['2023','2026']).join('–'))}</small></span><span><b>Diferença</b>${escapeHtml(deltaCopy)}<small>base federal ampla</small></span>`;
+  }
+}
+
+function setupDockNavigation() {
+  const buttons = [...document.querySelectorAll('[data-view-target]')];
+  const views = [...document.querySelectorAll('[data-view]')];
+  if (!buttons.length || !views.length) return;
+  const show = (view, { push = true } = {}) => {
+    views.forEach(el => {
+      const on = el.dataset.view === view;
+      el.classList.toggle('is-active-view', on);
+      el.toggleAttribute('hidden', !on);
+    });
+    buttons.forEach(btn => {
+      const on = btn.dataset.viewTarget === view;
+      btn.classList.toggle('active', on);
+      if (on) btn.setAttribute('aria-current', 'page'); else btn.removeAttribute('aria-current');
+    });
+    document.body.dataset.activeView = view;
+    if (push) history.replaceState(null, '', `#${view}`);
+    window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  };
+  buttons.forEach(btn => btn.addEventListener('click', () => show(btn.dataset.viewTarget)));
+  const initial = location.hash ? location.hash.replace('#','') : 'inicio';
+  const aliases = { graficos: 'dividas', 'viagens-comidas': 'viagens', 'mapa-investigacao': 'assessores', noticias: 'fontes', ranking: 'janja', metodo: 'fontes', publicar: 'fontes' };
+  const normalizeView = value => aliases[value] || value || 'inicio';
+  const initialView = normalizeView(initial);
+  show(buttons.some(b => b.dataset.viewTarget === initialView) ? initialView : 'inicio', { push: false });
+  window.addEventListener('hashchange', () => {
+    const next = normalizeView(location.hash.replace('#',''));
+    if (buttons.some(b => b.dataset.viewTarget === next)) show(next, { push: false });
+  });
+}
+
 function renderJanjaMonthChart() {
   const monthly = new Map();
   const direct = records.filter(r => r.counted_in_direct_total || r.category === 'gasto_direto_em_comitiva');
@@ -450,6 +514,29 @@ function setupRankingToggle() {
     });
   });
 }
+
+function setupSectionNav() {
+  const links = [...document.querySelectorAll('.nav-actions a[href^="#"]')];
+  const sections = links
+    .map(link => ({ link, section: document.querySelector(link.getAttribute('href')) }))
+    .filter(item => item.section);
+  if (!sections.length || !('IntersectionObserver' in window)) return;
+  const activate = targetId => {
+    sections.forEach(({ link, section }) => {
+      const isActive = section.id === targetId;
+      link.classList.toggle('active', isActive);
+      if (isActive) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
+  };
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries
+      .filter(entry => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (visible?.target?.id) activate(visible.target.id);
+  }, { rootMargin: '-18% 0px -62% 0px', threshold: [0.08, 0.2, 0.45] });
+  sections.forEach(({ section }) => observer.observe(section));
+}
 function govTravelCard(r, idx, label) {
   return `<article class="top-card"><div class="rank">${idx + 1}</div><div><div class="top-money">${money(r.total)}</div><h3>${escapeHtml(label || r.org || r.paying_org || 'Viagem oficial federal')}</h3><p>${escapeHtml(r.date_start || r.year || 'Sem data')} • ${escapeHtml(r.destination || 'Sem destino')}</p><small>${escapeHtml(shortText(r.objective || 'Motivo não detalhado na linha pública.', 145))}</small><details><summary>Ver explicação e fonte</summary><small>Órgão: ${escapeHtml(r.org || r.paying_org || '—')}<br>Passagens: ${money(r.passagens)} • Diárias: ${money(r.diarias)} • Outros: ${money(r.outros)}<br>${escapeHtml(r.caveat || 'Contexto; não é gasto pessoal automático.')}</small></details>${sourceText(r.source_url || 'https://portaldatransparencia.gov.br/download-de-dados/viagens/2025', 'Fonte oficial')}</div></article>`;
 }
@@ -534,15 +621,15 @@ function renderDraft() {
   const { summary, cpgf, watchedGovernment, secret } = totals();
   const headline = dossierPayload?.headline || {};
   const recordsCount = Number(dossierPayload?.records_index?.total_records || records.length || 0).toLocaleString('pt-BR');
-  const url = 'https://janjometro.vercel.app';
+  const url = 'https://janjometro-0xmanel.vercel.app';
   const directTotal = money(summary.direct_total);
   const contextTotal = money(summary.janja_direct_total_all_contexts ?? summary.direct_total);
   const cpgfTotal = money(cpgf.total);
   const secretTotal = money(secret.total);
   const travelTotal = money(headline.official_travel_federal_total || totals().federalTravelTotal);
-  const draft = `Dossiê aberto no ar: Janjômetro. Registro direto fica separado de comitiva, equipe, Presidência e sigilo. Sem fonte, não vira acusação. ${url}`;
-  const longPost = `🚨 Janjômetro está no ar.\n\nEu montei um painel público para qualquer pessoa conferir registros oficiais sem depender de manchete, torcida ou versão de governo.\n\nO que a página separa:\n• viagens federais oficiais: ${travelTotal}\n• gasto direto identificado em nome da Janja: ${directTotal}\n• contexto/comitiva/equipe: ${contextTotal}\n• cartão corporativo da Presidência: ${cpgfTotal}\n• favorecido sigiloso no CPGF: ${secretTotal}\n\nA regra é simples: direto é direto; equipe, comitiva, menção e Presidência ficam separados. Se não tem fonte, não vira acusação.\n\nO objetivo é fiscalização cidadã: número na tela, fonte aberta e cobrança pública contra desperdício, sigilo e favorecido oculto.\n\nAcesse: ${url}`;
-  const thread = `1/ Estou abrindo o Janjômetro: um dossiê público com ${recordsCount} registros indexados.\n\n2/ O painel não mistura tudo para viralizar: separa direto Janja (${directTotal}), contexto/comitiva (${contextTotal}) e cartão da Presidência (${cpgfTotal}).\n\n3/ Onde há sigilo ou favorecido oculto, o painel cobra transparência. Onde só há menção/contexto, ele marca como contexto — não como gasto pessoal.\n\n4/ Sem fonte, não vira acusação. Com fonte, não fica escondido.\n${url}`;
+  const draft = `Janjômetro no ar: dinheiro público sob lupa, com cada valor no seu lugar. Direto Janja separado de equipe/comitiva, Presidência e sigilo. Sem fonte, não vira acusação. ${url}`;
+  const longPost = `🚨 Janjômetro está no ar.\n\nPainel público para qualquer pessoa conferir registros oficiais sem depender de manchete, torcida ou versão de governo.\n\nO que a página separa:\n• viagens federais oficiais: ${travelTotal}\n• gasto direto identificado em nome da Janja: ${directTotal}\n• equipe/comitiva/contexto: ${contextTotal}\n• cartão corporativo da Presidência: ${cpgfTotal}\n• favorecido sigiloso no cartão: ${secretTotal}\n\nA regra é simples: direto é direto; equipe, comitiva, menção e Presidência ficam separados. Se não tem fonte, não vira acusação.\n\nFiscalização cidadã: número na tela, fonte aberta e cobrança pública contra desperdício, sigilo e favorecido oculto.\n\nAcesse: ${url}`;
+  const thread = `1/ Janjômetro no ar: painel público com ${recordsCount} registros indexados.\n\n2/ O painel não mistura tudo para viralizar: separa direto Janja (${directTotal}), equipe/comitiva (${contextTotal}) e cartão da Presidência (${cpgfTotal}).\n\n3/ Onde há sigilo ou favorecido oculto, cobra transparência. Onde só há menção/contexto, marca como contexto — não como gasto pessoal.\n\n4/ Sem fonte, não vira acusação. Com fonte, não fica escondido.\n${url}`;
   setText('xDraft', draft);
   setText('longPostDraft', longPost);
   setText('threadDraft', thread);
@@ -587,6 +674,8 @@ async function copyLaunchText(button) {
 document.querySelectorAll('[data-copy-target]').forEach(button => {
   button.addEventListener('click', () => copyLaunchText(button));
 });
+setupSectionNav();
+setupDockNavigation();
 
 loadData().catch(err => {
   console.error(err);

@@ -6,9 +6,9 @@ Use como resposta/RT no post antigo. Não publicar sem revisão manual final.
 
 🚨 ATUALIZAÇÃO GRANDE NO JANJÔMETRO
 
-A plataforma ganhou cara nova, gráfico principal, Top 10 rastreável, ranking por camada, base oficial em refresh acelerado e leitura mais clara do que é gasto direto, contexto, Presidência/CPGF e sigilo.
+A plataforma ganhou cara nova, gráfico principal, Top 10 rastreável, base oficial em refresh acelerado e leitura mais clara do que é gasto direto, equipe/comitiva, Presidência/CPGF e sigilo.
 
-Dinheiro público. Fonte aberta. Cobrança sem maquiagem.
+Dinheiro público. Fonte aberta. Cada valor no seu lugar.
 
 🔎 Ver agora: https://janjometro-0xmanel.vercel.app
 
@@ -32,10 +32,10 @@ A regra é simples: se o dinheiro é público, a conta também tem que ser públ
 
 ## Versão resposta para aproveitar hype
 
-Atualizei o Janjômetro com novas features e base mais forte:
+Atualizei o Janjômetro com uma base mais clara e forte:
 
 • visual novo
-• números por camada
+• números separados por tipo de prova
 • Top 10 rastreável
 • gráficos e provas recentes
 • CPGF/Presidência separados do gasto direto
@@ -47,4 +47,4 @@ Agora dá para fiscalizar com mais clareza e menos enrolação.
 
 ## Nota editorial
 
-Não trocar “governo sob lupa” por “Janja gastou R$ 7,48 bi”. A leitura correta é: número grande = base ampla de governo/Presidência/CPGF/viagens sob fiscalização; gasto direto Janja fica separado.
+Não transformar “governo sob lupa” em gasto pessoal. A leitura correta é: número grande = base ampla de governo/Presidência/CPGF/viagens sob fiscalização; gasto direto Janja fica separado.

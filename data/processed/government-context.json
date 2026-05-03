@@ -1,5 +1,5 @@
 {
-  "project": "Fiscalizando a JANJA e o PT — contexto governo",
+  "project": "JANJOMETRO",
   "generated_at": "2026-05-02T22:49:13.035110+00:00",
   "editorial_rule": "Camada de governo é contexto de orçamento federal e dívida. Não deve ser somada ao total Janja nem chamada de gasto pessoal/partidário.",
   "debt": {
@@ -2534,6 +2534,99 @@
       "count": 39,
       "bytes": 9395747,
       "latest_file": "cpgf-202604.zip"
+    }
+  },
+  "government_comparison": {
+    "source": "Portal da Transparência — Orçamento da Despesa",
+    "method_note": "Compara orçamento/despesa federal realizada por ano. Bolsonaro/pandemia usa 2020–2022; Lula usa 2023–2026 disponíveis. É contexto de governo, não gasto pessoal da Janja.",
+    "pandemic_caveat": "2020–2022 inclui despesas federais no período da pandemia; 2026 é ano em andamento/parcial se a base oficial ainda não fechou.",
+    "by_year": {
+      "2020": {
+        "president": "Bolsonaro",
+        "period_label": "Bolsonaro / pandemia",
+        "realized": 3420760907748.3,
+        "committed": 3600711034029.41,
+        "updated": 4127855664613.85,
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/orcamento-despesa/2020",
+        "note": "Ano de pandemia; total federal oficial realizado."
+      },
+      "2021": {
+        "president": "Bolsonaro",
+        "period_label": "Bolsonaro / pandemia",
+        "realized": 3743772506888.58,
+        "committed": 3926205936113.85,
+        "updated": 4334235538956.56,
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/orcamento-despesa/2021",
+        "note": "Ano de pandemia; total federal oficial realizado."
+      },
+      "2022": {
+        "president": "Bolsonaro",
+        "period_label": "Bolsonaro / pandemia",
+        "realized": 3927288338950.66,
+        "committed": 4120602821959.74,
+        "updated": 4861728732821.99,
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/orcamento-despesa/2022",
+        "note": "Ano pós-pico da pandemia; total federal oficial realizado."
+      },
+      "2023": {
+        "president": "Lula",
+        "period_label": "Governo Lula",
+        "realized": 4140658700296.67,
+        "committed": 4363225153514.19,
+        "updated": 5259472925590.34,
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/orcamento-despesa/2023",
+        "note": "Orçamento/despesa federal realizada. 2026 pode estar parcial conforme publicação oficial disponível."
+      },
+      "2024": {
+        "president": "Lula",
+        "period_label": "Governo Lula",
+        "realized": 4491387089116.35,
+        "committed": 4736144995397.17,
+        "updated": 5427570542041.62,
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/orcamento-despesa/2024",
+        "note": "Orçamento/despesa federal realizada. 2026 pode estar parcial conforme publicação oficial disponível."
+      },
+      "2025": {
+        "president": "Lula",
+        "period_label": "Governo Lula",
+        "realized": 4851750326325.19,
+        "committed": 5187741994285.5,
+        "updated": 5738018219449.67,
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/orcamento-despesa/2025",
+        "note": "Orçamento/despesa federal realizada. 2026 pode estar parcial conforme publicação oficial disponível."
+      },
+      "2026": {
+        "president": "Lula",
+        "period_label": "Governo Lula",
+        "realized": 1784886460346.47,
+        "committed": 3045377148645.39,
+        "updated": 6250911848541.0,
+        "source_url": "https://portaldatransparencia.gov.br/download-de-dados/orcamento-despesa/2026",
+        "note": "Orçamento/despesa federal realizada. 2026 pode estar parcial conforme publicação oficial disponível."
+      }
+    },
+    "totals": {
+      "bolsonaro_pandemic_2020_2022": {
+        "years": [
+          "2020",
+          "2021",
+          "2022"
+        ],
+        "realized": 11091821753587.54,
+        "committed": 11647519792103.0,
+        "updated": 13323819936392.4
+      },
+      "lula_available_2023_2026": {
+        "years": [
+          "2023",
+          "2024",
+          "2025",
+          "2026"
+        ],
+        "realized": 15268682576084.682,
+        "committed": 17332489291842.25,
+        "updated": 22675973535622.633
+      }
     }
   }
 }

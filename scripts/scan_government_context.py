@@ -25,6 +25,7 @@ OUT_DIR = ROOT / "data" / "processed"
 OUT_JSON = OUT_DIR / "government-context.json"
 
 BUDGET_YEARS = [2023, 2024, 2025, 2026]
+COMPARE_BUDGET_YEARS = [2020, 2021, 2022, 2023, 2024, 2025, 2026]
 BUDGET_URL = "https://portaldatransparencia.gov.br/download-de-dados/orcamento-despesa/{year}"
 TRAVEL_URL = "https://portaldatransparencia.gov.br/download-de-dados/viagens/{year}"
 CPGF_URL = "https://portaldatransparencia.gov.br/download-de-dados/cpgf/{yyyymm}"
@@ -460,6 +461,56 @@ def scan_budget() -> dict:
     }
 
 
+def build_government_comparison(budget: dict) -> dict:
+    """Official first-screen comparison: Lula years versus Bolsonaro pandemic years."""
+    pre_lula = {
+        "2020": {"president": "Bolsonaro", "period_label": "Bolsonaro / pandemia", "note": "Ano de pandemia; total federal oficial realizado."},
+        "2021": {"president": "Bolsonaro", "period_label": "Bolsonaro / pandemia", "note": "Ano de pandemia; total federal oficial realizado."},
+        "2022": {"president": "Bolsonaro", "period_label": "Bolsonaro / pandemia", "note": "Ano pós-pico da pandemia; total federal oficial realizado."},
+    }
+    by_year: dict[str, dict] = {}
+    for year in COMPARE_BUDGET_YEARS:
+        key = str(year)
+        try:
+            if key in budget.get("by_year", {}):
+                totals = budget["by_year"][key]["total"]
+            else:
+                z = zipfile.ZipFile(io.BytesIO(fetch_budget_zip(year)))
+                csv_name = next(n for n in z.namelist() if n.lower().endswith(".csv"))
+                reader = csv.DictReader(io.StringIO(z.read(csv_name).decode("latin1", errors="ignore")), delimiter=";")
+                acc = {"updated": Decimal("0"), "committed": Decimal("0"), "realized": Decimal("0")}
+                for row in reader:
+                    acc["updated"] += br_decimal(row.get("ORÇAMENTO ATUALIZADO (R$)"))
+                    acc["committed"] += br_decimal(row.get("ORÇAMENTO EMPENHADO (R$)"))
+                    acc["realized"] += br_decimal(row.get("ORÇAMENTO REALIZADO (R$)"))
+                totals = {k: dec_float(v) for k, v in acc.items()}
+        except Exception:
+            continue
+        meta = pre_lula.get(key, {"president": "Lula", "period_label": "Governo Lula", "note": "Orçamento/despesa federal realizada; ano em andamento pode estar parcial."})
+        by_year[key] = {**meta, **totals, "source_url": BUDGET_URL.format(year=year)}
+
+    def total_for(years: list[str]) -> dict:
+        rows = [by_year[y] for y in years if y in by_year]
+        return {
+            "years": years,
+            "realized": dec_float(sum(Decimal(str(r.get("realized", 0))) for r in rows)),
+            "committed": dec_float(sum(Decimal(str(r.get("committed", 0))) for r in rows)),
+            "updated": dec_float(sum(Decimal(str(r.get("updated", 0))) for r in rows)),
+        }
+
+    lula_years = [y for y in ["2023", "2024", "2025", "2026"] if y in by_year]
+    return {
+        "source": "Portal da Transparência — Orçamento da Despesa",
+        "method_note": "Compara orçamento/despesa federal realizada por ano. Bolsonaro/pandemia usa 2020–2022; Lula usa 2023–2026 disponíveis. É contexto de governo, não gasto pessoal da Janja.",
+        "pandemic_caveat": "2020–2022 inclui despesas federais no período da pandemia; 2026 é ano em andamento/parcial se a base oficial ainda não fechou.",
+        "by_year": by_year,
+        "totals": {
+            "bolsonaro_pandemic_2020_2022": total_for(["2020", "2021", "2022"]),
+            "lula_available_2023_2026": total_for(lula_years),
+        },
+    }
+
+
 def build_official_travel_context() -> dict:
     """Lightweight travel context derived from the Janja scanner output.
 
@@ -505,12 +556,14 @@ def build_sources_map() -> dict:
 
 def main() -> int:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    budget = scan_budget()
     payload = {
-        "project": "Fiscalizando a JANJA e o PT — contexto governo",
+        "project": "JANJOMETRO — contexto governo",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "editorial_rule": "Camada de governo é contexto de orçamento federal e dívida. Não deve ser somada ao total Janja nem chamada de gasto pessoal/partidário.",
         "debt": fetch_debt_series(),
-        "budget": scan_budget(),
+        "budget": budget,
+        "government_comparison": build_government_comparison(budget),
         "official_travel": scan_official_travel_context(),
         "cpgf_presidency": scan_cpgf_presidency(),
         "sources_map": build_sources_map(),
