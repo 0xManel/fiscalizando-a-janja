@@ -202,3 +202,186 @@ body { padding-bottom: calc(128px + env(safe-area-inset-bottom)); }
 .president-compare-card{background:#f4f4f4;color:#191c1f;border-color:rgba(25,28,31,.08);box-shadow:none;backdrop-filter:none}.compare-head b{color:#191c1f}.compare-head small{color:#505a63}.compare-badge{background:#191c1f;color:#fff;box-shadow:none}.president-compare-chart{height:236px;grid-template-columns:repeat(8,minmax(0,1fr));gap:9px;padding:8px 2px 0;border-bottom:1px solid rgba(25,28,31,.12);background:linear-gradient(to top,rgba(25,28,31,.06) 1px,transparent 1px);background-size:100% 25%}.president-year{color:#191c1f;gap:6px}.president-year span{font-size:12px;color:#505a63}.president-year b{font-size:11px;color:#191c1f;letter-spacing:-.03em}.president-year small{font-size:9px;color:#8d969e;font-weight:800;text-transform:uppercase;letter-spacing:.04em}.president-year>i{display:none}.candle-stage{position:relative;width:100%;max-width:46px;height:146px;display:flex;align-items:flex-end;justify-content:center;margin:auto auto 0}.candle-wick,.candle-body,.candle-commit{position:absolute;left:50%;transform:translateX(-50%);display:block}.candle-wick{bottom:0;width:4px;border-radius:999px;background:currentColor;opacity:.48}.candle-body{bottom:0;width:22px;border-radius:999px;background:currentColor;box-shadow:none}.candle-commit{width:34px;height:2px;border-radius:999px;background:#191c1f;opacity:.42}.president-year.bolsonaro{color:var(--bolsonaro-green)}.president-year.lula{color:var(--lula-red)}.president-year.bolsonaro .candle-body,.president-year.bolsonaro .candle-wick{background:var(--bolsonaro-green)}.president-year.lula .candle-body,.president-year.lula .candle-wick{background:var(--lula-red)}.president-compare-insight{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.president-compare-insight span{background:#fff;border-color:rgba(25,28,31,.08);color:#191c1f;box-shadow:none}.president-compare-insight b{color:#191c1f}.president-compare-insight span:nth-child(1){border-left:5px solid var(--bolsonaro-green)}.president-compare-insight span:nth-child(2){border-left:5px solid var(--lula-red)}.president-compare-card .chart-caveat{color:#505a63}.bottom-dock{width:min(92vw,680px);grid-template-columns:repeat(6,1fr);gap:4px;padding:6px;border-radius:999px;background:rgba(255,255,255,.92);border:1px solid rgba(25,28,31,.08);box-shadow:0 18px 60px rgba(0,0,0,.24);backdrop-filter:blur(24px) saturate(1.4)}.bottom-dock::before{display:none}.dock-item{min-height:54px;border-radius:999px;background:transparent;color:#505a63;gap:2px;font-weight:800}.dock-item span{font-size:18px}.dock-item b{font-size:10px;letter-spacing:-.01em}.dock-item:hover{transform:none;background:#f4f4f4;color:#191c1f}.dock-item.active{transform:none;background:#191c1f;color:#fff;box-shadow:none}.dock-item.active span{filter:none}.dock-item:active{transform:scale(.97)}
 @media(max-width:760px){body{padding-bottom:calc(86px + env(safe-area-inset-bottom));background:#07120c}.app-header{position:sticky}.hero-redesign.is-active-view{min-height:calc(100dvh - 92px);padding-top:8px;padding-bottom:8px}.hero-redesign.is-active-view .hero-main-card{min-height:auto}.hero-main-card{border-radius:28px;background:#0b1710}.hero-main-card h1{display:none}.hero-2025-spend,.mobile-hero-breakdown,.public-claim-strip,.hero-evidence-strip,.hero-formula,.source-tape-plain,.audit-mini-strip,.hero-actions{display:none!important}.president-compare-card{margin:8px 0 0;padding:14px;border-radius:24px}.compare-head{gap:8px;margin-bottom:10px}.compare-badge{padding:7px 9px;font-size:10px}.compare-head b{font-size:20px;line-height:1.05}.compare-head small{display:block;font-size:12px;margin-top:3px}.president-compare-chart{height:244px;gap:4px;overflow:visible}.candle-stage{height:158px;max-width:34px}.candle-body{width:16px}.candle-wick{width:3px}.candle-commit{width:24px}.president-year b{font-size:9.5px;writing-mode:vertical-rl;transform:rotate(180deg);max-height:54px;overflow:hidden}.president-year small{display:none}.president-compare-insight{grid-template-columns:1fr;gap:6px;margin-top:10px}.president-compare-insight span{border-radius:16px;padding:10px}.president-compare-insight small{font-size:11px}.president-compare-card .chart-caveat{font-size:11.5px;line-height:1.25}.bottom-dock{left:50%;bottom:max(8px,env(safe-area-inset-bottom));width:calc(100vw - 16px);padding:5px;gap:2px;border-radius:999px}.dock-item{min-height:56px;border-radius:999px}.dock-item span{font-size:17px}.dock-item b{font-size:9px;max-width:54px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.topbar{width:calc(100% - 20px)}footer{display:none}}
 @media(max-width:390px){.dock-item b{font-size:8px}.dock-item span{font-size:16px}.president-compare-chart{height:232px}.candle-stage{height:148px}.compare-head b{font-size:18px}}
+
+/* Dock readability pass: uppercase labels, larger touch targets, mobile + desktop clarity */
+body{
+  padding-bottom:calc(148px + env(safe-area-inset-bottom))!important;
+}
+.dock-app-shell{
+  padding-bottom:148px!important;
+}
+.app-view{
+  padding-bottom:112px!important;
+}
+.bottom-dock{
+  position:fixed!important;
+  left:50%!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:calc(16px + env(safe-area-inset-bottom))!important;
+  transform:translate3d(-50%,0,0)!important;
+  z-index:9999!important;
+  width:min(96vw,760px)!important;
+  display:grid!important;
+  grid-template-columns:repeat(6,minmax(0,1fr))!important;
+  align-items:center!important;
+  gap:6px!important;
+  padding:8px!important;
+  border-radius:999px!important;
+  background:rgba(255,255,255,.96)!important;
+  border:1px solid rgba(25,28,31,.1)!important;
+  box-shadow:0 18px 46px rgba(0,0,0,.28)!important;
+  backdrop-filter:blur(22px) saturate(1.35)!important;
+  -webkit-backdrop-filter:blur(22px) saturate(1.35)!important;
+  isolation:isolate!important;
+}
+.dock-item{
+  min-width:0!important;
+  min-height:64px!important;
+  padding:7px 4px 8px!important;
+  border-radius:999px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:5px!important;
+  background:transparent!important;
+  color:#505a63!important;
+  text-align:center!important;
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif!important;
+  font-weight:950!important;
+  letter-spacing:.02em!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+.dock-item span{
+  display:block!important;
+  font-size:19px!important;
+  line-height:1!important;
+}
+.dock-item b{
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  color:inherit!important;
+  font-size:12px!important;
+  line-height:1.05!important;
+  font-weight:950!important;
+  letter-spacing:.025em!important;
+  text-transform:uppercase!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+.dock-item.active{
+  background:#191c1f!important;
+  color:#fff!important;
+  box-shadow:none!important;
+}
+.dock-item:hover,
+.dock-item:focus-visible{
+  background:#f4f4f4!important;
+  color:#191c1f!important;
+}
+.dock-item.active:hover,
+.dock-item.active:focus-visible{
+  background:#191c1f!important;
+  color:#fff!important;
+}
+
+@media(max-width:760px){
+  body{
+    padding-bottom:calc(126px + env(safe-area-inset-bottom))!important;
+  }
+  .dock-app-shell{
+    padding-bottom:126px!important;
+  }
+  .app-view{
+    padding-bottom:96px!important;
+  }
+  .bottom-dock{
+    width:calc(100vw - 10px)!important;
+    bottom:calc(8px + env(safe-area-inset-bottom))!important;
+    gap:3px!important;
+    padding:6px!important;
+    border-radius:28px!important;
+  }
+  .dock-item{
+    min-height:62px!important;
+    padding:7px 2px!important;
+    gap:5px!important;
+    border-radius:22px!important;
+  }
+  .dock-item span{
+    font-size:18px!important;
+  }
+  .dock-item b{
+    font-size:10.6px!important;
+    line-height:1.08!important;
+    letter-spacing:.005em!important;
+  }
+}
+
+@media(max-width:390px){
+  .bottom-dock{
+    width:calc(100vw - 6px)!important;
+    gap:2px!important;
+    padding:5px!important;
+  }
+  .dock-item{
+    min-height:60px!important;
+    padding-left:1px!important;
+    padding-right:1px!important;
+  }
+  .dock-item span{
+    font-size:17px!important;
+  }
+  .dock-item b{
+    font-size:9.7px!important;
+    letter-spacing:-.01em!important;
+  }
+}
+
+/* App-shell safe zone: keep bottom dock off the evidence cards */
+html,
+body{
+  min-height:100dvh!important;
+}
+body{
+  overflow:hidden!important;
+}
+.dock-app-shell{
+  min-height:0!important;
+  height:calc(100dvh - 190px)!important;
+  max-height:calc(100dvh - 190px)!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  scrollbar-gutter:stable both-edges!important;
+  padding-bottom:28px!important;
+  margin-bottom:118px!important;
+  scroll-padding-bottom:118px!important;
+}
+.dock-app-shell::-webkit-scrollbar{width:9px}
+.dock-app-shell::-webkit-scrollbar-track{background:rgba(255,255,255,.04);border-radius:999px}
+.dock-app-shell::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);border-radius:999px}
+.bottom-dock{
+  pointer-events:auto!important;
+}
+
+@media(max-width:760px){
+  .dock-app-shell{
+    height:calc(100dvh - 168px)!important;
+    max-height:calc(100dvh - 168px)!important;
+    padding-bottom:22px!important;
+    margin-bottom:104px!important;
+    scroll-padding-bottom:104px!important;
+    scrollbar-width:none!important;
+  }
+  .dock-app-shell::-webkit-scrollbar{display:none}
+}
+
+@media(max-width:390px){
+  .dock-app-shell{
+    height:calc(100dvh - 160px)!important;
+    max-height:calc(100dvh - 160px)!important;
+  }
+}
